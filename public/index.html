@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuck AI - Your AI Agent</title>
+  <meta name="description" content="Chuck is a general AI agent that turns your thoughts into actions.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      --font-serif: Georgia, 'Times New Roman', serif;
+      --color-background: #ffffff;
+      --color-foreground: #09090b;
+      --color-primary: #be70af;
+      --color-primary-foreground: #ffffff;
+      --color-muted: #f4f4f5;
+      --color-muted-foreground: #71717a;
+      --color-border: #e4e4e7;
+      --container-width: 1100px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--color-background);
+      color: var(--color-foreground);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: var(--container-width);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    header {
+      border-bottom: 1px solid var(--color-border);
+      padding: 1rem 0;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background-color: var(--color-primary);
+      border-radius: 50%;
+      color: var(--color-primary-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .logo-text {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+    }
+
+    .nav {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .nav {
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.875rem;
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: var(--color-foreground);
+        transition: color 0.2s;
+      }
+
+      .nav a:hover {
+        color: var(--color-primary);
+      }
+    }
+
+    .button {
+      background-color: var(--color-primary);
+      color: var(--color-primary-foreground);
+      border: none;
+      border-radius: 0.25rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .button-outline {
+      background-color: transparent;
+      color: var(--color-foreground);
+      border: 1px solid var(--color-border);
+    }
+
+    .hero {
+      padding: 5rem 1rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero h1 {
+        font-size: 3.75rem;
+      }
+    }
+
+    .hero-accent {
+      color: var(--color-primary);
+    }
+
+    .hero p {
+      color: var(--color-muted-foreground);
+      font-size: 1.125rem;
+      max-width: 36rem;
+      margin: 0 auto 2rem auto;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (min-width: 640px) {
+      .button-group {
+        flex-direction: row;
+      }
+    }
+
+    .button-hero {
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+    }
+
+    .features {
+      background-color: #f9f9fa;
+      padding: 4rem 1rem;
+    }
+
+    .features h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .features h2 {
+        font-size: 1.875rem;
+      }
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .feature-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .feature-card {
+      background-color: var(--color-background);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .feature-icon {
+      width: 3rem;
+      height: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      font-family: var(--font-serif);
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+      font-size: 0.875rem;
+      color: var(--color-muted-foreground);
+    }
+
+    footer {
+      background-color: var(--color-muted);
+      padding: 2rem 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    .footer-logo {
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .footer-logo {
+        margin-bottom: 0;
+      }
+    }
+
+    .footer-logo-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .copyright {
+      font-size: 0.875rem;
+      color: var(--color-muted-foreground);
+      margin-top: 0.5rem;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem 4rem;
+      font-size: 0.875rem;
+    }
+
+    .footer-link {
+      text-decoration: none;
+      color: var(--color-foreground);
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--color-primary);
+    }
+
+    /* Demo Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: var(--color-background);
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 95%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--color-muted-foreground);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .chat-interface {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .chat-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.5rem;
+      background-color: var(--color-muted);
+      margin-bottom: 1rem;
+    }
+
+    .message {
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      max-width: 80%;
+    }
+
+    .message-user {
+      background-color: var(--color-primary);
+      color: var(--color-primary-foreground);
+      align-self: flex-end;
+    }
+
+    .message-assistant {
+      background-color: var(--color-background);
+      border: 1px solid var(--color-border);
+      align-self: flex-start;
+    }
+
+    .message-model-info {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+
+    .chat-input-container {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.25rem;
+      font-family: var(--font-sans);
+      resize: none;
+    }
+
+    .chat-input:focus {
+      outline: 2px solid var(--color-primary);
+      border-color: transparent;
+    }
+
+    .model-selection {
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.5rem;
+    }
+
+    .model-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .model-list {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .model-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 1rem;
+      background-color: var(--color-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .model-badge.active {
+      background-color: var(--color-primary);
+      color: var(--color-primary-foreground);
+    }
+
+    .demo-section {
+      padding: 5rem 1rem;
+      background-color: #f4f2f7;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <div class="logo">
+        <div class="logo-icon">C</div>
+        <span class="logo-text">Chuck AI</span>
+      </div>
+      <nav class="nav">
+        <a href="#">Features</a>
+        <a href="#">Use Cases</a>
+        <a href="#">Pricing</a>
+        <a href="#">Docs</a>
+      </nav>
+      <button class="button" onclick="openDemoModal()">Try Chuck</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1>Leave it to <span class="hero-accent">Chuck</span></h1>
+        <p>
+          Chuck is a general AI agent that bridges minds and actions: it doesn't just think, it delivers results.
+          It excels at various tasks in work and life, getting everything done while you rest.
+        </p>
+        <div class="button-group">
+          <button class="button button-hero" onclick="openDemoModal()">Try Chuck</button>
+          <button class="button button-outline button-hero">Explore Use Cases</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container">
+        <h2>How Chuck Works</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <img src="/icons/content-generator-star-file.svg" alt="Analyze" class="feature-icon">
+            <h3 class="feature-title">Analyze</h3>
+            <p class="feature-desc">Chuck processes your request and breaks it down into manageable tasks.</p>
+          </div>
+          <div class="feature-card">
+            <img src="/icons/analytics-up-date.svg" alt="Execute" class="feature-icon">
+            <h3 class="feature-title">Execute</h3>
+            <p class="feature-desc">Using a variety of tools, Chuck completes each task with precision.</p>
+          </div>
+          <div class="feature-card">
+            <img src="/icons/shopping-cart-check.svg" alt="Deliver" class="feature-icon">
+            <h3 class="feature-title">Deliver</h3>
+            <p class="feature-desc">Results are packaged and delivered to you in the format you prefer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo-section">
+      <div class="container">
+        <h2>Multi-Model Intelligence</h2>
+        <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem auto; color: var(--color-muted-foreground);">
+          Chuck dynamically selects the best AI model for each subtask, combining their strengths for optimal results.
+        </p>
+        <div style="display: flex; justify-content: center; margin-top: 2rem;">
+          <button class="button button-hero" onclick="openDemoModal()">Try Chuck Now</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-logo">
+        <div class="logo">
+          <div class="logo-icon footer-logo-icon">C</div>
+          <span class="logo-text">Chuck AI</span>
+        </div>
+        <p class="copyright">© 2025 Chuck AI. All rights reserved.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-link">Terms</a>
+        <a href="#" class="footer-link">Contact</a>
+        <a href="#" class="footer-link">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Demo Modal -->
+  <div id="demoModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Chat with Chuck</h3>
+        <button class="modal-close" onclick="closeDemoModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="chat-interface">
+          <div id="chatMessages" class="chat-messages">
+            <div class="message message-assistant">
+              <div>Hi there! I'm Chuck, your AI assistant. I can help with various tasks by using different specialized models. What can I do for you today?</div>
+              <div class="message-model-info">Using: Chuck Core Model</div>
+            </div>
+          </div>
+          <div class="chat-input-container">
+            <textarea id="chatInput" class="chat-input" placeholder="Type your message here..." rows="3"></textarea>
+            <button class="button" onclick="sendMessage()">Send</button>
+          </div>
+          <div class="model-selection">
+            <div class="model-title">Active models:</div>
+            <div class="model-list">
+              <span class="model-badge active">Chuck Core</span>
+              <span class="model-badge">Reasoning Engine</span>
+              <span class="model-badge">Code Assistant</span>
+              <span class="model-badge">Image Generator</span>
+              <span class="model-badge">Data Processor</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Demo Modal Functions
+    function openDemoModal() {
+      document.getElementById('demoModal').style.display = 'flex';
+    }
+
+    function closeDemoModal() {
+      document.getElementById('demoModal').style.display = 'none';
+    }
+
+    // Demo Chat Functions
+    function sendMessage() {
+      const chatInput = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+      const userMessage = chatInput.value.trim();
+
+      if (userMessage === '') return;
+
+      // Add user message
+      chatMessages.innerHTML += `
+        <div class="message message-user">
+          <div>${userMessage}</div>
+        </div>
+      `;
+
+      // Clear input
+      chatInput.value = '';
+
+      // Scroll to bottom
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Simulate thinking
+      setTimeout(() => {
+        generateResponse(userMessage);
+      }, 1000);
+    }
+
+    function generateResponse(userMessage) {
+      const chatMessages = document.getElementById('chatMessages');
+      const lowercaseMessage = userMessage.toLowerCase();
+
+      let response, modelUsed;
+
+      // Simulate multi-model capability
+      if (lowercaseMessage.includes('code') || lowercaseMessage.includes('program') || lowercaseMessage.includes('javascript')) {
+        response = "Here's a simple JavaScript function to solve that problem:<br><br><code>function processData(input) {<br>  const result = input.split(' ').map(item => item.trim());<br>  return result.filter(item => item.length > 0);<br>}</code>";
+        modelUsed = "Code Assistant";
+      } else if (lowercaseMessage.includes('image') || lowercaseMessage.includes('picture') || lowercaseMessage.includes('photo')) {
+        response = "I can help generate images for you. What kind of image would you like? Please describe it in detail.";
+        modelUsed = "Image Generator";
+      } else if (lowercaseMessage.includes('data') || lowercaseMessage.includes('analyze') || lowercaseMessage.includes('numbers')) {
+        response = "I can analyze that data for you. Let me process it and extract the key insights you're looking for.";
+        modelUsed = "Data Processor";
+      } else if (lowercaseMessage.includes('why') || lowercaseMessage.includes('how come') || lowercaseMessage.includes('explain')) {
+        response = "That's an interesting question that requires some deeper thinking. Let me work through this step by step: <br><br>1. First, we need to consider the underlying principles<br>2. Then we can analyze how these principles interact<br>3. Finally, we can draw a conclusion based on this analysis";
+        modelUsed = "Reasoning Engine";
+      } else {
+        response = "I understand what you're asking for. Let me help you with that. I'll coordinate between my specialized models to give you the best possible answer.";
+        modelUsed = "Chuck Core Model";
+      }
+
+      // Add assistant response
+      chatMessages.innerHTML += `
+        <div class="message message-assistant">
+          <div>${response}</div>
+          <div class="message-model-info">Using: ${modelUsed}</div>
+        </div>
+      `;
+
+      // Update active model
+      updateActiveModel(modelUsed);
+
+      // Scroll to bottom
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function updateActiveModel(modelName) {
+      const modelBadges = document.querySelectorAll('.model-badge');
+      modelBadges.forEach(badge => {
+        if (badge.textContent.includes(modelName)) {
+          badge.classList.add('active');
+        } else {
+          badge.classList.remove('active');
+        }
+      });
+    }
+
+    // Add enter key support for chat
+    document.getElementById('chatInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
