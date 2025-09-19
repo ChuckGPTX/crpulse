@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Chuck AI - Your AI Agent",
-  description: "Chuck is a general AI agent that turns your thoughts into actions.",
+  title: "Tiny Prompters Adventure Lab Live",
+  description:
+    "Join Tiny Prompters for a live webinar on raising confident kid prompt engineers with playful AI literacy tools.",
 };
 
 export default function RootLayout({
@@ -13,9 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }
