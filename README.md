@@ -1,41 +1,24 @@
-# Chuck AI
+# CR Pulse EYBL Tracker
 
-Next.js marketing/demo site for a general AI agent that turns user requests into research, planning, and action-oriented deliverables.
+Next.js site for CR Pulse basketball coverage, focused on current Nike EYBL / EYCL player and team production.
 
-## What It Shows
+## Current output
 
-- Agent positioning and hero flow
-- Example use cases for travel, stock analysis, education, sourcing, insurance comparison, and research
-- Gallery-style examples of generated spaces and user submissions
-- Responsive landing-page structure built with reusable React sections
+- CR Pulse tracked player cards with PPG, RPG, APG, STL, BLK, FG%, 3P%, FT%, jersey number, team, and games played.
+- Team leaderboards for Kingdom Hoops, All Iowa Attack, Mac Irvin Fire, Brad Beal Elite, MOKAN Elite, and MOKAN SPURS.
+- Data source: Cerebro Sports public widget API, overallId `260104`.
 
-## Stack
-
-- Next.js 15
-- React 18
-- TypeScript
-- Tailwind CSS
-- Radix UI primitives
-- lucide-react icons
-
-## Run Locally
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000.
 
-## Scripts
+## Build
 
 ```bash
-npm run dev
 npm run build
-npm run start
-npm run lint
 ```
-
-## Portfolio Status
-
-This repo is a public web prototype. Before pinning it, the main cleanup task is to decide whether `crpulse` should be renamed or archived, because the repository name does not currently match the product name shown in the app.
