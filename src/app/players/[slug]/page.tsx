@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
+  getPlayerAsset,
   getPlayerBySlug,
   getPlayerRanks,
   getPlayerTrend,
@@ -60,6 +61,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
   const trend = getPlayerTrend(player.displayName);
   const team = getTeamBoard(player.teamName);
   const asset = getTeamAsset(player.teamName);
+  const playerAsset = getPlayerAsset(player.displayName);
   const stock = getStockLabel(player);
   const scouting = getScoutingBlurb(player);
 
@@ -80,10 +82,19 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
               <h1 className="text-5xl font-black leading-none tracking-tight sm:text-7xl">{player.displayName}</h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">{scouting}</p>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur">
-              <div className="text-xs font-bold uppercase tracking-[0.25em] text-slate-300">CR Pulse status</div>
-              <div className="mt-3 text-4xl font-black">{stock}</div>
-              <div className="mt-3 text-sm leading-6 text-slate-300">{getTeamContext(player)}</div>
+            <div className="space-y-4">
+              {playerAsset ? (
+                <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/10 shadow-2xl">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={playerAsset.image} alt={`${player.displayName} basketball photo`} className="h-[420px] w-full object-cover object-[center_35%]" />
+                  <div className="px-4 py-3 text-xs text-slate-300">Photo source: {playerAsset.source}</div>
+                </div>
+              ) : null}
+              <div className="rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur">
+                <div className="text-xs font-bold uppercase tracking-[0.25em] text-slate-300">CR Pulse status</div>
+                <div className="mt-3 text-4xl font-black">{stock}</div>
+                <div className="mt-3 text-sm leading-6 text-slate-300">{getTeamContext(player)}</div>
+              </div>
             </div>
           </div>
         </div>

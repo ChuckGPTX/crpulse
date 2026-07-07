@@ -1,5 +1,6 @@
 import history from "@/data/eybl-history.json";
 import { eyblData } from "@/data/eybl";
+import { playerAssets } from "@/data/player-assets";
 import { teamAssets } from "@/data/team-assets";
 
 export type StatPlayer = {
@@ -61,6 +62,11 @@ export function signedPercent(value: number | null | undefined) {
 export function getTeamAsset(teamName?: string) {
   if (!teamName) return null;
   return teamAssets[teamName as keyof typeof teamAssets] ?? null;
+}
+
+export function getPlayerAsset(displayName?: string) {
+  if (!displayName) return null;
+  return playerAssets[displayName as keyof typeof playerAssets] ?? null;
 }
 
 export function getTrackedStatPlayers() {
