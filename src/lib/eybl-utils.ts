@@ -20,6 +20,8 @@ export type StatPlayer = {
   ft_pct: number | null;
   three_pt_pct: number | null;
   total_minutes: number;
+  programLabel?: string;
+  regionTag?: string;
   note?: string;
 };
 

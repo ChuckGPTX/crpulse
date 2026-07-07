@@ -60,6 +60,31 @@ function TeamLogo({ teamName, className = "h-12 w-12" }: { teamName?: string; cl
   );
 }
 
+function PlayerAvatar({ player, className = "h-16 w-16" }: { player: StatPlayer; className?: string }) {
+  const playerAsset = getPlayerAsset(player.displayName);
+  const teamAsset = getTeamAsset(player.teamName);
+  const darkBackedLogo = player.teamName.includes("Kingdom") || player.teamName.includes("MOKAN");
+
+  return (
+    <div className={`${className} relative shrink-0`}>
+      <div className={`h-full w-full overflow-hidden rounded-3xl border border-white/15 ${playerAsset ? "bg-slate-900" : darkBackedLogo ? "bg-slate-950" : "bg-white"} shadow-lg`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={playerAsset?.image ?? teamAsset?.logo ?? ""}
+          alt={playerAsset ? `${player.displayName} basketball photo` : `${player.teamName} logo`}
+          className={`h-full w-full ${playerAsset ? "object-cover object-[center_28%]" : "object-contain p-2"}`}
+        />
+      </div>
+      {playerAsset && teamAsset ? (
+        <div className={`absolute -bottom-2 -right-2 flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl border border-white/20 ${darkBackedLogo ? "bg-slate-950" : "bg-white"} p-1 shadow-lg`}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={teamAsset.logo} alt={`${player.teamName} logo`} className="max-h-full max-w-full object-contain" />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function StatPill({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-slate-200 shadow-inner">
@@ -82,7 +107,6 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
   }
 
   const trend = getPlayerTrend(player.displayName);
-  const playerAsset = getPlayerAsset(player.displayName);
   const ranks = getPlayerRanks(player);
   const stock = getStockLabel(player);
   const scoringWidth = Math.min(100, Math.max(8, player.pts_per_game * 4));
@@ -90,16 +114,9 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
   return (
     <article className="reveal-card group relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/90 p-5 text-white shadow-2xl shadow-slate-950/35 transition duration-500 hover:-translate-y-2 hover:border-red-400/50" style={{ animationDelay: `${index * 70}ms` }}>
       <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_0%,rgba(239,68,68,0.26),transparent_35%)]" />
-      {playerAsset ? (
-        <div className="relative mb-4 h-56 overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-900">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={playerAsset.image} alt={`${player.displayName} basketball photo`} className="h-full w-full object-cover object-[center_32%] transition duration-700 group-hover:scale-105" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950 to-transparent" />
-        </div>
-      ) : null}
       <div className="relative flex items-start justify-between gap-4">
         <div className="flex gap-3">
-          <TeamLogo teamName={player.teamName} />
+          <PlayerAvatar player={player} />
           <div>
             <div className="text-xs font-black uppercase tracking-[0.2em] text-red-300">#{player.jerseyNumber ?? "—"} · {"programLabel" in player && player.programLabel ? player.programLabel : player.teamName}</div>
             <h3 className="font-display mt-2 text-2xl leading-none tracking-tight text-white">{player.displayName}</h3>

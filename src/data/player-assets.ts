@@ -19,6 +19,16 @@ export const playerAssets = {
     source: "User-provided image URL",
     sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIRHs3RSyC1SBSi5lUXukFgDDnjptGJSuSbhRg2Z1mmQ&s=10",
   },
+  "Zane Rus": {
+    image: "/players/zane-rus.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXo8AxrcR8UroPFPjPETAnshn0mGN4eLmhzBGMng7TqA&s=10",
+  },
+  "Tate McCollum": {
+    image: "/players/tate-mccollum.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkQLePpKQhhcCpgn_UG5ED2DvHZvC-h-p6GCKqQwbhOw&s=10",
+  },
 } as const;
 
 export type PlayerAssetName = keyof typeof playerAssets;
