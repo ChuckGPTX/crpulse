@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { eyblData } from "@/data/eybl";
 import {
+  getPlayerAsset,
+  getPlayerRanks,
   getPlayerTrend,
   getStockLabel,
   getTeamAsset,
@@ -12,6 +14,7 @@ import {
   signedPercent,
   slugify,
   type AnyTrackedPlayer,
+  type StatPlayer,
 } from "@/lib/eybl-utils";
 
 const statLabels = [
@@ -22,73 +25,131 @@ const statLabels = [
   ["BLK", "blk_per_game"],
 ] as const;
 
+const featureIdeas = [
+  {
+    title: "Player compare lab",
+    eyebrow: "Standout feature",
+    copy: "Pick two prospects and compare scoring role, efficiency, usage signals, and trend movement in one shareable scouting card.",
+  },
+  {
+    title: "Breakout alerts",
+    eyebrow: "Automation",
+    copy: "When a player jumps by 3+ PPG, 8+ minutes, or a major shooting split, surface it as a CR Pulse stock-up alert for the newsletter.",
+  },
+  {
+    title: "Game-log timeline",
+    eyebrow: "Profiles",
+    copy: "Turn each player page into a living dossier with game-by-game bars, stat spikes, and notes from recent EYBL sessions.",
+  },
+  {
+    title: "Social player cards",
+    eyebrow: "Growth",
+    copy: "Generate square graphics from the same stat feed: player photo, team logo, latest stat line, and a CR Pulse branded caption.",
+  },
+];
+
 function TeamLogo({ teamName, className = "h-12 w-12" }: { teamName?: string; className?: string }) {
   const asset = getTeamAsset(teamName);
-  if (!asset) return <div className={`${className} rounded-2xl bg-slate-200`} />;
+  if (!asset) return <div className={`${className} rounded-2xl bg-slate-800`} />;
+  const darkBackedLogo = teamName?.includes("Kingdom") || teamName?.includes("MOKAN");
   return (
-    <div className={`${className} flex items-center justify-center overflow-hidden rounded-2xl bg-white p-2 shadow-sm ring-1 ring-slate-200`}>
+    <div className={`${className} flex items-center justify-center overflow-hidden rounded-2xl ${darkBackedLogo ? "bg-slate-950" : "bg-white"} p-2 shadow-sm ring-1 ring-white/20`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={asset.logo} alt={`${teamName} logo`} className="max-h-full max-w-full object-contain" />
     </div>
   );
 }
 
-function PlayerCard({ player }: { player: AnyTrackedPlayer }) {
+function StatPill({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-slate-200 shadow-inner">
+      <span className="mr-2 text-slate-500">{label}</span>
+      <span className="font-black text-white">{value}</span>
+    </div>
+  );
+}
+
+function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number }) {
   if (!hasStats(player)) {
     return (
-      <article className="rounded-3xl border border-dashed border-amber-300/60 bg-amber-50 p-6 text-amber-950 shadow-sm">
-        <div className="text-xs font-bold uppercase tracking-[0.25em] text-amber-700">Watchlist gap</div>
-        <h3 className="mt-3 text-2xl font-black">{player.displayName}</h3>
-        <p className="mt-3 text-sm leading-6 text-amber-900/80">{"note" in player ? player.note : "No current stats found in the Cerebro feed."}</p>
+      <article className="reveal-card rounded-[2rem] border border-amber-300/25 bg-amber-300/10 p-6 text-amber-50 shadow-sm" style={{ animationDelay: `${index * 70}ms` }}>
+        <div className="text-xs font-black uppercase tracking-[0.25em] text-amber-300">Watchlist gap</div>
+        <h3 className="font-display mt-4 text-2xl tracking-tight">{player.displayName}</h3>
+        <p className="mt-3 text-sm leading-6 text-amber-100/75">{"note" in player ? player.note : "No current stats found in the Cerebro feed."}</p>
       </article>
     );
   }
 
   const trend = getPlayerTrend(player.displayName);
+  const playerAsset = getPlayerAsset(player.displayName);
+  const ranks = getPlayerRanks(player);
+  const stock = getStockLabel(player);
+  const scoringWidth = Math.min(100, Math.max(8, player.pts_per_game * 4));
 
   return (
-    <article className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-      <div className="flex items-start justify-between gap-4">
+    <article className="reveal-card group relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/90 p-5 text-white shadow-2xl shadow-slate-950/35 transition duration-500 hover:-translate-y-2 hover:border-red-400/50" style={{ animationDelay: `${index * 70}ms` }}>
+      <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_0%,rgba(239,68,68,0.26),transparent_35%)]" />
+      {playerAsset ? (
+        <div className="relative mb-4 h-56 overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-900">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={playerAsset.image} alt={`${player.displayName} basketball photo`} className="h-full w-full object-cover object-[center_32%] transition duration-700 group-hover:scale-105" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950 to-transparent" />
+        </div>
+      ) : null}
+      <div className="relative flex items-start justify-between gap-4">
         <div className="flex gap-3">
           <TeamLogo teamName={player.teamName} />
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">#{player.jerseyNumber ?? "—"} · {player.teamName}</div>
-            <h3 className="mt-2 text-2xl font-black text-slate-950">{player.displayName}</h3>
-            <div className="mt-2 inline-flex rounded-full bg-slate-950 px-3 py-1 text-xs font-bold text-white">{getStockLabel(player)}</div>
+            <div className="text-xs font-black uppercase tracking-[0.2em] text-red-300">#{player.jerseyNumber ?? "—"} · {player.teamName}</div>
+            <h3 className="font-display mt-2 text-2xl leading-none tracking-tight text-white">{player.displayName}</h3>
+            <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-black text-slate-950">
+              <span className="pulse-dot h-2 w-2 rounded-full bg-red-600 text-red-600" />
+              {stock}
+            </div>
           </div>
         </div>
-        <div className="rounded-2xl bg-slate-950 px-3 py-2 text-center text-white">
-          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-300">GP</div>
-          <div className="text-xl font-black">{player.games_played}</div>
+        <div className="rounded-2xl border border-white/10 bg-white/10 px-3 py-2 text-center">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Rank</div>
+          <div className="text-xl font-black">#{ranks.trackedScoring || "—"}</div>
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-5 gap-2">
+      <div className="relative mt-6 grid grid-cols-5 gap-2">
         {statLabels.map(([label, key]) => (
-          <div key={key} className="rounded-2xl bg-slate-100 p-3 text-center">
+          <div key={key} className="rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-center">
             <div className="text-[10px] font-bold text-slate-500">{label}</div>
-            <div className="mt-1 text-lg font-black text-slate-950">{numberValue(player[key])}</div>
+            <div className="mt-1 text-lg font-black text-white">{numberValue(player[key])}</div>
           </div>
         ))}
       </div>
 
-      <div className="mt-5 grid grid-cols-3 gap-3 text-sm">
-        <div className="rounded-2xl border border-slate-200 p-3">
+      <div className="relative mt-5 space-y-3">
+        <div className="flex items-center justify-between text-xs font-bold uppercase tracking-widest text-slate-400">
+          <span>Scoring signal</span>
+          <span>{numberValue(player.pts_per_game)} PPG</span>
+        </div>
+        <div className="h-2 overflow-hidden rounded-full bg-white/10">
+          <div className="stat-meter h-full rounded-full bg-gradient-to-r from-red-500 via-orange-400 to-yellow-300" style={{ width: `${scoringWidth}%` }} />
+        </div>
+      </div>
+
+      <div className="relative mt-5 grid grid-cols-3 gap-3 text-sm">
+        <div className="rounded-2xl border border-white/10 p-3">
           <div className="text-xs font-bold text-slate-500">FG%</div>
           <div className="text-lg font-black">{percentValue(player.fg_pct)}</div>
         </div>
-        <div className="rounded-2xl border border-slate-200 p-3">
+        <div className="rounded-2xl border border-white/10 p-3">
           <div className="text-xs font-bold text-slate-500">3P%</div>
           <div className="text-lg font-black">{percentValue(player.three_pt_pct)}</div>
         </div>
-        <div className="rounded-2xl border border-slate-200 p-3">
-          <div className="text-xs font-bold text-slate-500">PPG trend</div>
+        <div className="rounded-2xl border border-white/10 p-3">
+          <div className="text-xs font-bold text-slate-500">Trend</div>
           <div className="text-lg font-black">{signedNumber(trend.ppgDelta)}</div>
         </div>
       </div>
 
-      <Link href={`/players/${slugify(player.displayName)}`} className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-red-600 px-4 py-3 text-sm font-black text-white transition hover:bg-red-700">
-        View player profile
+      <Link href={`/players/${slugify(player.displayName)}`} className="relative mt-5 inline-flex w-full items-center justify-center rounded-full bg-white px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-red-500 hover:text-white">
+        Open scouting profile
       </Link>
     </article>
   );
@@ -97,21 +158,21 @@ function PlayerCard({ player }: { player: AnyTrackedPlayer }) {
 function TeamTable({ team }: { team: (typeof eyblData.trackedTeams)[number] }) {
   const asset = getTeamAsset(team.teamName);
   return (
-    <section className="rounded-3xl border border-slate-800 bg-slate-950 p-5 text-white shadow-xl">
+    <section className="dark-card group rounded-[2rem] p-5 text-white transition duration-500 hover:-translate-y-1 hover:border-red-400/35">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div className="flex items-center gap-3">
           <TeamLogo teamName={team.teamName} className="h-14 w-14" />
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.25em] text-red-400">Tracked team</div>
-            <h3 className="mt-1 text-2xl font-black">{team.teamName}</h3>
-            {asset ? <div className="text-xs text-slate-400">Logo: {asset.source}</div> : null}
+            <div className="text-xs font-black uppercase tracking-[0.25em] text-red-300">Program board</div>
+            <h3 className="font-display mt-1 text-2xl tracking-tight">{team.teamName}</h3>
+            {asset ? <div className="text-xs text-slate-500">Logo: {asset.source}</div> : null}
           </div>
         </div>
-        <div className="rounded-2xl bg-white/10 px-3 py-2 text-sm font-bold">{team.playersTracked} players</div>
+        <div className="rounded-full bg-white/10 px-3 py-2 text-sm font-bold">{team.playersTracked} players</div>
       </div>
-      <div className="overflow-hidden rounded-2xl border border-white/10">
+      <div className="overflow-hidden rounded-3xl border border-white/10">
         <table className="w-full text-left text-sm">
-          <thead className="bg-white/10 text-xs uppercase tracking-widest text-slate-300">
+          <thead className="bg-white/10 text-xs uppercase tracking-widest text-slate-400">
             <tr>
               <th className="px-4 py-3">Player</th>
               <th className="px-3 py-3 text-right">PTS</th>
@@ -121,14 +182,14 @@ function TeamTable({ team }: { team: (typeof eyblData.trackedTeams)[number] }) {
           </thead>
           <tbody className="divide-y divide-white/10">
             {team.topScorers.slice(0, 6).map((player) => (
-              <tr key={player.id}>
+              <tr key={player.id} className="transition hover:bg-white/[0.04]">
                 <td className="px-4 py-3">
-                  <div className="font-bold">{player.name}</div>
-                  <div className="text-xs text-slate-400">#{player.jerseyNumber ?? "—"} · {player.games_played} GP</div>
+                  <div className="font-bold text-white">{player.name}</div>
+                  <div className="text-xs text-slate-500">#{player.jerseyNumber ?? "—"} · {player.games_played} GP</div>
                 </td>
-                <td className="px-3 py-3 text-right font-black">{numberValue(player.pts_per_game)}</td>
-                <td className="px-3 py-3 text-right">{numberValue(player.reb_per_game)}</td>
-                <td className="px-3 py-3 text-right">{numberValue(player.ast_per_game)}</td>
+                <td className="px-3 py-3 text-right font-black text-red-200">{numberValue(player.pts_per_game)}</td>
+                <td className="px-3 py-3 text-right text-slate-300">{numberValue(player.reb_per_game)}</td>
+                <td className="px-3 py-3 text-right text-slate-300">{numberValue(player.ast_per_game)}</td>
               </tr>
             ))}
           </tbody>
@@ -138,94 +199,139 @@ function TeamTable({ team }: { team: (typeof eyblData.trackedTeams)[number] }) {
   );
 }
 
+function MomentumCard({ player, label }: { player: StatPlayer; label: string }) {
+  const trend = getPlayerTrend(player.displayName);
+  return (
+    <Link href={`/players/${slugify(player.displayName)}`} className="glass-card block rounded-[2rem] p-5 transition duration-500 hover:-translate-y-1 hover:border-red-300/60">
+      <div className="text-xs font-black uppercase tracking-[0.25em] text-red-200">{label}</div>
+      <div className="mt-3 flex items-center gap-3">
+        <TeamLogo teamName={player.teamName} className="h-12 w-12" />
+        <div>
+          <div className="font-display text-2xl leading-none tracking-tight text-white">{player.displayName}</div>
+          <div className="mt-1 text-sm text-slate-400">{player.teamName}</div>
+        </div>
+      </div>
+      <div className="mt-5 grid grid-cols-3 gap-2 text-center">
+        <div className="rounded-2xl bg-white/10 p-3"><div className="text-xs text-slate-400">PPG</div><div className="text-xl font-black text-white">{numberValue(player.pts_per_game)}</div></div>
+        <div className="rounded-2xl bg-white/10 p-3"><div className="text-xs text-slate-400">3P</div><div className="text-xl font-black text-white">{percentValue(player.three_pt_pct)}</div></div>
+        <div className="rounded-2xl bg-white/10 p-3"><div className="text-xs text-slate-400">Δ</div><div className="text-xl font-black text-white">{signedNumber(trend.ppgDelta)}</div></div>
+      </div>
+    </Link>
+  );
+}
+
 export default function Home() {
   const foundPlayers = eyblData.trackedPlayers.filter(hasStats);
   const topScorer = [...foundPlayers].sort((a, b) => b.pts_per_game - a.pts_per_game)[0];
   const topShooter = [...foundPlayers].sort((a, b) => (b.three_pt_pct ?? 0) - (a.three_pt_pct ?? 0))[0];
+  const topCreator = [...foundPlayers].sort((a, b) => b.ast_per_game - a.ast_per_game)[0];
   const topMovers = getTopMovers();
+  const tickerPlayers = [...foundPlayers, ...foundPlayers];
 
   return (
-    <main className="min-h-screen bg-[#f6f3ec] text-slate-950">
-      <section className="relative overflow-hidden bg-slate-950 px-6 py-16 text-white sm:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(239,68,68,0.35),_transparent_35%),radial-gradient(circle_at_bottom_left,_rgba(250,204,21,0.2),_transparent_30%)]" />
-        <div className="relative mx-auto max-w-7xl">
-          <div className="mb-8 inline-flex rounded-full border border-red-400/40 bg-red-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-red-200">
-            CR Pulse EYBL tracker · Cerebro overallId {eyblData.overallId}
+    <main className="min-h-screen overflow-hidden bg-[#050816] text-white">
+      <section className="court-bg court-lines relative overflow-hidden px-6 py-8 sm:py-10">
+        <div className="hero-orb -right-40 top-8" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-400/70 to-transparent" />
+        <nav className="relative mx-auto mb-16 flex max-w-7xl items-center justify-between rounded-full border border-white/10 bg-white/[0.04] px-4 py-3 backdrop-blur-xl">
+          <div className="font-display text-lg tracking-tight">CR Pulse</div>
+          <div className="hidden items-center gap-6 text-sm font-bold text-slate-300 md:flex">
+            <a href="#watchlist" className="hover:text-white">Watchlist</a>
+            <a href="#trends" className="hover:text-white">Trends</a>
+            <a href="#programs" className="hover:text-white">Programs</a>
+            <a href="#features" className="hover:text-white">Feature ideas</a>
           </div>
-          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-            <div>
-              <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-tight sm:text-7xl">
-                Player profiles, team boards, and trend tracking for the CR Pulse EYBL watchlist.
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-                Current player production for CR Pulse tracked prospects plus real team logos sourced from official team sites.
-              </p>
+          <div className="rounded-full bg-red-500 px-4 py-2 text-sm font-black text-white shadow-lg shadow-red-500/25">Live EYBL board</div>
+        </nav>
+
+        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div>
+            <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-red-400/30 bg-red-500/10 px-4 py-2 text-xs font-black uppercase tracking-[0.3em] text-red-100">
+              <span className="pulse-dot h-2 w-2 rounded-full bg-red-400 text-red-400" />
+              Cerebro feed · overallId {eyblData.overallId}
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-              <div className="rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur">
-                <div className="text-sm font-bold uppercase tracking-widest text-slate-300">Top tracked scorer</div>
-                <div className="mt-3 text-3xl font-black">{topScorer?.displayName}</div>
-                <div className="text-red-200">{numberValue(topScorer?.pts_per_game)} PPG · {topScorer?.teamName}</div>
-              </div>
-              <div className="rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur">
-                <div className="text-sm font-bold uppercase tracking-widest text-slate-300">Best tracked 3P%</div>
-                <div className="mt-3 text-3xl font-black">{topShooter?.displayName}</div>
-                <div className="text-red-200">{percentValue(topShooter?.three_pt_pct)} from three</div>
-              </div>
+            <h1 className="kinetic-title font-display max-w-5xl text-5xl leading-[0.88] tracking-[-0.05em] sm:text-7xl lg:text-8xl">
+              A moving scouting desk for Midwest EYBL prospects.
+            </h1>
+            <p className="reveal-card delay-1 mt-7 max-w-2xl text-lg leading-8 text-slate-300">
+              A darker, more cinematic CR Pulse tracker with animated stat cards, player profiles, official team marks, and trend history ready for breakout alerts.
+            </p>
+            <div className="reveal-card delay-2 mt-8 flex flex-wrap gap-3">
+              <Link href="#watchlist" className="rounded-full bg-white px-6 py-3 text-sm font-black text-slate-950 transition hover:bg-red-500 hover:text-white">Explore players</Link>
+              <Link href={`/players/${slugify(topScorer.displayName)}`} className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-black text-white transition hover:bg-white/10">Open top scorer</Link>
+            </div>
+            <div className="reveal-card delay-3 mt-8 flex flex-wrap gap-3">
+              <StatPill label="Generated" value={new Date(eyblData.generatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })} />
+              <StatPill label="Players" value={eyblData.totalPlayers.toLocaleString()} />
+              <StatPill label="Tracked" value={foundPlayers.length.toString()} />
             </div>
           </div>
-          <div className="mt-10 flex flex-wrap gap-3 text-sm text-slate-300">
-            <span className="rounded-full bg-white/10 px-4 py-2">Generated {eyblData.generatedAt}</span>
-            <span className="rounded-full bg-white/10 px-4 py-2">{eyblData.totalPlayers.toLocaleString()} players in feed</span>
-            <span className="rounded-full bg-white/10 px-4 py-2">Source: {eyblData.source}</span>
+
+          <div className="reveal-card delay-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            <MomentumCard player={topScorer} label="Top tracked scorer" />
+            <MomentumCard player={topShooter} label="Best tracked shooter" />
+            <MomentumCard player={topCreator} label="Best creator" />
+          </div>
+        </div>
+
+        <div className="relative mx-auto mt-14 max-w-7xl overflow-hidden rounded-full border border-white/10 bg-black/30 py-3 marquee-mask">
+          <div className="marquee-track flex w-max gap-3 px-3">
+            {tickerPlayers.map((player, index) => (
+              <Link key={`${player.displayName}-${index}`} href={`/players/${slugify(player.displayName)}`} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/10">
+                <span className="text-red-300">{player.displayName}</span>
+                <span>{numberValue(player.pts_per_game)} PPG</span>
+                <span className="text-slate-500">·</span>
+                <span>{player.teamName}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-14">
+      <section id="watchlist" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
-            <div className="text-sm font-bold uppercase tracking-[0.25em] text-red-600">Tracked players</div>
-            <h2 className="mt-2 text-4xl font-black">Current numbers + profiles</h2>
+            <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Tracked players</div>
+            <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-6xl">Animated watchlist cards</h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-slate-600">
-            Each card links to a profile page with rankings, team context, stock/watch notes, and a scouting blurb.
+          <p className="max-w-xl text-sm leading-6 text-slate-400">
+            Built from the live stat file, with scoring meters, team logos, stock labels, profile links, and player photography when available.
           </p>
         </div>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {eyblData.trackedPlayers.map((player) => <PlayerCard key={player.displayName} player={player} />)}
+          {eyblData.trackedPlayers.map((player, index) => <PlayerCard key={player.displayName} player={player} index={index} />)}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-14">
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section id="trends" className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="glass-card rounded-[2rem] p-6 md:p-8">
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <div className="text-sm font-bold uppercase tracking-[0.25em] text-red-600">Trend tracking</div>
-              <h2 className="mt-2 text-4xl font-black">Snapshot history</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                The refresh job now saves a rolling stat history. The first run establishes the baseline; future refreshes will populate PPG, 3P%, and minutes changes plus top movers.
+              <div className="text-sm font-black uppercase tracking-[0.25em] text-red-200">Trend tracking</div>
+              <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-5xl">Snapshot history with breakout hooks</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
+                The refresh job saves a rolling stat history. The first run establishes baseline; future refreshes turn this into stock-up/down movement, social cards, and newsletter alerts.
               </p>
             </div>
-            <div className="rounded-2xl bg-slate-950 px-5 py-4 text-white">
-              <div className="text-xs font-bold uppercase tracking-widest text-slate-400">Top movers</div>
-              <div className="mt-1 text-2xl font-black">{topMovers.length || "Baseline"}</div>
+            <div className="rounded-3xl bg-white px-5 py-4 text-slate-950">
+              <div className="text-xs font-black uppercase tracking-widest text-slate-500">Top movers</div>
+              <div className="mt-1 text-3xl font-black">{topMovers.length || "Baseline"}</div>
             </div>
           </div>
-          <div className="mt-6 grid gap-3 md:grid-cols-3">
+          <div className="mt-7 grid gap-3 md:grid-cols-3">
             {topMovers.length ? topMovers.slice(0, 3).map((mover) => (
-              <div key={mover.displayName} className="rounded-2xl bg-slate-100 p-4">
-                <div className="font-black">{mover.displayName}</div>
-                <div className="text-sm text-slate-600">{mover.teamName}</div>
-                <div className="mt-2 text-2xl font-black text-red-600">{signedNumber(mover.ppgDelta)} PPG</div>
+              <div key={mover.displayName} className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
+                <div className="font-display text-2xl tracking-tight">{mover.displayName}</div>
+                <div className="text-sm text-slate-400">{mover.teamName}</div>
+                <div className="mt-3 text-3xl font-black text-red-200">{signedNumber(mover.ppgDelta)} PPG</div>
               </div>
             )) : foundPlayers.slice(0, 3).map((player) => {
               const trend = getPlayerTrend(player.displayName);
               return (
-                <div key={player.displayName} className="rounded-2xl bg-slate-100 p-4">
-                  <div className="font-black">{player.displayName}</div>
-                  <div className="text-sm text-slate-600">Baseline captured</div>
-                  <div className="mt-2 text-sm font-bold text-slate-500">3P trend {signedPercent(trend.threePtDelta)}</div>
+                <div key={player.displayName} className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
+                  <div className="font-display text-2xl tracking-tight">{player.displayName}</div>
+                  <div className="text-sm text-slate-400">Baseline captured</div>
+                  <div className="mt-3 text-sm font-black uppercase tracking-wider text-slate-300">3P trend {signedPercent(trend.threePtDelta)}</div>
                 </div>
               );
             })}
@@ -233,10 +339,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-16">
+      <section id="features" className="mx-auto max-w-7xl px-6 pb-16">
         <div className="mb-8">
-          <div className="text-sm font-bold uppercase tracking-[0.25em] text-red-600">Program boards</div>
-          <h2 className="mt-2 text-4xl font-black">Tracked team scoring leaders</h2>
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">What we should add next</div>
+          <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-6xl">Standout feature queue</h2>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {featureIdeas.map((feature, index) => (
+            <div key={feature.title} className="reveal-card rounded-[2rem] border border-white/10 bg-white/[0.04] p-6" style={{ animationDelay: `${index * 90}ms` }}>
+              <div className="text-xs font-black uppercase tracking-[0.25em] text-red-200">{feature.eyebrow}</div>
+              <h3 className="font-display mt-4 text-2xl leading-none tracking-tight">{feature.title}</h3>
+              <p className="mt-4 text-sm leading-6 text-slate-400">{feature.copy}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="programs" className="mx-auto max-w-7xl px-6 pb-20">
+        <div className="mb-8">
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Program boards</div>
+          <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-6xl">Tracked team scoring leaders</h2>
         </div>
         <div className="grid gap-6 lg:grid-cols-2">
           {eyblData.trackedTeams.map((team) => <TeamTable key={team.teamName} team={team} />)}

@@ -44,8 +44,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 function TeamLogo({ player }: { player: StatPlayer }) {
   const asset = getTeamAsset(player.teamName);
   if (!asset) return null;
+  const darkBackedLogo = player.teamName.includes("Kingdom") || player.teamName.includes("MOKAN");
   return (
-    <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white p-4 shadow-xl ring-1 ring-slate-200">
+    <div className={`flex h-24 w-24 items-center justify-center rounded-3xl ${darkBackedLogo ? "bg-slate-950" : "bg-white"} p-4 shadow-xl ring-1 ring-slate-200`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={asset.logo} alt={`${player.teamName} logo`} className="max-h-full max-w-full object-contain" />
     </div>
