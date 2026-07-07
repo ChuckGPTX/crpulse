@@ -1,4 +1,5 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 
 const OVERALL_ID = "260104";
@@ -130,6 +131,57 @@ function buildTeamBoards(players) {
   });
 }
 
+function summarizeSnapshot(payload) {
+  const trackedPlayers = payload.trackedPlayers
+    .filter((player) => typeof player.pts_per_game === "number")
+    .map((player) => ({
+      displayName: player.displayName,
+      teamName: player.teamName,
+      games_played: player.games_played,
+      pts_per_game: player.pts_per_game,
+      reb_per_game: player.reb_per_game,
+      ast_per_game: player.ast_per_game,
+      stl_per_game: player.stl_per_game,
+      blk_per_game: player.blk_per_game,
+      fg_pct: player.fg_pct,
+      three_pt_pct: player.three_pt_pct,
+      ft_pct: player.ft_pct,
+      total_minutes: player.total_minutes,
+    }));
+
+  return {
+    generatedAt: payload.generatedAt,
+    overallId: payload.overallId,
+    trackedPlayers,
+  };
+}
+
+async function updateHistory(payload) {
+  const historyPath = path.join(process.cwd(), "src", "data", "eybl-history.json");
+  let history = { snapshots: [] };
+
+  if (existsSync(historyPath)) {
+    history = JSON.parse(await readFile(historyPath, "utf8"));
+  }
+
+  const snapshot = summarizeSnapshot(payload);
+  const last = history.snapshots.at(-1);
+  const lastComparable = last ? JSON.stringify(last.trackedPlayers) : null;
+  const nextComparable = JSON.stringify(snapshot.trackedPlayers);
+
+  if (lastComparable !== nextComparable) {
+    history.snapshots.push(snapshot);
+  } else if (last) {
+    last.generatedAt = snapshot.generatedAt;
+  } else {
+    history.snapshots.push(snapshot);
+  }
+
+  history.snapshots = history.snapshots.slice(-60);
+  await writeFile(historyPath, `${JSON.stringify(history, null, 2)}\n`);
+  return history;
+}
+
 const players = await fetchPlayers();
 const payload = {
   source: "Cerebro Sports public widget API",
@@ -144,7 +196,9 @@ const output = `export const eyblData = ${JSON.stringify(payload, null, 2)} as c
 const outputPath = path.join(process.cwd(), "src", "data", "eybl.ts");
 await mkdir(path.dirname(outputPath), { recursive: true });
 await writeFile(outputPath, output);
+const history = await updateHistory(payload);
 
 console.log(`Updated ${outputPath}`);
+console.log(`History snapshots: ${history.snapshots.length}`);
 console.log(`Tracked players: ${payload.trackedPlayers.map((player) => player.displayName).join(", ")}`);
 console.log(`Generated at: ${payload.generatedAt}`);
