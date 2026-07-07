@@ -1,8 +1,23 @@
 export const playerAssets = {
+  "Charles Crawley": {
+    image: "/players/charles-crawley.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDbwZSdJW7ixUmXvjh74224KMgK7LZVbXnFXcidPc2Rg&s=10",
+  },
+  "Traeshon Fields": {
+    image: "/players/traeshon-fields.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN7_V0S01zjOs5vnuUuNtbukWMSvKEZiq4AV8zmyaviA&s=10",
+  },
   "MarQwan Morgan": {
     image: "/players/marqwan-morgan.jpg",
     source: "Prep Hoops",
     sourceUrl: "https://prephoops.com/wp-content/uploads/sites/2/2025/10/Screenshot_20251002_190302_Photos.jpg",
+  },
+  "Vasaun Wilmington": {
+    image: "/players/vasaun-wilmington.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIRHs3RSyC1SBSi5lUXukFgDDnjptGJSuSbhRg2Z1mmQ&s=10",
   },
 } as const;
 

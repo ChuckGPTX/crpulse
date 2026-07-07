@@ -155,9 +155,9 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
       <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-2">
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
           <div className="text-sm font-bold uppercase tracking-[0.25em] text-red-600">Trend tracking</div>
-          <h2 className="mt-2 text-3xl font-black">Snapshot movement</h2>
+          <h2 className="mt-2 text-3xl font-black">Recent movement</h2>
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            We now save a rolling snapshot on each scheduled refresh. The first live refresh establishes the baseline; future updates will show true movement.
+            This section compares the latest refresh against the prior refresh so movement shows up as new games are added.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl bg-slate-100 p-4">
@@ -173,7 +173,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
               <div className="mt-1 text-3xl font-black text-red-600">{signedNumber(trend.minutesDelta, 0)}</div>
             </div>
           </div>
-          <div className="mt-5 text-xs text-slate-500">Snapshots captured: {trend.snapshots.length}</div>
+          <div className="mt-5 text-xs text-slate-500">Refreshes compared: {trend.snapshots.length}</div>
         </div>
 
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">

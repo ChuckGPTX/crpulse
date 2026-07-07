@@ -6,14 +6,26 @@ const OVERALL_ID = "260104";
 const API_URL = "https://cerebro-widget.vercel.app/api/trpc/RouterCerebroPlayers.PlayersList";
 
 const trackedSpecs = [
-  { displayName: "Charles Crawley", cerebroName: "Charles Crawley" },
-  { displayName: "Traeshon Fields", cerebroName: "Traeshon Fields" },
-  { displayName: "Hal Jackson", cerebroName: "Hal Jackson", optional: true },
-  { displayName: "MarQwan Morgan", cerebroName: "MarQwan Morgan" },
-  { displayName: "Vasaun Wilmington", cerebroName: "Vasaun Wilmington" },
-  { displayName: "Andrew Allen", cerebroName: "Andrew Allen" },
-  { displayName: "Chase Goodheart", cerebroName: "Chase Goodheart" },
-  { displayName: "Tate McCollum", cerebroName: "Tate McCollum" },
+  { displayName: "Charles Crawley", cerebroName: "Charles Crawley", regionTag: "Eastern Iowa watch" },
+  { displayName: "Traeshon Fields", cerebroName: "Traeshon Fields", regionTag: "Eastern Iowa watch" },
+  {
+    displayName: "Halbert Jackson",
+    cerebroName: "Halbert Jackson",
+    expectedTeamName: "All Iowa Attack",
+    programLabel: "All Iowa Attack 16U",
+    regionTag: "Eastern Iowa watch",
+    optional: true,
+  },
+  { displayName: "MarQwan Morgan", cerebroName: "MarQwan Morgan", regionTag: "Eastern Iowa watch" },
+  { displayName: "Vasaun Wilmington", cerebroName: "Vasaun Wilmington", regionTag: "Eastern Iowa watch" },
+  { displayName: "Andrew Allen", cerebroName: "Andrew Allen", regionTag: "Eastern Iowa watch" },
+  { displayName: "Chase Goodheart", cerebroName: "Chase Goodheart", regionTag: "Eastern Iowa watch" },
+  { displayName: "Tate McCollum", cerebroName: "Tate McCollum", regionTag: "Eastern Iowa watch" },
+  { displayName: "Zane Rus", cerebroName: "Zane Rus", programLabel: "All Iowa Attack 17U", regionTag: "Eastern Iowa watch" },
+  { displayName: "Brayden Tanny", cerebroName: "Brayden Tanny", programLabel: "All Iowa Attack 17U", regionTag: "Eastern Iowa watch" },
+  { displayName: "Pernell Grover Jr.", cerebroName: "Pernell Grover Jr.", programLabel: "All Iowa Attack 15U", regionTag: "Eastern Iowa watch" },
+  { displayName: "Alexander Tanny", cerebroName: "Alexander Tanny", programLabel: "All Iowa Attack 15U", regionTag: "Eastern Iowa watch" },
+  { displayName: "Ryland Gbor", cerebroName: "Ryland Gbor", programLabel: "Kingdom Hoops 17U", regionTag: "Eastern Iowa watch" },
 ];
 
 const trackedTeams = [
@@ -30,7 +42,7 @@ function round(value) {
   return Math.round(value * 1000) / 1000;
 }
 
-function slimPlayer(player, displayName = player.name, note) {
+function slimPlayer(player, displayName = player.name, note, spec = {}) {
   const keys = [
     "id",
     "name",
@@ -52,6 +64,8 @@ function slimPlayer(player, displayName = player.name, note) {
 
   const output = Object.fromEntries(keys.map((key) => [key, round(player[key])]));
   output.displayName = displayName;
+  if (spec.programLabel) output.programLabel = spec.programLabel;
+  if (spec.regionTag) output.regionTag = spec.regionTag;
   if (note) output.note = note;
   return output;
 }
@@ -97,15 +111,20 @@ function buildTrackedPlayers(players) {
       return {
         displayName: spec.displayName,
         name: spec.cerebroName,
+        teamName: spec.expectedTeamName ?? null,
+        programLabel: spec.programLabel ?? null,
+        regionTag: spec.regionTag ?? null,
         status: "not_found",
-        note: `No exact ${spec.displayName} record found in the current Cerebro EYBL player feed for overallId ${OVERALL_ID}.`,
+        note: spec.expectedTeamName
+          ? `${spec.displayName} is on the CR Pulse watchlist for ${spec.programLabel ?? spec.expectedTeamName}; current stat line is not posted yet.`
+          : `No current stat line found for ${spec.displayName}.`,
       };
     }
 
     const note = player.name !== spec.displayName
       ? `Cerebro lists this player as ${player.name}.`
       : undefined;
-    return slimPlayer(player, spec.displayName, note);
+    return slimPlayer(player, spec.displayName, note, spec);
   });
 }
 

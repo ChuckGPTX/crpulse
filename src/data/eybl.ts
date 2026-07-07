@@ -1,7 +1,7 @@
 export const eyblData = {
   "source": "Cerebro Sports public widget API",
   "overallId": "260104",
-  "generatedAt": "2026-07-07T21:52:55.625Z",
+  "generatedAt": "2026-07-07T22:43:41.805Z",
   "totalPlayers": 2441,
   "trackedPlayers": [
     {
@@ -21,7 +21,8 @@ export const eyblData = {
       "ft_pct": 1,
       "three_pt_pct": 0.286,
       "total_minutes": 51,
-      "displayName": "Charles Crawley"
+      "displayName": "Charles Crawley",
+      "regionTag": "Eastern Iowa watch"
     },
     {
       "id": "bcdf80e3-5848-420e-adba-e26821b50858",
@@ -40,13 +41,17 @@ export const eyblData = {
       "ft_pct": 0.808,
       "three_pt_pct": 0.288,
       "total_minutes": 190,
-      "displayName": "Traeshon Fields"
+      "displayName": "Traeshon Fields",
+      "regionTag": "Eastern Iowa watch"
     },
     {
-      "displayName": "Hal Jackson",
-      "name": "Hal Jackson",
+      "displayName": "Halbert Jackson",
+      "name": "Halbert Jackson",
+      "teamName": "All Iowa Attack",
+      "programLabel": "All Iowa Attack 16U",
+      "regionTag": "Eastern Iowa watch",
       "status": "not_found",
-      "note": "No exact Hal Jackson record found in the current Cerebro EYBL player feed for overallId 260104."
+      "note": "Halbert Jackson is on the CR Pulse watchlist for All Iowa Attack 16U; current stat line is not posted yet."
     },
     {
       "id": "96e8bf45-e060-435f-a153-7e971a375f61",
@@ -65,7 +70,8 @@ export const eyblData = {
       "ft_pct": 0.842,
       "three_pt_pct": 0.25,
       "total_minutes": 247,
-      "displayName": "MarQwan Morgan"
+      "displayName": "MarQwan Morgan",
+      "regionTag": "Eastern Iowa watch"
     },
     {
       "id": "eba768c8-624c-4d89-8aa7-8dae9d6137b6",
@@ -84,7 +90,8 @@ export const eyblData = {
       "ft_pct": 0.857,
       "three_pt_pct": 0.286,
       "total_minutes": 118,
-      "displayName": "Vasaun Wilmington"
+      "displayName": "Vasaun Wilmington",
+      "regionTag": "Eastern Iowa watch"
     },
     {
       "id": "18fd4997-fe4e-4ebb-a65a-883d62e0930e",
@@ -103,7 +110,8 @@ export const eyblData = {
       "ft_pct": 0.625,
       "three_pt_pct": 0.4,
       "total_minutes": 171,
-      "displayName": "Andrew Allen"
+      "displayName": "Andrew Allen",
+      "regionTag": "Eastern Iowa watch"
     },
     {
       "id": "4d1eb4fb-9f28-45d7-89d2-16ca1e5d1c80",
@@ -122,7 +130,8 @@ export const eyblData = {
       "ft_pct": 0.667,
       "three_pt_pct": 0.349,
       "total_minutes": 209,
-      "displayName": "Chase Goodheart"
+      "displayName": "Chase Goodheart",
+      "regionTag": "Eastern Iowa watch"
     },
     {
       "id": "e4fee5cf-6a4a-4579-8ae0-b95559ee59ce",
@@ -141,7 +150,113 @@ export const eyblData = {
       "ft_pct": 0.625,
       "three_pt_pct": 0.404,
       "total_minutes": 288,
-      "displayName": "Tate McCollum"
+      "displayName": "Tate McCollum",
+      "regionTag": "Eastern Iowa watch"
+    },
+    {
+      "id": "cd8040a5-3a50-448d-a897-f839ff312c95",
+      "name": "Zane Rus",
+      "position": "Unknown Position",
+      "teamName": "All Iowa Attack",
+      "jerseyNumber": "14",
+      "games_played": 12,
+      "pts_per_game": 15.583,
+      "reb_per_game": 3.833,
+      "ast_per_game": 1.667,
+      "stl_per_game": 0.083,
+      "blk_per_game": 0.083,
+      "tov_per_game": 1.583,
+      "fg_pct": 0.375,
+      "ft_pct": 0.75,
+      "three_pt_pct": 0.32,
+      "total_minutes": 353,
+      "displayName": "Zane Rus",
+      "programLabel": "All Iowa Attack 17U",
+      "regionTag": "Eastern Iowa watch"
+    },
+    {
+      "id": "5c883059-e088-432f-bb54-1b215532efaa",
+      "name": "Brayden Tanny",
+      "position": "Unknown Position",
+      "teamName": "All Iowa Attack",
+      "jerseyNumber": "40",
+      "games_played": 6,
+      "pts_per_game": 8,
+      "reb_per_game": 7.5,
+      "ast_per_game": 0.833,
+      "stl_per_game": 0.667,
+      "blk_per_game": 1.333,
+      "tov_per_game": 1.5,
+      "fg_pct": 0.5,
+      "ft_pct": 0.75,
+      "three_pt_pct": 0.167,
+      "total_minutes": 145,
+      "displayName": "Brayden Tanny",
+      "programLabel": "All Iowa Attack 17U",
+      "regionTag": "Eastern Iowa watch"
+    },
+    {
+      "id": "15c2cdbe-6268-4581-9606-f514a0e00467",
+      "name": "Pernell Grover Jr.",
+      "position": "Unknown Position",
+      "teamName": "All Iowa Attack",
+      "jerseyNumber": "3",
+      "games_played": 8,
+      "pts_per_game": 8.125,
+      "reb_per_game": 1.5,
+      "ast_per_game": 2.125,
+      "stl_per_game": 0.875,
+      "blk_per_game": 0,
+      "tov_per_game": 2.5,
+      "fg_pct": 0.359,
+      "ft_pct": 0.889,
+      "three_pt_pct": 0.344,
+      "total_minutes": 149,
+      "displayName": "Pernell Grover Jr.",
+      "programLabel": "All Iowa Attack 15U",
+      "regionTag": "Eastern Iowa watch"
+    },
+    {
+      "id": "8ed60d42-1244-4c57-90f4-163f7763d703",
+      "name": "Alexander Tanny",
+      "position": "Unknown Position",
+      "teamName": "All Iowa Attack",
+      "jerseyNumber": "13",
+      "games_played": 8,
+      "pts_per_game": 15.125,
+      "reb_per_game": 7.875,
+      "ast_per_game": 1,
+      "stl_per_game": 0.375,
+      "blk_per_game": 1.125,
+      "tov_per_game": 1.375,
+      "fg_pct": 0.598,
+      "ft_pct": 0.618,
+      "three_pt_pct": 1,
+      "total_minutes": 159,
+      "displayName": "Alexander Tanny",
+      "programLabel": "All Iowa Attack 15U",
+      "regionTag": "Eastern Iowa watch"
+    },
+    {
+      "id": "7ada46c7-87d9-47ab-a40c-2833d4967aca",
+      "name": "Ryland Gbor",
+      "position": "G",
+      "teamName": "Kingdom Hoops",
+      "jerseyNumber": "21",
+      "games_played": 11,
+      "pts_per_game": 5,
+      "reb_per_game": 3.455,
+      "ast_per_game": 1,
+      "stl_per_game": 0.636,
+      "blk_per_game": 0.091,
+      "tov_per_game": 0.636,
+      "fg_pct": 0.606,
+      "ft_pct": 0.846,
+      "three_pt_pct": 0.571,
+      "total_minutes": 122,
+      "displayName": "Ryland Gbor",
+      "programLabel": "Kingdom Hoops 17U",
+      "regionTag": "Eastern Iowa watch"
     }
   ],
   "trackedTeams": [

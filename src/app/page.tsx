@@ -27,24 +27,24 @@ const statLabels = [
 
 const featureIdeas = [
   {
-    title: "Player compare lab",
-    eyebrow: "Standout feature",
-    copy: "Pick two prospects and compare scoring role, efficiency, usage signals, and trend movement in one shareable scouting card.",
+    title: "Player compare",
+    eyebrow: "Coming soon",
+    copy: "Pick two prospects and compare scoring role, efficiency, team context, and recent movement in one shareable scouting view.",
   },
   {
-    title: "Breakout alerts",
-    eyebrow: "Automation",
-    copy: "When a player jumps by 3+ PPG, 8+ minutes, or a major shooting split, surface it as a CR Pulse stock-up alert for the newsletter.",
+    title: "Breakout watch",
+    eyebrow: "Coming soon",
+    copy: "Highlight players whose scoring, minutes, or shooting splits jump enough to deserve a CR Pulse stock-up note.",
   },
   {
     title: "Game-log timeline",
-    eyebrow: "Profiles",
-    copy: "Turn each player page into a living dossier with game-by-game bars, stat spikes, and notes from recent EYBL sessions.",
+    eyebrow: "Coming soon",
+    copy: "Turn each player page into a living dossier with game-by-game bars, stat spikes, and notes from recent sessions.",
   },
   {
-    title: "Social player cards",
-    eyebrow: "Growth",
-    copy: "Generate square graphics from the same stat feed: player photo, team logo, latest stat line, and a CR Pulse branded caption.",
+    title: "Share cards",
+    eyebrow: "Coming soon",
+    copy: "Create clean graphics for newsletters and social posts with player photos, team marks, and updated stat lines.",
   },
 ];
 
@@ -73,9 +73,10 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
   if (!hasStats(player)) {
     return (
       <article className="reveal-card rounded-[2rem] border border-amber-300/25 bg-amber-300/10 p-6 text-amber-50 shadow-sm" style={{ animationDelay: `${index * 70}ms` }}>
-        <div className="text-xs font-black uppercase tracking-[0.25em] text-amber-300">Watchlist gap</div>
+        <div className="text-xs font-black uppercase tracking-[0.25em] text-amber-300">Roster note</div>
         <h3 className="font-display mt-4 text-2xl tracking-tight">{player.displayName}</h3>
-        <p className="mt-3 text-sm leading-6 text-amber-100/75">{"note" in player ? player.note : "No current stats found in the Cerebro feed."}</p>
+        {"programLabel" in player && player.programLabel ? <div className="mt-2 text-sm font-bold text-amber-200">{player.programLabel}</div> : null}
+        <p className="mt-3 text-sm leading-6 text-amber-100/75">{"note" in player ? player.note : "Current stat line is not posted yet."}</p>
       </article>
     );
   }
@@ -100,7 +101,7 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
         <div className="flex gap-3">
           <TeamLogo teamName={player.teamName} />
           <div>
-            <div className="text-xs font-black uppercase tracking-[0.2em] text-red-300">#{player.jerseyNumber ?? "—"} · {player.teamName}</div>
+            <div className="text-xs font-black uppercase tracking-[0.2em] text-red-300">#{player.jerseyNumber ?? "—"} · {"programLabel" in player && player.programLabel ? player.programLabel : player.teamName}</div>
             <h3 className="font-display mt-2 text-2xl leading-none tracking-tight text-white">{player.displayName}</h3>
             <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-black text-slate-950">
               <span className="pulse-dot h-2 w-2 rounded-full bg-red-600 text-red-600" />
@@ -239,7 +240,7 @@ export default function Home() {
             <a href="#watchlist" className="hover:text-white">Watchlist</a>
             <a href="#trends" className="hover:text-white">Trends</a>
             <a href="#programs" className="hover:text-white">Programs</a>
-            <a href="#features" className="hover:text-white">Feature ideas</a>
+            <a href="#features" className="hover:text-white">Coming soon</a>
           </div>
           <div className="rounded-full bg-red-500 px-4 py-2 text-sm font-black text-white shadow-lg shadow-red-500/25">Live EYBL board</div>
         </nav>
@@ -248,22 +249,22 @@ export default function Home() {
           <div>
             <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-red-400/30 bg-red-500/10 px-4 py-2 text-xs font-black uppercase tracking-[0.3em] text-red-100">
               <span className="pulse-dot h-2 w-2 rounded-full bg-red-400 text-red-400" />
-              Cerebro feed · overallId {eyblData.overallId}
+              Midwest watchlist · live stat refresh
             </div>
             <h1 className="kinetic-title font-display max-w-5xl text-5xl leading-[0.88] tracking-[-0.05em] sm:text-7xl lg:text-8xl">
               A moving scouting desk for Midwest EYBL prospects.
             </h1>
             <p className="reveal-card delay-1 mt-7 max-w-2xl text-lg leading-8 text-slate-300">
-              A darker, more cinematic CR Pulse tracker with animated stat cards, player profiles, official team marks, and trend history ready for breakout alerts.
+              Live player profiles, official team marks, Eastern Iowa additions, and rolling stat trends built for quick scouting reads.
             </p>
             <div className="reveal-card delay-2 mt-8 flex flex-wrap gap-3">
               <Link href="#watchlist" className="rounded-full bg-white px-6 py-3 text-sm font-black text-slate-950 transition hover:bg-red-500 hover:text-white">Explore players</Link>
               <Link href={`/players/${slugify(topScorer.displayName)}`} className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-black text-white transition hover:bg-white/10">Open top scorer</Link>
             </div>
             <div className="reveal-card delay-3 mt-8 flex flex-wrap gap-3">
-              <StatPill label="Generated" value={new Date(eyblData.generatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })} />
-              <StatPill label="Players" value={eyblData.totalPlayers.toLocaleString()} />
-              <StatPill label="Tracked" value={foundPlayers.length.toString()} />
+              <StatPill label="Last refresh" value={new Date(eyblData.generatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })} />
+              <StatPill label="Players in feed" value={eyblData.totalPlayers.toLocaleString()} />
+              <StatPill label="Watchlist" value={eyblData.trackedPlayers.length.toString()} />
             </div>
           </div>
 
@@ -292,10 +293,10 @@ export default function Home() {
         <div className="mb-8 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
             <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Tracked players</div>
-            <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-6xl">Animated watchlist cards</h2>
+            <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-6xl">Eastern Iowa watchlist</h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-slate-400">
-            Built from the live stat file, with scoring meters, team logos, stock labels, profile links, and player photography when available.
+            Current production, team context, photos, and profile links for CR Pulse players to follow.
           </p>
         </div>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -308,9 +309,9 @@ export default function Home() {
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <div className="text-sm font-black uppercase tracking-[0.25em] text-red-200">Trend tracking</div>
-              <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-5xl">Snapshot history with breakout hooks</h2>
+              <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-5xl">Recent movement</h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-                The refresh job saves a rolling stat history. The first run establishes baseline; future refreshes turn this into stock-up/down movement, social cards, and newsletter alerts.
+                Each refresh keeps a compact stat history. As new games hit the feed, this section will show rising scorers, shooting jumps, and stock-up notes.
               </p>
             </div>
             <div className="rounded-3xl bg-white px-5 py-4 text-slate-950">
@@ -341,8 +342,8 @@ export default function Home() {
 
       <section id="features" className="mx-auto max-w-7xl px-6 pb-16">
         <div className="mb-8">
-          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">What we should add next</div>
-          <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-6xl">Standout feature queue</h2>
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Coming next</div>
+          <h2 className="font-display mt-2 text-4xl leading-none tracking-tight sm:text-6xl">More scouting tools</h2>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {featureIdeas.map((feature, index) => (
