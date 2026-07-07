@@ -1,7 +1,7 @@
 export const eyblData = {
   "source": "Cerebro Sports public widget API",
   "overallId": "260104",
-  "generatedAt": "2026-07-07T21:16:23Z",
+  "generatedAt": "2026-07-07T21:36:03.175Z",
   "totalPlayers": 2441,
   "trackedPlayers": [
     {
@@ -21,8 +21,7 @@ export const eyblData = {
       "ft_pct": 1,
       "three_pt_pct": 0.286,
       "total_minutes": 51,
-      "displayName": "Chuck Crawley",
-      "note": "Cerebro lists this player as Charles Crawley."
+      "displayName": "Charles Crawley"
     },
     {
       "id": "bcdf80e3-5848-420e-adba-e26821b50858",
@@ -66,8 +65,7 @@ export const eyblData = {
       "ft_pct": 0.842,
       "three_pt_pct": 0.25,
       "total_minutes": 247,
-      "displayName": "Marquan Morgan",
-      "note": "Cerebro lists this player as MarQwan Morgan."
+      "displayName": "MarQwan Morgan"
     },
     {
       "id": "eba768c8-624c-4d89-8aa7-8dae9d6137b6",
@@ -279,7 +277,7 @@ export const eyblData = {
           "blk_per_game": 0.182,
           "tov_per_game": 1.909,
           "fg_pct": 0.364,
-          "ft_pct": 0.812,
+          "ft_pct": 0.813,
           "three_pt_pct": 0.342,
           "total_minutes": 260,
           "displayName": "Charles King"
@@ -319,7 +317,7 @@ export const eyblData = {
           "blk_per_game": 0.182,
           "tov_per_game": 1.909,
           "fg_pct": 0.364,
-          "ft_pct": 0.812,
+          "ft_pct": 0.813,
           "three_pt_pct": 0.342,
           "total_minutes": 260,
           "displayName": "Charles King"
@@ -416,7 +414,7 @@ export const eyblData = {
           "blk_per_game": 0.182,
           "tov_per_game": 1.909,
           "fg_pct": 0.364,
-          "ft_pct": 0.812,
+          "ft_pct": 0.813,
           "three_pt_pct": 0.342,
           "total_minutes": 260,
           "displayName": "Charles King"
@@ -944,7 +942,7 @@ export const eyblData = {
           "stl_per_game": 2.2,
           "blk_per_game": 0.2,
           "tov_per_game": 1.6,
-          "fg_pct": 0.562,
+          "fg_pct": 0.563,
           "ft_pct": 0.647,
           "three_pt_pct": 0,
           "total_minutes": 131,
@@ -1138,7 +1136,7 @@ export const eyblData = {
           "stl_per_game": 2.2,
           "blk_per_game": 0.2,
           "tov_per_game": 1.6,
-          "fg_pct": 0.562,
+          "fg_pct": 0.563,
           "ft_pct": 0.647,
           "three_pt_pct": 0,
           "total_minutes": 131,
@@ -1924,7 +1922,7 @@ export const eyblData = {
           "stl_per_game": 2.5,
           "blk_per_game": 0,
           "tov_per_game": 1,
-          "fg_pct": 0.562,
+          "fg_pct": 0.563,
           "ft_pct": 0.444,
           "three_pt_pct": 0.3,
           "total_minutes": 59,
@@ -2038,7 +2036,7 @@ export const eyblData = {
           "stl_per_game": 0.818,
           "blk_per_game": 0.273,
           "tov_per_game": 1.636,
-          "fg_pct": 0.562,
+          "fg_pct": 0.563,
           "ft_pct": 0.377,
           "three_pt_pct": 0,
           "total_minutes": 226,
@@ -2154,7 +2152,7 @@ export const eyblData = {
           "stl_per_game": 0.818,
           "blk_per_game": 0.273,
           "tov_per_game": 1.636,
-          "fg_pct": 0.562,
+          "fg_pct": 0.563,
           "ft_pct": 0.377,
           "three_pt_pct": 0,
           "total_minutes": 226,

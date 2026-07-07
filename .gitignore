@@ -4,3 +4,4 @@ node_modules
 .env*.local
 out
 .DS_Store
+.env*
