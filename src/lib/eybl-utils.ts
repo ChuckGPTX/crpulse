@@ -1,6 +1,7 @@
 import history from "@/data/eybl-history.json";
 import { eyblData } from "@/data/eybl";
 import { playerAssets } from "@/data/player-assets";
+import { playerRankings } from "@/data/player-rankings";
 import { teamAssets } from "@/data/team-assets";
 
 export type StatPlayer = {
@@ -69,6 +70,11 @@ export function getTeamAsset(teamName?: string) {
 export function getPlayerAsset(displayName?: string) {
   if (!displayName) return null;
   return playerAssets[displayName as keyof typeof playerAssets] ?? null;
+}
+
+export function getPlayerRanking(displayName?: string) {
+  if (!displayName) return null;
+  return playerRankings[displayName as keyof typeof playerRankings] ?? null;
 }
 
 export function getTrackedStatPlayers() {

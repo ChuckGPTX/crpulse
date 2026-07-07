@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import {
   getPlayerAsset,
   getPlayerBySlug,
+  getPlayerRanking,
   getPlayerRanks,
   getPlayerTrend,
   getScoutingBlurb,
@@ -58,6 +59,16 @@ function StockBadge({ value }: { value: string }) {
   return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-black uppercase tracking-wide ${tone}`}>{value}</span>;
 }
 
+function PrepHoopsBadge({ name }: { name: string }) {
+  const ranking = getPlayerRanking(name);
+  if (!ranking) return null;
+  return (
+    <span className="inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-black uppercase tracking-wide text-red-700">
+      {ranking.label}
+    </span>
+  );
+}
+
 export default async function PlayerProfilePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const player = getPlayerBySlug(slug);
@@ -86,7 +97,10 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
                 <TeamLogo player={player} />
                 <div>
                   <div className="text-xs font-black uppercase tracking-[0.3em] text-red-700">#{player.jerseyNumber ?? "—"} · {program}</div>
-                  <div className="mt-2"><StockBadge value={stock} /></div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <StockBadge value={stock} />
+                    <PrepHoopsBadge name={player.displayName} />
+                  </div>
                 </div>
               </div>
               <h1 className="max-w-4xl text-6xl font-black leading-[0.9] tracking-[-0.055em] text-slate-950 sm:text-7xl lg:text-8xl">{player.displayName}</h1>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { eyblData } from "@/data/eybl";
 import {
   getPlayerAsset,
+  getPlayerRanking,
   getPlayerRanks,
   getPlayerTrend,
   getStockLabel,
@@ -99,16 +100,25 @@ function StockBadge({ value }: { value: string }) {
   return <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-black uppercase tracking-wide ${tone}`}>{value}</span>;
 }
 
+function PrepHoopsBadge({ name }: { name: string }) {
+  const ranking = getPlayerRanking(name);
+  if (!ranking) return null;
+  return (
+    <span className="inline-flex rounded-full border border-red-200 bg-red-50 px-2.5 py-1 text-[11px] font-black uppercase tracking-wide text-red-700">
+      {ranking.label}
+    </span>
+  );
+}
+
 function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number }) {
   if (!hasStats(player)) {
     const rosterProgram = "programLabel" in player && player.programLabel ? String(player.programLabel) : null;
-    const rosterNote = "note" in player && player.note ? String(player.note) : "Current stat line is not posted yet.";
     return (
       <article className="paper-card reveal-card p-6" style={{ animationDelay: `${index * 45}ms` }}>
         <div className="text-xs font-black uppercase tracking-[0.22em] text-red-700">Roster note</div>
         <h3 className="mt-5 text-3xl font-black leading-none tracking-tight text-slate-950">{player.displayName}</h3>
         {rosterProgram ? <div className="mt-3 text-sm font-bold text-slate-700">{rosterProgram}</div> : null}
-        <p className="mt-5 text-sm leading-6 text-slate-600">{rosterNote}</p>
+        <div className="mt-4"><PrepHoopsBadge name={player.displayName} /></div>
       </article>
     );
   }
@@ -126,7 +136,10 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
           <div className="min-w-0">
             <div className="text-xs font-black uppercase tracking-[0.2em] text-red-700">#{player.jerseyNumber ?? "—"} · {player.programLabel ?? player.teamName}</div>
             <h3 className="mt-2 text-3xl font-black leading-[0.95] tracking-tight text-slate-950">{player.displayName}</h3>
-            <div className="mt-3"><StockBadge value={stock} /></div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <StockBadge value={stock} />
+              <PrepHoopsBadge name={player.displayName} />
+            </div>
           </div>
         </div>
         <div className="shrink-0 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
@@ -230,6 +243,7 @@ function LeadFeature({ player, label }: { player: StatPlayer; label: string }) {
           <div className="text-xs font-black uppercase tracking-[0.22em] text-red-700">{label}</div>
           <div className="mt-2 text-3xl font-black leading-none tracking-tight text-slate-950">{player.displayName}</div>
           <div className="mt-1 text-sm font-bold text-slate-600">{player.teamName}</div>
+          <div className="mt-2"><PrepHoopsBadge name={player.displayName} /></div>
         </div>
       </div>
       <div className="mt-6 grid grid-cols-3 gap-2 text-center">
@@ -271,9 +285,6 @@ export default function Home() {
             <h1 className="max-w-5xl text-6xl font-black leading-[0.9] tracking-[-0.055em] text-slate-950 sm:text-7xl lg:text-8xl">
               Eastern Iowa prospects, tracked like a real scouting desk.
             </h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-700">
-              Current production, program context, player photos, and movement notes for CR Pulse prospects across the EYBL circuit.
-            </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="#watchlist" className="rounded-full bg-red-700 px-6 py-3 text-sm font-black text-white transition hover:bg-slate-950">View watchlist</Link>
               <Link href={`/players/${slugify(topScorer.displayName)}`} className="rounded-full border border-slate-400 bg-white px-6 py-3 text-sm font-black text-slate-950 transition hover:border-slate-950">Open top scorer</Link>
@@ -310,14 +321,11 @@ export default function Home() {
       </section>
 
       <section id="watchlist" className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 grid gap-5 border-b border-slate-300 pb-7 lg:grid-cols-[0.9fr_1fr] lg:items-end">
+        <div className="mb-8 border-b border-slate-300 pb-7">
           <div>
             <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Tracked players</div>
             <h2 className="mt-2 text-5xl font-black leading-none tracking-tight text-slate-950 sm:text-6xl">Eastern Iowa watchlist</h2>
           </div>
-          <p className="max-w-2xl text-base leading-7 text-slate-700 lg:justify-self-end">
-            A clean board for player identity, role, production, shooting profile, and movement — built for fast reads before turning a name into a deeper scouting note.
-          </p>
         </div>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {eyblData.trackedPlayers.map((player, index) => <PlayerCard key={player.displayName} player={player} index={index} />)}
