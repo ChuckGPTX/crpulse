@@ -16,8 +16,8 @@ const archivo = Archivo_Black({
 });
 
 export const metadata: Metadata = {
-  title: "CR Pulse EYBL Tracker",
-  description: "Up-to-date EYBL player and team numbers for the CR Pulse basketball watchlist.",
+  title: "CR Pulse Scouting Board",
+  description: "A clean scouting magazine and live board for CR Pulse basketball prospects.",
 };
 
 export default function RootLayout({
