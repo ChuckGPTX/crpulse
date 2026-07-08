@@ -5,6 +5,7 @@ import { playerAssets } from "@/data/player-assets";
 import { playerLinks } from "@/data/player-links";
 import { playerNotes } from "@/data/player-notes";
 import { playerRankings } from "@/data/player-rankings";
+import { recentGameStats } from "@/data/recent-game-stats";
 import { teamAssets } from "@/data/team-assets";
 
 export type StatPlayer = {
@@ -80,6 +81,11 @@ export function getPlayerRanking(displayName?: string) {
   const ranking = playerRankings[displayName as keyof typeof playerRankings];
   if (!ranking || !("stateRank" in ranking)) return null;
   return ranking;
+}
+
+export function getRecentGameStat(displayName?: string) {
+  if (!displayName) return null;
+  return recentGameStats[displayName as keyof typeof recentGameStats] ?? null;
 }
 
 export function getPlayerLinks(displayName?: string) {
@@ -225,31 +231,31 @@ export function getScoutingBlurb(player: StatPlayer) {
   const highSchool = getHighSchoolStats(player.displayName);
 
   if (highSchool && player.pts_per_game >= 15) {
-    return `${player.displayName} now has a two-track production case: ${numberValue(player.pts_per_game)} PPG in the EYBL sample for ${player.teamName} plus ${numberValue(highSchool.ppg)} PPG at ${highSchool.school}. That school-year role gives the summer scoring signal more context.`;
+    return `${player.displayName} has two score lines to watch: ${numberValue(player.pts_per_game)} PPG for ${player.teamName} and ${numberValue(highSchool.ppg)} PPG at ${highSchool.school}.`;
   }
 
   if (highSchool && highSchool.threes.pct >= 0.38 && highSchool.threes.attempted >= 50) {
-    return `${player.displayName} brings verified school-year shooting context from ${highSchool.school}: ${percentValue(highSchool.threes.pct)} from three on ${highSchool.threes.made}/${highSchool.threes.attempted} attempts, layered against the current ${player.teamName} sample.`;
+    return `${player.displayName} shot it well for ${highSchool.school}: ${percentValue(highSchool.threes.pct)} from three on ${highSchool.threes.made}/${highSchool.threes.attempted} attempts, next to the ${player.teamName} line.`;
   }
 
   if (player.pts_per_game >= 17) {
-    return `${player.displayName} is carrying primary scoring value for ${player.teamName}, ranking No. ${ranks.teamScoring || "—"} on the team board at ${numberValue(player.pts_per_game)} PPG with enough shot-making volume to drive a game plan.`;
+    return `${player.displayName} is a lead scorer for ${player.teamName}: No. ${ranks.teamScoring || "—"} on the team at ${numberValue(player.pts_per_game)} PPG.`;
   }
 
   if (shooting >= 0.38) {
-    return `${player.displayName} profiles as a floor-spacing guard/wing in this sample, hitting ${percentValue(player.three_pt_pct)} from three while adding ${numberValue(player.reb_per_game)} rebounds and ${numberValue(player.ast_per_game)} assists per game.`;
+    return `${player.displayName} is spacing the floor at ${percentValue(player.three_pt_pct)} from three with ${numberValue(player.reb_per_game)} rebounds and ${numberValue(player.ast_per_game)} assists per game.`;
   }
 
   if (activity >= 2) {
-    return `${player.displayName} is showing useful two-way activity: ${numberValue(activity)} combined steals/blocks per game with ${numberValue(player.pts_per_game)} PPG production.`;
+    return `${player.displayName} is making plays on both ends: ${numberValue(activity)} combined steals/blocks per game with ${numberValue(player.pts_per_game)} PPG production.`;
   }
 
-  return `${player.displayName} is on the CR Pulse watchlist for continued tracking. The current sample shows ${numberValue(player.pts_per_game)} PPG, ${numberValue(player.reb_per_game)} RPG, and ${numberValue(player.ast_per_game)} APG for ${player.teamName}.`;
+  return `${player.displayName} is on the CR Pulse watchlist with ${numberValue(player.pts_per_game)} PPG, ${numberValue(player.reb_per_game)} RPG, and ${numberValue(player.ast_per_game)} APG for ${player.teamName}.`;
 }
 
 export function getTeamContext(player: StatPlayer) {
   const ranks = getPlayerRanks(player);
   const highSchool = getHighSchoolStats(player.displayName);
-  const schoolContext = highSchool ? ` High-school context: ${numberValue(highSchool.ppg)} PPG at ${highSchool.school}.` : "";
-  return `No. ${ranks.teamScoring || "—"} scorer on ${player.teamName} among the displayed team leaders; No. ${ranks.trackedScoring || "—"} scorer among CR Pulse tracked players.${schoolContext}`;
+  const schoolContext = highSchool ? ` High school: ${numberValue(highSchool.ppg)} PPG at ${highSchool.school}.` : "";
+  return `No. ${ranks.teamScoring || "—"} scorer on ${player.teamName}; No. ${ranks.trackedScoring || "—"} on the CR Pulse list.${schoolContext}`;
 }

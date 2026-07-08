@@ -6,7 +6,7 @@ export const playerLinks = {
       label: "Cedar Rapids Washington",
       url: "https://www.gobound.com/direct/teams/h20222175363297c10e3ca46248c4b10/PowerIndex",
     },
-    snapshot: "2028 combo guard at Cedar Rapids Washington; X bio lists Kingdom Hoops 16U EYCL and a 3.7 GPA.",
+    snapshot: "2028 combo guard at Cedar Rapids Washington; listed Kingdom Hoops 16U EYCL and a 3.7 GPA.",
   },
   "Traeshon Fields": {
     x: "https://x.com/TraeFields0",
@@ -15,7 +15,7 @@ export const playerLinks = {
       label: "Cedar Rapids Washington",
       url: "https://www.gobound.com/direct/teams/h20222175363297c10e3ca46248c4b10/PowerIndex",
     },
-    snapshot: "2028 point guard at Cedar Rapids Washington; X bio lists All Iowa Attack EYCL and recent 39-point high school highlight notes.",
+    snapshot: "2028 point guard at Cedar Rapids Washington; listed All Iowa Attack EYCL with a 39-point high school game.",
   },
   "MarQwan Morgan": {
     x: "https://x.com/qwanvsdawrld",
@@ -23,7 +23,7 @@ export const playerLinks = {
       label: "Davenport North",
       url: "https://www.gobound.com/direct/teams/h202221753632f34e559128c04a7caa5/PowerIndex",
     },
-    snapshot: "2028 Davenport North guard; X bio lists 6'3, Mac Irvin Fire, and Iowa class ranking context.",
+    snapshot: "2028 Davenport North guard; listed 6'3, Mac Irvin Fire, ",
   },
   "Vasaun Wilmington": {
     highSchool: {
@@ -44,7 +44,7 @@ export const playerLinks = {
       label: "Iowa City Liberty",
       url: "https://www.gobound.com/direct/teams/h202221753632fff9d388cc644f67879/PowerIndex",
     },
-    snapshot: "2028 Iowa City Liberty guard; X bio lists All Iowa Attack EYCL and a 4.22 GPA.",
+    snapshot: "2028 Iowa City Liberty guard; listed All Iowa Attack EYCL and a 4.22 GPA.",
   },
   "Tate McCollum": {
     x: "https://x.com/TateMccollum",
@@ -53,7 +53,7 @@ export const playerLinks = {
       label: "Solon",
       url: "https://www.gobound.com/direct/teams/h202221753632b4e03d0f710449c9a5f/PowerIndex",
     },
-    snapshot: "2027 Solon point guard; X timeline notes a Montana State offer and 19 PPG / 40% from three junior-season highlights.",
+    snapshot: "2027 Solon point guard; Montana State offer; 19 PPG and 40% from three as a junior.",
   },
   "Zane Rus": {
     x: "https://x.com/rus_zane",
@@ -61,7 +61,7 @@ export const playerLinks = {
       label: "North Scott",
       url: "https://www.gobound.com/direct/teams/h202221753632f6ca22a5aaf34e78826/PowerIndex",
     },
-    snapshot: "2027 North Scott forward with All Iowa Attack 17U production; profile now connected to X and Bound for follow-up film/social tracking.",
+    snapshot: "2027 North Scott forward with All Iowa Attack 17U production; All Iowa Attack 17U forward.",
   },
   "Brayden Tanny": {
     x: "https://x.com/TannyBrayden",
@@ -69,7 +69,7 @@ export const playerLinks = {
       label: "Wahlert Catholic",
       url: "https://www.gobound.com/direct/teams/h2022217536328f4377320671451ab68/PowerIndex",
     },
-    snapshot: "2027 6'5 wing at Wahlert Catholic; X bio lists All Iowa Attack Nike EYCL.",
+    snapshot: "2027 6'5 wing at Wahlert Catholic; listed All Iowa Attack Nike EYCL.",
   },
   "Pernell Grover Jr.": {
     highSchool: {

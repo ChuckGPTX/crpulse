@@ -1,28 +1,28 @@
 export const playerNotes = {
   "Charles Crawley": {
-    label: "High school film note",
+    label: "Film note",
     value: "18 pts · 6 reb · 4/8 3P",
-    detail: "Posted game film vs. Xavier on X; useful shooting marker next to the current EYCL sample.",
+    detail: "Game film vs. Xavier showed shot-making that matches the EYCL line.",
   },
   "Traeshon Fields": {
-    label: "High school heater",
+    label: "High school game",
     value: "39 pts · 11/15 3P",
-    detail: "Posted substate-quarterfinal highlights vs. Pleasant Valley; strong enough to anchor the movement board even when live deltas are flat.",
+    detail: "Substate highlight tape vs. Pleasant Valley: 39 points and 11 threes.",
   },
   "Chase Goodheart": {
-    label: "Freshman baseline",
+    label: "Freshman year",
     value: "7.9 PPG · 34% 3P",
-    detail: "Public Hudl/X post gives a high-school baseline to compare against the current All Iowa Attack sample.",
+    detail: "Freshman numbers give his All Iowa Attack line more context.",
   },
   "Tate McCollum": {
-    label: "Offer + shooting signal",
+    label: "Offer and scoring",
     value: "D1 offer · 19 PPG",
-    detail: "X/Hudl notes include Montana State offer and junior-year scoring/shooting production.",
+    detail: "Montana State offer, 19 PPG, and strong junior-year shooting.",
   },
   "Brayden Tanny": {
-    label: "Event/game note",
+    label: "Game note",
     value: "13 pts · 8 reb · 5 ast",
-    detail: "Posted regional-game production with three dunks; pairs well with his current 7.5 RPG board line.",
+    detail: "Regional game line with three dunks and eight boards.",
   },
 } as const;
 

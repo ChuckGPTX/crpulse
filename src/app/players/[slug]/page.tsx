@@ -12,6 +12,7 @@ import {
   getPlayerRanking,
   getPlayerRanks,
   getPlayerTrend,
+  getRecentGameStat,
   getScoutingBlurb,
   getStockLabel,
   getTeamAsset,
@@ -43,8 +44,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const player = getPlayerBySlug(slug);
   return {
-    title: player ? `${player.displayName} Scouting Profile | CR Pulse` : "Player Scouting Profile | CR Pulse",
-    description: player ? `${player.displayName} production, team context, movement, and scouting notes.` : "CR Pulse player scouting profile.",
+    title: player ? `${player.displayName} Player profile | CR Pulse` : "Player Player profile | CR Pulse",
+    description: player ? `${player.displayName} stats, notes, and next game.` : "CR Pulse player profile.",
   };
 }
 
@@ -90,7 +91,7 @@ function RecruitingLinks({ name }: { name: string }) {
   if (!items.length && !snapshot) return null;
   return (
     <div className="paper-card p-6">
-      <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Recruiting links</div>
+      <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Links</div>
       {snapshot ? <p className="mt-4 text-sm leading-7 text-slate-600">{snapshot}</p> : null}
       <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
         {items.map((item) => (
@@ -113,12 +114,12 @@ function HighSchoolProduction({ player }: { player: StatPlayer }) {
       <div className="paper-card overflow-hidden p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">High School Production</div>
+            <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">High school stats</div>
             <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">{stats.school}</h2>
             <div className="mt-2 text-sm font-bold text-slate-500">#{stats.jersey} · {stats.grade} · listed on GoBound as {stats.goBoundName}</div>
           </div>
           <a href={stats.sourceUrl} target="_blank" rel="noreferrer" className="rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-black uppercase tracking-wide text-slate-700 transition hover:border-red-700 hover:text-red-700">
-            GoBound source
+            GoBound
           </a>
         </div>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -147,8 +148,8 @@ function HighSchoolProduction({ player }: { player: StatPlayer }) {
       </div>
 
       <div className="rounded-[2rem] bg-slate-950 p-6 text-white shadow-xl">
-        <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">EYBL vs High School</div>
-        <h2 className="mt-2 text-3xl font-black tracking-tight">Two-context read</h2>
+        <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">EYBL and high school</div>
+        <h2 className="mt-2 text-3xl font-black tracking-tight">Two score lines</h2>
         <div className="mt-6 grid gap-3">
           {[
             ["Scoring", `${numberValue(player.pts_per_game)} EYBL`, `${numberValue(stats.ppg)} HS`],
@@ -162,7 +163,7 @@ function HighSchoolProduction({ player }: { player: StatPlayer }) {
             </div>
           ))}
         </div>
-        <p className="mt-5 text-sm leading-6 text-slate-300">High-school stats are season totals from public GoBound pages; EYBL stats are the current CR Pulse/Cerebro sample.</p>
+        <p className="mt-5 text-sm leading-6 text-slate-300"></p>
       </div>
     </section>
   );
@@ -182,6 +183,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
   const scouting = getScoutingBlurb(player);
   const program = player.programLabel ?? player.teamName;
   const nextGame = playerNextGames[player.displayName as keyof typeof playerNextGames];
+  const recentGame = getRecentGameStat(player.displayName);
 
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-slate-950">
@@ -190,7 +192,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center justify-between border-b border-slate-300 pb-5">
             <Link href="/" className="text-sm font-black uppercase tracking-wide text-red-700 hover:text-slate-950">← Back to CR Pulse</Link>
-            <div className="rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white">Scouting profile</div>
+            <div className="rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white">Player profile</div>
           </nav>
 
           <div className="grid gap-8 py-10 lg:grid-cols-[1fr_380px] lg:items-end">
@@ -213,7 +215,6 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
                 <div className="overflow-hidden rounded-[2rem] border border-slate-300 bg-white shadow-xl">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={playerAsset.image} alt={`${player.displayName} basketball photo`} className="h-[430px] w-full object-cover object-[center_32%]" />
-                  <div className="px-4 py-3 text-xs font-bold text-slate-500">Photo submitted to CR Pulse</div>
                 </div>
               ) : (
                 <div className="paper-card flex min-h-[300px] items-center justify-center p-8">
@@ -230,7 +231,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
           <div className="overflow-hidden rounded-[2rem] bg-slate-950 p-6 text-white shadow-xl md:p-8">
             <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
               <div>
-                <div className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">Next Vegas game</div>
+                <div className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">Next game</div>
                 <h2 className="mt-2 text-3xl font-black tracking-tight">{nextGame.awayTeam} vs {nextGame.homeTeam}</h2>
                 <div className="mt-2 text-sm font-bold text-slate-300">{nextGame.date} · {nextGame.time} PT · {nextGame.court} · {nextGame.division}</div>
               </div>
@@ -243,15 +244,61 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
         </section>
       ) : null}
 
-      <section className="mx-auto grid max-w-7xl gap-5 px-6 py-10 md:grid-cols-3">
-        {statCards.map(([label, key]) => (
-          <div key={key} className="paper-card p-6">
-            <div className="text-xs font-black uppercase tracking-[0.25em] text-slate-500">{label}</div>
-            <div className="mt-2 text-5xl font-black text-slate-950">{numberValue(player[key])}</div>
-            <div className="mt-2 text-sm text-slate-500">Current board number</div>
+      <section className="mx-auto max-w-7xl px-6 py-10">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Session stats</div>
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">Current EYBL numbers</h2>
           </div>
-        ))}
+          <div className="text-sm font-bold text-slate-500">{player.games_played} games</div>
+        </div>
+        <div className="grid gap-5 md:grid-cols-3">
+          {statCards.map(([label, key]) => (
+            <div key={key} className="paper-card p-6">
+              <div className="text-xs font-black uppercase tracking-[0.25em] text-slate-500">{label}</div>
+              <div className="mt-2 text-5xl font-black text-slate-950">{numberValue(player[key])}</div>
+              <div className="mt-2 text-sm text-slate-500">Per game</div>
+            </div>
+          ))}
+        </div>
       </section>
+
+      {recentGame ? (
+        <section className="mx-auto max-w-7xl px-6 pb-10">
+          <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl">
+            <div className="flex flex-col gap-4 bg-slate-950 p-6 text-white md:flex-row md:items-center md:justify-between">
+              <div>
+                <div className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">Today's game</div>
+                <h2 className="mt-2 text-3xl font-black tracking-tight">{recentGame.team} {recentGame.teamScore}, {recentGame.opponent} {recentGame.opponentScore}</h2>
+                <div className="mt-2 text-sm font-bold text-slate-300">{recentGame.status} · {recentGame.date} · {recentGame.result === "W" ? "Win" : recentGame.result === "L" ? "Loss" : "Tie"} · {recentGame.source}</div>
+              </div>
+              <a href={recentGame.sourceUrl} target="_blank" rel="noreferrer" className="rounded-full bg-amber-300 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-white">Box score</a>
+            </div>
+            <div className="grid gap-3 p-6 sm:grid-cols-4 lg:grid-cols-8">
+              {[
+                ["PTS", recentGame.points],
+                ["REB", recentGame.rebounds],
+                ["AST", recentGame.assists],
+                ["STL", recentGame.steals],
+                ["BLK", recentGame.blocks],
+                ["MIN", recentGame.minutes],
+                ["+/-", recentGame.plusMinus > 0 ? `+${recentGame.plusMinus}` : String(recentGame.plusMinus)],
+                ["TO", recentGame.turnovers],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-2xl bg-slate-100 p-4 text-center">
+                  <div className="text-xs font-black uppercase tracking-widest text-slate-500">{label}</div>
+                  <div className="mt-1 text-3xl font-black text-slate-950">{value}</div>
+                </div>
+              ))}
+            </div>
+            <div className="grid gap-3 border-t border-slate-200 p-6 text-sm sm:grid-cols-3">
+              <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">FG</span> {recentGame.fg}</div>
+              <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">3PT</span> {recentGame.threeFg}</div>
+              <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">FT</span> {recentGame.ft}</div>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <HighSchoolProduction player={player} />
 
@@ -263,7 +310,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
 
       <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-10 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="paper-card p-6">
-          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Shooting profile</div>
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Shooting</div>
           <div className="mt-6 grid grid-cols-3 gap-3">
             <div className="rounded-2xl bg-slate-100 p-4 text-center">
               <div className="text-xs font-bold text-slate-500">FG%</div>
@@ -281,22 +328,22 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
         </div>
 
         <div className="paper-card p-6">
-          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Team context</div>
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Team rank</div>
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl bg-slate-950 p-4 text-white">
-              <div className="text-xs font-bold uppercase tracking-widest text-slate-400">Team scoring</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-slate-400">Team</div>
               <div className="mt-2 whitespace-nowrap text-3xl font-black">#{ranks.teamScoring || "—"}</div>
-              <div className="text-xs text-slate-400">within program leaders</div>
+              <div className="text-xs text-slate-400">on team</div>
             </div>
             <div className="rounded-2xl bg-slate-100 p-4">
-              <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Watchlist rank</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Watchlist</div>
               <div className="mt-2 text-3xl font-black">#{ranks.trackedScoring || "—"}</div>
-              <div className="text-xs text-slate-500">by points per game</div>
+              <div className="text-xs text-slate-500">by PPG</div>
             </div>
             <div className="rounded-2xl bg-slate-100 p-4">
-              <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Team sample</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Team list</div>
               <div className="mt-2 text-3xl font-black">{team?.playersTracked ?? "—"}</div>
-              <div className="text-xs text-slate-500">players reviewed</div>
+              <div className="text-xs text-slate-500">players</div>
             </div>
           </div>
         </div>
@@ -304,10 +351,10 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
 
       <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-2">
         <div className="rounded-[2rem] bg-slate-950 p-6 text-white shadow-xl">
-          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Recent movement</div>
-          <h2 className="mt-2 text-3xl font-black">Latest comparison</h2>
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Change</div>
+          <h2 className="mt-2 text-3xl font-black">Latest change</h2>
           <p className="mt-2 text-sm leading-6 text-slate-300">
-            Movement is measured against the prior board refresh so production swings stay easy to monitor.
+            
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl bg-white/10 p-4">
@@ -323,18 +370,18 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
               <div className="mt-1 text-3xl font-black text-red-200">{signedNumber(trend.minutesDelta, 0)}</div>
             </div>
           </div>
-          <div className="mt-5 text-xs text-slate-400">Refreshes compared: {trend.snapshots.length}</div>
+          <div className="mt-5 text-xs text-slate-400">Updates: {trend.snapshots.length}</div>
         </div>
 
         <div className="paper-card p-6">
-          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Scouting note</div>
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Note</div>
           <h2 className="mt-2 text-3xl font-black">{stock}</h2>
           <p className="mt-4 text-sm leading-7 text-slate-600">
             {stock === "Stock up"
-              ? `${player.displayName} is showing a clear signal through scoring efficiency, volume, or shooting value. Keep this player high on the CR Pulse recap list.`
+              ? `${player.displayName} has a strong scoring, shooting, or usage case for the next CR Pulse recap.`
               : stock === "Watch"
-                ? `${player.displayName} needs continued tracking as the sample grows. Watch minutes, shot volume, and role stability over the next refreshes.`
-                : `${player.displayName} remains in the monitored group. The next useful signal will be movement in PPG, three-point rate, or minutes.`}
+                ? `${player.displayName} is worth another look as the minutes and shot volume settle.`
+                : `${player.displayName} stays on the list. Watch PPG, three-point rate, and minutes.`}
           </p>
           <p className="mt-5 rounded-2xl bg-slate-100 p-4 text-sm leading-6 text-slate-700">{getTeamContext(player)}</p>
         </div>
