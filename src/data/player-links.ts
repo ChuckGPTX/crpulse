@@ -1,6 +1,7 @@
 export const playerLinks = {
   "Charles Crawley": {
     x: "https://x.com/ChuckCrawley10",
+    hudl: "https://www.hudl.com/profile/22960363/Chuck-Crawley",
     highSchool: {
       label: "Cedar Rapids Washington",
       url: "https://www.gobound.com/direct/teams/h20222175363297c10e3ca46248c4b10/PowerIndex",
@@ -9,6 +10,7 @@ export const playerLinks = {
   },
   "Traeshon Fields": {
     x: "https://x.com/TraeFields0",
+    hudl: "https://www.hudl.com/profile/23209769/Trae-Fields/about",
     highSchool: {
       label: "Cedar Rapids Washington",
       url: "https://www.gobound.com/direct/teams/h20222175363297c10e3ca46248c4b10/PowerIndex",
@@ -54,10 +56,12 @@ export const playerLinks = {
     snapshot: "2027 Solon point guard; X timeline notes a Montana State offer and 19 PPG / 40% from three junior-season highlights.",
   },
   "Zane Rus": {
+    x: "https://x.com/rus_zane",
     highSchool: {
       label: "North Scott",
       url: "https://www.gobound.com/direct/teams/h202221753632f6ca22a5aaf34e78826/PowerIndex",
     },
+    snapshot: "2027 North Scott forward with All Iowa Attack 17U production; profile now connected to X and Bound for follow-up film/social tracking.",
   },
   "Brayden Tanny": {
     x: "https://x.com/TannyBrayden",

@@ -17,7 +17,7 @@ const archivo = Archivo_Black({
 
 export const metadata: Metadata = {
   title: "CR Pulse Scouting Board",
-  description: "A clean scouting magazine and live board for CR Pulse basketball prospects.",
+  description: "A clean live scouting board for CR Pulse basketball prospects.",
 };
 
 export default function RootLayout({

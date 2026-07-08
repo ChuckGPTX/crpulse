@@ -5,15 +5,14 @@ import {
   getPlayerLinks,
   getPlayerRanking,
   getPlayerRanks,
+  getPlayerSpotlights,
   getPlayerTrend,
   getStockLabel,
   getTeamAsset,
-  getTopMovers,
   hasStats,
   numberValue,
   percentValue,
   signedNumber,
-  signedPercent,
   slugify,
   type AnyTrackedPlayer,
   type StatPlayer,
@@ -27,28 +26,7 @@ const statLabels = [
   ["BLK", "blk_per_game"],
 ] as const;
 
-const scoutingRoom = [
-  {
-    title: "Player compare",
-    eyebrow: "Board tool",
-    copy: "Compare two prospects across scoring role, efficiency, team context, and movement in one clean recruiting view.",
-  },
-  {
-    title: "Breakout watch",
-    eyebrow: "Daily report",
-    copy: "Surface players whose production, minutes, or shooting profile moves enough to deserve a stock-up note.",
-  },
-  {
-    title: "Game-log timeline",
-    eyebrow: "Profile depth",
-    copy: "Add game-by-game bars, recent stat spikes, and quick notes to each player dossier.",
-  },
-  {
-    title: "Share cards",
-    eyebrow: "Social desk",
-    copy: "Create polished graphics for newsletter recaps and social posts with player photos, team marks, and updated lines.",
-  },
-];
+const displayTeams = new Set(["Kingdom Hoops", "All Iowa Attack", "Mac Irvin Fire", "MOKAN Elite"]);
 
 function TeamLogo({ teamName, className = "h-12 w-12" }: { teamName?: string; className?: string }) {
   const asset = getTeamAsset(teamName);
@@ -286,7 +264,7 @@ export default function Home() {
   const topScorer = [...foundPlayers].sort((a, b) => b.pts_per_game - a.pts_per_game)[0];
   const topShooter = [...foundPlayers].sort((a, b) => (b.three_pt_pct ?? 0) - (a.three_pt_pct ?? 0))[0];
   const topCreator = [...foundPlayers].sort((a, b) => b.ast_per_game - a.ast_per_game)[0];
-  const topMovers = getTopMovers();
+  const spotlights = getPlayerSpotlights();
   const tickerPlayers = [...foundPlayers, ...foundPlayers];
 
   return (
@@ -306,7 +284,7 @@ export default function Home() {
         <div className="relative mx-auto grid max-w-7xl gap-10 py-12 lg:grid-cols-[1fr_0.82fr] lg:items-end lg:py-16">
           <div>
             <div className="mb-6 inline-flex border-y border-red-700 py-2 text-xs font-black uppercase tracking-[0.32em] text-red-700">
-              Midwest scouting magazine · EYBL live board
+              EYBL live board
             </div>
             <h1 className="max-w-5xl text-6xl font-black leading-[0.9] tracking-[-0.055em] text-slate-950 sm:text-7xl lg:text-8xl">
               Eastern Iowa prospects, tracked like a real scouting desk.
@@ -362,32 +340,28 @@ export default function Home() {
         <div className="rounded-[2rem] bg-slate-950 p-6 text-white shadow-xl md:p-8">
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Recent movement</div>
-              <h2 className="mt-2 text-4xl font-black leading-none tracking-tight sm:text-5xl">Stock notes from the latest refresh</h2>
+              <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Signals board</div>
+              <h2 className="mt-2 text-4xl font-black leading-none tracking-tight sm:text-5xl">Film notes + live-board production</h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-                Movement cards compare the current board with the prior refresh so scoring jumps and shooting swings are easy to spot.
+                Instead of showing flat refresh deltas, this section now pairs public high-school/film notes with current circuit numbers.
               </p>
             </div>
             <div className="rounded-3xl bg-white px-5 py-4 text-slate-950">
-              <div className="text-xs font-black uppercase tracking-widest text-slate-500">Names reviewed</div>
-              <div className="mt-1 text-3xl font-black">{topMovers.length || foundPlayers.length}</div>
+              <div className="text-xs font-black uppercase tracking-widest text-slate-500">Signals loaded</div>
+              <div className="mt-1 text-3xl font-black">{spotlights.length}</div>
             </div>
           </div>
           <div className="mt-7 grid gap-3 md:grid-cols-3">
-            {topMovers.length ? topMovers.slice(0, 3).map((mover) => (
-              <div key={mover.displayName} className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
-                <div className="text-2xl font-black tracking-tight">{mover.displayName}</div>
-                <div className="text-sm text-slate-400">{mover.teamName}</div>
-                <div className="mt-3 text-3xl font-black text-red-200">{signedNumber(mover.ppgDelta)} PPG</div>
-              </div>
-            )) : foundPlayers.slice(0, 3).map((player) => {
-              const trend = getPlayerTrend(player.displayName);
+            {spotlights.slice(0, 3).map(({ player, note, ranks }) => {
+              if (!note) return null;
               return (
-                <div key={player.displayName} className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
-                  <div className="text-2xl font-black tracking-tight">{player.displayName}</div>
-                  <div className="text-sm text-slate-400">First comparison saved</div>
-                  <div className="mt-3 text-sm font-black uppercase tracking-wider text-slate-300">3P movement {signedPercent(trend.threePtDelta)}</div>
-                </div>
+                <Link key={player.displayName} href={`/players/${slugify(player.displayName)}`} className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 transition hover:-translate-y-1 hover:bg-white/[0.1]">
+                  <div className="text-xs font-black uppercase tracking-[0.22em] text-red-200">{note!.label}</div>
+                  <div className="mt-2 text-2xl font-black tracking-tight">{player.displayName}</div>
+                  <div className="text-sm text-slate-400">{player.teamName} · board #{ranks.trackedScoring}</div>
+                  <div className="mt-4 text-3xl font-black text-white">{note!.value}</div>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{note!.detail}</p>
+                </Link>
               );
             })}
           </div>
@@ -396,17 +370,35 @@ export default function Home() {
 
       <section id="scouting-room" className="mx-auto max-w-7xl px-6 pb-16">
         <div className="mb-8 border-b border-slate-300 pb-7">
-          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Scouting room</div>
-          <h2 className="mt-2 text-5xl font-black leading-none tracking-tight text-slate-950 sm:text-6xl">Next reports to build</h2>
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Interactive room</div>
+          <h2 className="mt-2 text-5xl font-black leading-none tracking-tight text-slate-950 sm:text-6xl">Use the board, don’t just read it</h2>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {scoutingRoom.map((feature, index) => (
-            <div key={feature.title} className="paper-card reveal-card p-6" style={{ animationDelay: `${index * 60}ms` }}>
-              <div className="text-xs font-black uppercase tracking-[0.25em] text-red-700">{feature.eyebrow}</div>
-              <h3 className="mt-4 text-2xl font-black leading-none tracking-tight text-slate-950">{feature.title}</h3>
-              <p className="mt-4 text-sm leading-6 text-slate-600">{feature.copy}</p>
+        <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="paper-card p-6">
+            <div className="text-xs font-black uppercase tracking-[0.25em] text-red-700">Compare now</div>
+            <h3 className="mt-3 text-3xl font-black tracking-tight text-slate-950">{topScorer.displayName} vs. {topShooter.displayName}</h3>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              {[topScorer, topShooter].map((player) => (
+                <Link key={player.displayName} href={`/players/${slugify(player.displayName)}`} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 transition hover:border-red-700 hover:bg-white">
+                  <div className="text-xl font-black text-slate-950">{player.displayName}</div>
+                  <div className="mt-1 text-sm font-bold text-slate-500">{player.teamName}</div>
+                  <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+                    <div><div className="text-[10px] font-black uppercase text-slate-500">PPG</div><div className="font-black">{numberValue(player.pts_per_game)}</div></div>
+                    <div><div className="text-[10px] font-black uppercase text-slate-500">3P</div><div className="font-black">{percentValue(player.three_pt_pct)}</div></div>
+                    <div><div className="text-[10px] font-black uppercase text-slate-500">REB</div><div className="font-black">{numberValue(player.reb_per_game)}</div></div>
+                  </div>
+                </Link>
+              ))}
             </div>
-          ))}
+          </div>
+          <div className="paper-card p-6">
+            <div className="text-xs font-black uppercase tracking-[0.25em] text-red-700">Action links</div>
+            <div className="mt-5 grid gap-3">
+              <a href="#watchlist" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 font-black text-slate-950 transition hover:border-red-700">Jump to full watchlist</a>
+              <a href="#programs" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 font-black text-slate-950 transition hover:border-red-700">Compare active programs</a>
+              <Link href={`/players/${slugify(topCreator.displayName)}`} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 font-black text-slate-950 transition hover:border-red-700">Open creator profile</Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -416,7 +408,7 @@ export default function Home() {
           <h2 className="mt-2 text-5xl font-black leading-none tracking-tight text-slate-950 sm:text-6xl">Team scoring leaders</h2>
         </div>
         <div className="grid gap-6 lg:grid-cols-2">
-          {eyblData.trackedTeams.map((team) => <TeamTable key={team.teamName} team={team} />)}
+          {eyblData.trackedTeams.filter((team) => displayTeams.has(team.teamName)).map((team) => <TeamTable key={team.teamName} team={team} />)}
         </div>
       </section>
     </main>

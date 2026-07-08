@@ -2,6 +2,7 @@ import history from "@/data/eybl-history.json";
 import { eyblData } from "@/data/eybl";
 import { playerAssets } from "@/data/player-assets";
 import { playerLinks } from "@/data/player-links";
+import { playerNotes } from "@/data/player-notes";
 import { playerRankings } from "@/data/player-rankings";
 import { teamAssets } from "@/data/team-assets";
 
@@ -83,6 +84,11 @@ export function getPlayerRanking(displayName?: string) {
 export function getPlayerLinks(displayName?: string) {
   if (!displayName) return null;
   return playerLinks[displayName as keyof typeof playerLinks] ?? null;
+}
+
+export function getPlayerNote(displayName?: string) {
+  if (!displayName) return null;
+  return playerNotes[displayName as keyof typeof playerNotes] ?? null;
 }
 
 export function getTrackedStatPlayers() {
@@ -174,6 +180,18 @@ export function getTopMovers() {
     })
     .filter((entry): entry is { displayName: string; teamName: string; ppgDelta: number } => Boolean(entry))
     .sort((a, b) => Math.abs(b.ppgDelta) - Math.abs(a.ppgDelta));
+}
+
+export function getPlayerSpotlights() {
+  return getTrackedStatPlayers()
+    .map((player) => ({
+      player,
+      note: getPlayerNote(player.displayName),
+      ranks: getPlayerRanks(player),
+      score: player.pts_per_game + player.reb_per_game + player.ast_per_game + ((player.three_pt_pct ?? 0) * 10),
+    }))
+    .filter((entry) => Boolean(entry.note))
+    .sort((a, b) => b.score - a.score);
 }
 
 export function getStockLabel(player: StatPlayer) {
