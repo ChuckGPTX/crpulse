@@ -341,10 +341,6 @@ export default function Home() {
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">Signals board</div>
-              <h2 className="mt-2 text-4xl font-black leading-none tracking-tight sm:text-5xl">Film notes + live-board production</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-                Instead of showing flat refresh deltas, this section now pairs public high-school/film notes with current circuit numbers.
-              </p>
             </div>
             <div className="rounded-3xl bg-white px-5 py-4 text-slate-950">
               <div className="text-xs font-black uppercase tracking-widest text-slate-500">Signals loaded</div>
@@ -364,40 +360,6 @@ export default function Home() {
                 </Link>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      <section id="scouting-room" className="mx-auto max-w-7xl px-6 pb-16">
-        <div className="mb-8 border-b border-slate-300 pb-7">
-          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Interactive room</div>
-          <h2 className="mt-2 text-5xl font-black leading-none tracking-tight text-slate-950 sm:text-6xl">Use the board, don’t just read it</h2>
-        </div>
-        <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="paper-card p-6">
-            <div className="text-xs font-black uppercase tracking-[0.25em] text-red-700">Compare now</div>
-            <h3 className="mt-3 text-3xl font-black tracking-tight text-slate-950">{topScorer.displayName} vs. {topShooter.displayName}</h3>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {[topScorer, topShooter].map((player) => (
-                <Link key={player.displayName} href={`/players/${slugify(player.displayName)}`} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 transition hover:border-red-700 hover:bg-white">
-                  <div className="text-xl font-black text-slate-950">{player.displayName}</div>
-                  <div className="mt-1 text-sm font-bold text-slate-500">{player.teamName}</div>
-                  <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-                    <div><div className="text-[10px] font-black uppercase text-slate-500">PPG</div><div className="font-black">{numberValue(player.pts_per_game)}</div></div>
-                    <div><div className="text-[10px] font-black uppercase text-slate-500">3P</div><div className="font-black">{percentValue(player.three_pt_pct)}</div></div>
-                    <div><div className="text-[10px] font-black uppercase text-slate-500">REB</div><div className="font-black">{numberValue(player.reb_per_game)}</div></div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div className="paper-card p-6">
-            <div className="text-xs font-black uppercase tracking-[0.25em] text-red-700">Action links</div>
-            <div className="mt-5 grid gap-3">
-              <a href="#watchlist" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 font-black text-slate-950 transition hover:border-red-700">Jump to full watchlist</a>
-              <a href="#programs" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 font-black text-slate-950 transition hover:border-red-700">Compare active programs</a>
-              <Link href={`/players/${slugify(topCreator.displayName)}`} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 font-black text-slate-950 transition hover:border-red-700">Open creator profile</Link>
-            </div>
           </div>
         </div>
       </section>

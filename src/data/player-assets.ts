@@ -34,6 +34,16 @@ export const playerAssets = {
     source: "User-provided image URL",
     sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkQLePpKQhhcCpgn_UG5ED2DvHZvC-h-p6GCKqQwbhOw&s=10",
   },
+  "Pernell Grover Jr.": {
+    image: "/players/pernell-grover-jr.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl3vJ18i-TaaQ8yUZCv3hkO2E1JvMaNbvvrsjqxOBbLg&s=10",
+  },
+  "Alexander Tanny": {
+    image: "/players/alexander-tanny.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBLWLWz8LfypAYc9Yks7TGCyBGY7CMKeA_t9aKNwiCgQ&s=10",
+  },
 } as const;
 
 export type PlayerAssetName = keyof typeof playerAssets;
