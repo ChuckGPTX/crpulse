@@ -15,7 +15,7 @@ export const vegasEvent = {
   label: "Nike EYBL Session IV",
   location: "Las Vegas Convention Center",
   scheduleUrl: "https://nikeeyb.com/schedule",
-  streamHubUrl: "https://nikeeyb.com/stream-session-3-1",
+  streamHubUrl: "https://nikeeyb.com/session4day1",
   dayStreams: [
     { label: "Day 1", date: "Wed Jul 8", href: "https://nikeeyb.com/session4day1" },
     { label: "Day 2", date: "Thu Jul 9", href: "https://nikeeyb.com/session4day2" },
@@ -36,7 +36,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Kingdom Hoops",
     "court": "Court 1",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 39584963,
@@ -48,7 +48,7 @@ export const vegasTrackedGames = [
     "awayTeam": "All Iowa Attack",
     "court": "Court 5",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 38053914,
@@ -60,7 +60,7 @@ export const vegasTrackedGames = [
     "awayTeam": "All Iowa Attack",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 38053916,
@@ -72,7 +72,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN SPURS",
     "court": "Court 12",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 39584377,
@@ -84,7 +84,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN SPURS",
     "court": "Court 16",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 39584381,
@@ -96,7 +96,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Fly Select",
     "court": "Court 15",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 37884492,
@@ -108,7 +108,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Mac Irvin Fire",
     "court": "Court 2",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 37884490,
@@ -120,7 +120,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Howard Pulley",
     "court": "Court 8",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 37884813,
@@ -132,7 +132,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Uplay Canada",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 37884811,
@@ -144,7 +144,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 13",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 38076479,
@@ -156,7 +156,7 @@ export const vegasTrackedGames = [
     "awayTeam": "All Ohio",
     "court": "Court 18",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 37884310,
@@ -168,7 +168,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Team Melo",
     "court": "Court 7",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   {
     "id": 38053937,
@@ -180,7 +180,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN SPURS",
     "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 38053935,
@@ -192,7 +192,7 @@ export const vegasTrackedGames = [
     "awayTeam": "All Iowa Attack",
     "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 37884816,
@@ -204,7 +204,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Indy Heat",
     "court": "Court 12",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 37884818,
@@ -216,7 +216,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 13",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 39584978,
@@ -228,7 +228,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Middleton Hoops",
     "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 39584391,
@@ -240,7 +240,7 @@ export const vegasTrackedGames = [
     "awayTeam": "All Iowa Attack",
     "court": "Court 17",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 37884318,
@@ -252,7 +252,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 5",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 39584397,
@@ -264,7 +264,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Grassroots Elite",
     "court": "Court 18",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 39584985,
@@ -276,7 +276,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN SPURS",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 39584986,
@@ -288,7 +288,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Ohio Buckets",
     "court": "Court 12",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 37884497,
@@ -300,7 +300,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Team Herro",
     "court": "Court 3",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 37884495,
@@ -312,7 +312,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Mac Irvin Fire",
     "court": "Court 9",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 38076524,
@@ -324,7 +324,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Kingdom Hoops",
     "court": "Court 17",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 38053977,
@@ -336,7 +336,7 @@ export const vegasTrackedGames = [
     "awayTeam": "All Iowa Attack",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 38053979,
@@ -348,7 +348,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN SPURS",
     "court": "Court 12",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 38053982,
@@ -360,7 +360,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Team Ramey",
     "court": "Court 19",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 37884823,
@@ -372,7 +372,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Oakland Soldiers",
     "court": "Court 1",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 37884820,
@@ -384,7 +384,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Mac Irvin Fire",
     "court": "Court 5",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   {
     "id": 39584998,
@@ -396,7 +396,7 @@ export const vegasTrackedGames = [
     "awayTeam": "All Iowa Attack",
     "court": "Court 1",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 39585015,
@@ -408,7 +408,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Kingdom Hoops",
     "court": "Court 6",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38054045,
@@ -420,7 +420,7 @@ export const vegasTrackedGames = [
     "awayTeam": "All Iowa Attack",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38054047,
@@ -432,7 +432,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN SPURS",
     "court": "Court 13",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38054049,
@@ -444,7 +444,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Team Dtermined",
     "court": "Court 15",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 39585021,
@@ -456,7 +456,7 @@ export const vegasTrackedGames = [
     "awayTeam": "USC Unleashed",
     "court": "Court 4",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 37884502,
@@ -468,7 +468,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 2",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 37884499,
@@ -480,7 +480,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Howard Pulley",
     "court": "Court 8",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38076546,
@@ -492,7 +492,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Team Progress",
     "court": "Court 16",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 37884326,
@@ -504,7 +504,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Team Durant",
     "court": "Court 4",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 39584398,
@@ -516,7 +516,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Pluto Prospects",
     "court": "Court 15",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38039975,
@@ -528,7 +528,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Mac Irvin Fire",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38039977,
@@ -540,7 +540,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 13",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 39584406,
@@ -552,7 +552,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN SPURS",
     "court": "Court 18",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38039332,
@@ -564,7 +564,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Mac Irvin Fire",
     "court": "Court 3",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38039334,
@@ -576,7 +576,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 9",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 39585005,
@@ -588,7 +588,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Team Final Red",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 39585023,
@@ -600,7 +600,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Team Progress",
     "court": "Court 17",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 39585028,
@@ -612,7 +612,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN SPURS",
     "court": "Court 18",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day3"
   },
   {
     "id": 38039593,
@@ -624,7 +624,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Mac Irvin Fire",
     "court": "Court 9",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day4"
   },
   {
     "id": 38039595,
@@ -636,7 +636,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 8",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day4"
   },
   {
     "id": 38040913,
@@ -648,7 +648,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 12",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day4"
   },
   {
     "id": 38040912,
@@ -660,7 +660,7 @@ export const vegasTrackedGames = [
     "awayTeam": "Mac Irvin Fire",
     "court": "Court 13",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day4"
   },
   {
     "id": 37884334,
@@ -672,7 +672,7 @@ export const vegasTrackedGames = [
     "awayTeam": "MOKAN Elite",
     "court": "Court 5",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day4"
   }
 ] as const satisfies readonly VegasGame[];
 
@@ -687,7 +687,7 @@ export const playerNextGames = {
     "awayTeam": "Kingdom Hoops",
     "court": "Court 1",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Traeshon Fields": {
     "id": 39584963,
@@ -699,7 +699,7 @@ export const playerNextGames = {
     "awayTeam": "All Iowa Attack",
     "court": "Court 5",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Halbert Jackson": {
     "id": 39584963,
@@ -711,7 +711,7 @@ export const playerNextGames = {
     "awayTeam": "All Iowa Attack",
     "court": "Court 5",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "MarQwan Morgan": {
     "id": 37884492,
@@ -723,7 +723,7 @@ export const playerNextGames = {
     "awayTeam": "Mac Irvin Fire",
     "court": "Court 2",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Vasaun Wilmington": {
     "id": 37884490,
@@ -735,7 +735,7 @@ export const playerNextGames = {
     "awayTeam": "Howard Pulley",
     "court": "Court 8",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Andrew Allen": {
     "id": 39584963,
@@ -747,7 +747,7 @@ export const playerNextGames = {
     "awayTeam": "All Iowa Attack",
     "court": "Court 5",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Chase Goodheart": {
     "id": 39584963,
@@ -759,7 +759,7 @@ export const playerNextGames = {
     "awayTeam": "All Iowa Attack",
     "court": "Court 5",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Tate McCollum": {
     "id": 38076479,
@@ -771,7 +771,7 @@ export const playerNextGames = {
     "awayTeam": "All Ohio",
     "court": "Court 18",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Zane Rus": {
     "id": 39584381,
@@ -783,7 +783,7 @@ export const playerNextGames = {
     "awayTeam": "Fly Select",
     "court": "Court 15",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Brayden Tanny": {
     "id": 39584381,
@@ -795,7 +795,7 @@ export const playerNextGames = {
     "awayTeam": "Fly Select",
     "court": "Court 15",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Pernell Grover Jr.": {
     "id": 38053914,
@@ -807,7 +807,7 @@ export const playerNextGames = {
     "awayTeam": "All Iowa Attack",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Alexander Tanny": {
     "id": 38053914,
@@ -819,7 +819,7 @@ export const playerNextGames = {
     "awayTeam": "All Iowa Attack",
     "court": "Court 11",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Ryland Gbor": {
     "id": 38076479,
@@ -831,6 +831,6 @@ export const playerNextGames = {
     "awayTeam": "All Ohio",
     "court": "Court 18",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/stream-session-3-1"
+    "streamUrl": "https://nikeeyb.com/session4day1"
   }
 } as const satisfies Record<string, VegasGame>;

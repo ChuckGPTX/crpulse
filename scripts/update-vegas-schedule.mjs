@@ -3,7 +3,15 @@ import path from "node:path";
 
 const EVENT_ID = 260104;
 const API_URL = "https://cerebro-widget.vercel.app/api/trpc/RouterExposureSchedule.ScheduleList";
-const STREAM_HUB = "https://nikeeyb.com/stream-session-3-1";
+const STREAM_HUB = "https://nikeeyb.com/session4day1";
+const DAY_STREAMS = [
+  { label: "Day 1", date: "Wed Jul 8", href: "https://nikeeyb.com/session4day1", gameDate: "7/8/2026" },
+  { label: "Day 2", date: "Thu Jul 9", href: "https://nikeeyb.com/session4day2", gameDate: "7/9/2026" },
+  { label: "Day 3", date: "Fri Jul 10", href: "https://nikeeyb.com/session4day3", gameDate: "7/10/2026" },
+  { label: "Day 4", date: "Sat Jul 11", href: "https://nikeeyb.com/session4day4", gameDate: "7/11/2026" },
+  { label: "Day 5", date: "Sun Jul 12", href: "https://nikeeyb.com/session4day5", gameDate: "7/12/2026" },
+];
+const DAY_STREAM_BY_DATE = Object.fromEntries(DAY_STREAMS.map((stream) => [stream.gameDate, stream.href]));
 const TRACKED_TEAMS = new Set(["All Iowa Attack", "Kingdom Hoops", "Mac Irvin Fire", "MOKAN Elite", "MOKAN SPURS"]);
 
 const playerTeam = {
@@ -87,7 +95,7 @@ function toGame(row) {
     awayTeam: row.AwayTeam.Name,
     court: row.VenueCourt.Court.Name,
     venue: row.VenueCourt.Venue.Name,
-    streamUrl: STREAM_HUB,
+    streamUrl: DAY_STREAM_BY_DATE[row.Date] ?? STREAM_HUB,
   };
 }
 
@@ -108,7 +116,7 @@ const playerNextGames = Object.fromEntries(Object.entries(playerTeam).flatMap(([
   return next ? [[player, next]] : [];
 }));
 
-const content = `export type VegasGame = {\n  id: number;\n  date: string;\n  time: string;\n  iso: string;\n  division: string;\n  homeTeam: string;\n  awayTeam: string;\n  court: string;\n  venue: string;\n  streamUrl: string;\n};\n\nexport const vegasEvent = {\n  label: "Nike EYBL Session IV",\n  location: "Las Vegas Convention Center",\n  scheduleUrl: "https://nikeeyb.com/schedule",\n  streamHubUrl: "${STREAM_HUB}",\n  dayStreams: [\n    { label: "Day 1", date: "Wed Jul 8", href: "https://nikeeyb.com/session4day1" },\n    { label: "Day 2", date: "Thu Jul 9", href: "https://nikeeyb.com/session4day2" },\n    { label: "Day 3", date: "Fri Jul 10", href: "https://nikeeyb.com/session4day3" },\n    { label: "Day 4", date: "Sat Jul 11", href: "https://nikeeyb.com/session4day4" },\n    { label: "Day 5", date: "Sun Jul 12", href: "https://nikeeyb.com/session4day5" },\n  ],\n} as const;\n\nexport const vegasTrackedGames = ${JSON.stringify(trackedGames, null, 2)} as const satisfies readonly VegasGame[];\n\nexport const playerNextGames = ${JSON.stringify(playerNextGames, null, 2)} as const satisfies Record<string, VegasGame>;\n`;
+const content = `export type VegasGame = {\n  id: number;\n  date: string;\n  time: string;\n  iso: string;\n  division: string;\n  homeTeam: string;\n  awayTeam: string;\n  court: string;\n  venue: string;\n  streamUrl: string;\n};\n\nexport const vegasEvent = {\n  label: "Nike EYBL Session IV",\n  location: "Las Vegas Convention Center",\n  scheduleUrl: "https://nikeeyb.com/schedule",\n  streamHubUrl: "${STREAM_HUB}",\n  dayStreams: [\n${DAY_STREAMS.map(({ label, date, href }) => `    { label: "${label}", date: "${date}", href: "${href}" },`).join("\n")}\n  ],\n} as const;\n\nexport const vegasTrackedGames = ${JSON.stringify(trackedGames, null, 2)} as const satisfies readonly VegasGame[];\n\nexport const playerNextGames = ${JSON.stringify(playerNextGames, null, 2)} as const satisfies Record<string, VegasGame>;\n`;
 
 const outputPath = path.join(process.cwd(), "src", "data", "vegas-schedule.ts");
 await writeFile(outputPath, content);
