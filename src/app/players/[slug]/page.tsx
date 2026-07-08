@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { GameCountdown } from "@/components/GameCountdown";
+import { playerNextGames, vegasEvent } from "@/data/vegas-schedule";
 import {
   getPlayerAsset,
   getPlayerBySlug,
@@ -112,6 +114,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
   const stock = getStockLabel(player);
   const scouting = getScoutingBlurb(player);
   const program = player.programLabel ?? player.teamName;
+  const nextGame = playerNextGames[player.displayName as keyof typeof playerNextGames];
 
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-slate-950">
@@ -153,6 +156,24 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
           </div>
         </div>
       </section>
+
+      {nextGame ? (
+        <section className="mx-auto max-w-7xl px-6 pb-10">
+          <div className="overflow-hidden rounded-[2rem] bg-slate-950 p-6 text-white shadow-xl md:p-8">
+            <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div>
+                <div className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">Next Vegas game</div>
+                <h2 className="mt-2 text-3xl font-black tracking-tight">{nextGame.awayTeam} vs {nextGame.homeTeam}</h2>
+                <div className="mt-2 text-sm font-bold text-slate-300">{nextGame.date} · {nextGame.time} PT · {nextGame.court} · {nextGame.division}</div>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <GameCountdown targetIso={nextGame.iso} />
+                <a href={vegasEvent.streamHubUrl} target="_blank" rel="noreferrer" className="rounded-full bg-amber-300 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-white">Watch stream</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="mx-auto grid max-w-7xl gap-5 px-6 py-10 md:grid-cols-3">
         {statCards.map(([label, key]) => (

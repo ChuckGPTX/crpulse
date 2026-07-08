@@ -34,6 +34,16 @@ export const playerAssets = {
     source: "User-provided image URL",
     sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkQLePpKQhhcCpgn_UG5ED2DvHZvC-h-p6GCKqQwbhOw&s=10",
   },
+  "Chase Goodheart": {
+    image: "/players/chase-goodheart.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBR6vraRnU3M_pSjLc6jq0u95LaFtERtxwy7ECeXNBzeNShXDmFFzLuflq&s=10",
+  },
+  "Brayden Tanny": {
+    image: "/players/brayden-tanny.jpg",
+    source: "Prep Hoops",
+    sourceUrl: "https://prephoops.com/wp-content/uploads/sites/2/user-uploads/Brayden-Wahlert.jpg?w=1024",
+  },
   "Pernell Grover Jr.": {
     image: "/players/pernell-grover-jr.jpg",
     source: "User-provided image URL",

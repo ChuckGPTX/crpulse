@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { GameCountdown } from "@/components/GameCountdown";
 import { eyblData } from "@/data/eybl";
+import { playerNextGames, vegasEvent, vegasTrackedGames, type VegasGame } from "@/data/vegas-schedule";
 import {
   getPlayerAsset,
   getPlayerLinks,
@@ -89,6 +91,36 @@ function PrepHoopsBadge({ name }: { name: string }) {
   );
 }
 
+function NextGameBadge({ game }: { game?: VegasGame | null }) {
+  if (!game) return null;
+  return <GameCountdown targetIso={game.iso} compact />;
+}
+
+function formatVegasDate(game: VegasGame) {
+  return `${game.date} · ${game.time} PT`;
+}
+
+function opponentFor(game: VegasGame, teamName: string) {
+  if (game.homeTeam === teamName) return game.awayTeam;
+  if (game.awayTeam === teamName) return game.homeTeam;
+  return `${game.awayTeam} vs ${game.homeTeam}`;
+}
+
+function VegasGameCard({ game, compact = false }: { game: VegasGame; compact?: boolean }) {
+  return (
+    <a href={game.streamUrl} target="_blank" rel="noreferrer" className="block rounded-3xl border border-white/10 bg-white/[0.07] p-4 text-white transition hover:-translate-y-0.5 hover:bg-white/[0.12]">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <div className="text-[11px] font-black uppercase tracking-[0.22em] text-amber-200">{game.division}</div>
+          <div className={`${compact ? "text-base" : "text-xl"} mt-2 font-black leading-tight`}>{game.awayTeam} vs {game.homeTeam}</div>
+        </div>
+        <GameCountdown targetIso={game.iso} compact />
+      </div>
+      <div className="mt-3 text-sm font-bold text-slate-300">{formatVegasDate(game)} · {game.court}</div>
+    </a>
+  );
+}
+
 function PlayerQuickLinks({ name }: { name: string }) {
   const links = getPlayerLinks(name);
   if (!links) return null;
@@ -129,6 +161,7 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
   const trend = getPlayerTrend(player.displayName);
   const ranks = getPlayerRanks(player);
   const stock = getStockLabel(player);
+  const nextGame = playerNextGames[player.displayName as keyof typeof playerNextGames];
   const scoringWidth = Math.min(100, Math.max(8, player.pts_per_game * 4));
 
   return (
@@ -142,7 +175,9 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
             <div className="mt-3 flex flex-wrap gap-2">
               <StockBadge value={stock} />
               <PrepHoopsBadge name={player.displayName} />
+              <NextGameBadge game={nextGame} />
             </div>
+            {nextGame ? <div className="mt-2 text-xs font-bold text-slate-500">Next: {opponentFor(nextGame, player.teamName)} · {nextGame.time} PT · {nextGame.court}</div> : null}
             <PlayerQuickLinks name={player.displayName} />
           </div>
         </div>
@@ -274,9 +309,9 @@ export default function Home() {
           <Link href="/" className="text-2xl font-black tracking-tight text-slate-950">CR Pulse</Link>
           <div className="hidden items-center gap-7 text-sm font-black uppercase tracking-wide text-slate-600 md:flex">
             <a href="#watchlist" className="hover:text-red-700">Watchlist</a>
+            <a href="#vegas" className="hover:text-red-700">Vegas schedule</a>
             <a href="#trends" className="hover:text-red-700">Movement</a>
             <a href="#programs" className="hover:text-red-700">Programs</a>
-            <a href="#scouting-room" className="hover:text-red-700">Scouting room</a>
           </div>
           <div className="rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white">Live board</div>
         </nav>
@@ -320,6 +355,50 @@ export default function Home() {
                 <span>{player.teamName}</span>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="vegas" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="overflow-hidden rounded-[2.25rem] bg-slate-950 text-white shadow-2xl">
+          <div className="relative grid gap-8 p-6 md:p-8 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="absolute inset-0 opacity-25">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/vegas/nike-eybl-session.webp" alt="Nike EYBL Las Vegas stream graphic" className="h-full w-full object-cover" />
+            </div>
+            <div className="relative z-10">
+              <div className="mb-5 flex flex-wrap gap-3">
+                <span className="rounded-full bg-white px-4 py-2 text-sm font-black tracking-tight text-slate-950">NIKE</span>
+                <span className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-black tracking-[0.2em] text-white">EYBL</span>
+                <span className="rounded-full border border-amber-300/60 bg-amber-300/15 px-4 py-2 text-sm font-black uppercase tracking-wide text-amber-100">Vegas</span>
+              </div>
+              <div className="text-sm font-black uppercase tracking-[0.28em] text-amber-200">Next Game to Track</div>
+              <h2 className="mt-3 max-w-2xl text-5xl font-black leading-none tracking-tight sm:text-6xl">Vegas schedule hub</h2>
+              <p className="mt-5 max-w-xl text-sm leading-7 text-slate-300">
+                Tracked CR Pulse players now carry their next Vegas tip time. Use the stream hub and day links to jump straight into Nike EYBL Session IV coverage.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a href={vegasEvent.scheduleUrl} target="_blank" rel="noreferrer" className="rounded-full bg-amber-300 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-white">Full Nike schedule</a>
+                <a href={vegasEvent.streamHubUrl} target="_blank" rel="noreferrer" className="rounded-full border border-white/30 bg-white/10 px-5 py-3 text-sm font-black text-white transition hover:bg-white hover:text-slate-950">Live stream hub</a>
+              </div>
+              <div className="mt-6 grid gap-2 sm:grid-cols-5">
+                {vegasEvent.dayStreams.map((stream) => (
+                  <a key={stream.href} href={stream.href} target="_blank" rel="noreferrer" className="rounded-2xl border border-white/10 bg-white/[0.07] p-3 transition hover:bg-white/[0.14]">
+                    <div className="text-xs font-black uppercase tracking-widest text-amber-200">{stream.label}</div>
+                    <div className="mt-1 text-sm font-bold text-white">{stream.date}</div>
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className="relative z-10 grid content-start gap-3">
+              <VegasGameCard game={vegasTrackedGames[0]} />
+              <div className="max-h-[520px] overflow-y-auto rounded-3xl border border-white/10 bg-slate-950/70 p-3">
+                <div className="mb-3 px-2 text-xs font-black uppercase tracking-[0.25em] text-slate-400">Tracked-team Vegas schedule</div>
+                <div className="grid gap-2">
+                  {vegasTrackedGames.slice(1).map((game) => <VegasGameCard key={game.id} game={game} compact />)}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
