@@ -19,6 +19,11 @@ export const playerAssets = {
     source: "User-provided image URL",
     sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIRHs3RSyC1SBSi5lUXukFgDDnjptGJSuSbhRg2Z1mmQ&s=10",
   },
+  "Andrew Allen": {
+    image: "/players/andrew-allen.jpg",
+    source: "User-provided image URL",
+    sourceUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFKzqDMV0SYB_AvK7dmBTxTZqotBfMTftFCpPHZv1CPQ&s=10",
+  },
   "Zane Rus": {
     image: "/players/zane-rus.jpg",
     source: "User-provided image URL",

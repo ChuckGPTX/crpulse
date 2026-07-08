@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import {
   getPlayerAsset,
   getPlayerBySlug,
+  getPlayerLinks,
   getPlayerRanking,
   getPlayerRanks,
   getPlayerTrend,
@@ -69,6 +70,35 @@ function PrepHoopsBadge({ name }: { name: string }) {
   );
 }
 
+function RecruitingLinks({ name }: { name: string }) {
+  const links = getPlayerLinks(name);
+  if (!links) return null;
+  const x = "x" in links ? links.x : null;
+  const hudl = "hudl" in links ? links.hudl : null;
+  const highSchool = "highSchool" in links ? links.highSchool : null;
+  const snapshot = "snapshot" in links ? links.snapshot : null;
+  const items = [
+    x ? { label: "X profile", href: x, description: "Player updates and highlights" } : null,
+    hudl ? { label: "Hudl", href: hudl, description: "Video highlights" } : null,
+    highSchool ? { label: highSchool.label, href: highSchool.url, description: "Bound team page" } : null,
+  ].filter(Boolean) as { label: string; href: string; description: string }[];
+  if (!items.length && !snapshot) return null;
+  return (
+    <div className="paper-card p-6">
+      <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Recruiting links</div>
+      {snapshot ? <p className="mt-4 text-sm leading-7 text-slate-600">{snapshot}</p> : null}
+      <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+        {items.map((item) => (
+          <a key={item.label} href={item.href} target="_blank" rel="noreferrer" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-red-700 hover:bg-white">
+            <div className="text-sm font-black text-slate-950">{item.label}</div>
+            <div className="mt-1 text-xs text-slate-500">{item.description}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default async function PlayerProfilePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const player = getPlayerBySlug(slug);
@@ -78,6 +108,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
   const trend = getPlayerTrend(player.displayName);
   const team = getTeamBoard(player.teamName);
   const playerAsset = getPlayerAsset(player.displayName);
+  const links = getPlayerLinks(player.displayName);
   const stock = getStockLabel(player);
   const scouting = getScoutingBlurb(player);
   const program = player.programLabel ?? player.teamName;
@@ -133,6 +164,12 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
         ))}
       </section>
 
+      {links ? (
+        <section className="mx-auto max-w-7xl px-6 pb-10">
+          <RecruitingLinks name={player.displayName} />
+        </section>
+      ) : null}
+
       <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-10 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="paper-card p-6">
           <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Shooting profile</div>
@@ -157,7 +194,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl bg-slate-950 p-4 text-white">
               <div className="text-xs font-bold uppercase tracking-widest text-slate-400">Team scoring</div>
-              <div className="mt-2 text-3xl font-black">#{ranks.teamScoring || "—"}</div>
+              <div className="mt-2 whitespace-nowrap text-3xl font-black">#{ranks.teamScoring || "—"}</div>
               <div className="text-xs text-slate-400">within program leaders</div>
             </div>
             <div className="rounded-2xl bg-slate-100 p-4">

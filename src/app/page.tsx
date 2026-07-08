@@ -2,6 +2,7 @@ import Link from "next/link";
 import { eyblData } from "@/data/eybl";
 import {
   getPlayerAsset,
+  getPlayerLinks,
   getPlayerRanking,
   getPlayerRanks,
   getPlayerTrend,
@@ -110,6 +111,29 @@ function PrepHoopsBadge({ name }: { name: string }) {
   );
 }
 
+function PlayerQuickLinks({ name }: { name: string }) {
+  const links = getPlayerLinks(name);
+  if (!links) return null;
+  const x = "x" in links ? links.x : null;
+  const hudl = "hudl" in links ? links.hudl : null;
+  const highSchool = "highSchool" in links ? links.highSchool : null;
+  const items = [
+    x ? { label: "X", href: x } : null,
+    hudl ? { label: "Hudl", href: hudl } : null,
+    highSchool ? { label: "Bound", href: highSchool.url } : null,
+  ].filter(Boolean) as { label: string; href: string }[];
+  if (!items.length) return null;
+  return (
+    <div className="mt-3 flex flex-wrap gap-2">
+      {items.map((item) => (
+        <a key={item.label} href={item.href} target="_blank" rel="noreferrer" className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-black uppercase tracking-wide text-slate-600 transition hover:border-red-700 hover:text-red-700">
+          {item.label}
+        </a>
+      ))}
+    </div>
+  );
+}
+
 function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number }) {
   if (!hasStats(player)) {
     const rosterProgram = "programLabel" in player && player.programLabel ? String(player.programLabel) : null;
@@ -119,6 +143,7 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
         <h3 className="mt-5 text-3xl font-black leading-none tracking-tight text-slate-950">{player.displayName}</h3>
         {rosterProgram ? <div className="mt-3 text-sm font-bold text-slate-700">{rosterProgram}</div> : null}
         <div className="mt-4"><PrepHoopsBadge name={player.displayName} /></div>
+        <PlayerQuickLinks name={player.displayName} />
       </article>
     );
   }
@@ -140,6 +165,7 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
               <StockBadge value={stock} />
               <PrepHoopsBadge name={player.displayName} />
             </div>
+            <PlayerQuickLinks name={player.displayName} />
           </div>
         </div>
         <div className="shrink-0 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">

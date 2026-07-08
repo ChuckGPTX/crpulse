@@ -1,6 +1,7 @@
 import history from "@/data/eybl-history.json";
 import { eyblData } from "@/data/eybl";
 import { playerAssets } from "@/data/player-assets";
+import { playerLinks } from "@/data/player-links";
 import { playerRankings } from "@/data/player-rankings";
 import { teamAssets } from "@/data/team-assets";
 
@@ -74,7 +75,14 @@ export function getPlayerAsset(displayName?: string) {
 
 export function getPlayerRanking(displayName?: string) {
   if (!displayName) return null;
-  return playerRankings[displayName as keyof typeof playerRankings] ?? null;
+  const ranking = playerRankings[displayName as keyof typeof playerRankings];
+  if (!ranking || !("stateRank" in ranking)) return null;
+  return ranking;
+}
+
+export function getPlayerLinks(displayName?: string) {
+  if (!displayName) return null;
+  return playerLinks[displayName as keyof typeof playerLinks] ?? null;
 }
 
 export function getTrackedStatPlayers() {
