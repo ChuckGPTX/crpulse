@@ -1,8 +1,8 @@
 export const eyblData = {
   "source": "Cerebro Sports public widget API",
   "overallId": "260104",
-  "generatedAt": "2026-07-08T20:45:55.159Z",
-  "totalPlayers": 2479,
+  "generatedAt": "2026-07-08T20:52:55.365Z",
+  "totalPlayers": 2480,
   "trackedPlayers": [
     {
       "id": "2219b814-a2cb-4aca-a477-b71f00d3ff66",
@@ -2034,7 +2034,7 @@ export const eyblData = {
     },
     {
       "teamName": "MOKAN SPURS",
-      "playersTracked": 30,
+      "playersTracked": 31,
       "topScorers": [
         {
           "id": "7d89b98c-dace-4155-ac78-eaaeb79e9920",
@@ -2042,17 +2042,17 @@ export const eyblData = {
           "position": "Unknown Position",
           "teamName": "MOKAN SPURS",
           "jerseyNumber": "10",
-          "games_played": 2,
-          "pts_per_game": 21.5,
-          "reb_per_game": 4.5,
-          "ast_per_game": 1,
-          "stl_per_game": 2.5,
+          "games_played": 3,
+          "pts_per_game": 19,
+          "reb_per_game": 4.333,
+          "ast_per_game": 1.333,
+          "stl_per_game": 3,
           "blk_per_game": 0,
-          "tov_per_game": 1,
-          "fg_pct": 0.563,
-          "ft_pct": 0.444,
-          "three_pt_pct": 0.3,
-          "total_minutes": 59,
+          "tov_per_game": 2,
+          "fg_pct": 0.478,
+          "ft_pct": 0.588,
+          "three_pt_pct": 0.25,
+          "total_minutes": 88,
           "displayName": "Sidney Paulding"
         },
         {
@@ -2092,25 +2092,6 @@ export const eyblData = {
           "three_pt_pct": 0.3,
           "total_minutes": 211,
           "displayName": "Kole Browne"
-        },
-        {
-          "id": "ff04a8f0-3bc8-4f0e-b757-8133db0a2d40",
-          "name": "Mason Hackler",
-          "position": "Unknown Position",
-          "teamName": "MOKAN SPURS",
-          "jerseyNumber": "22",
-          "games_played": 6,
-          "pts_per_game": 12.667,
-          "reb_per_game": 4.667,
-          "ast_per_game": 1.667,
-          "stl_per_game": 0.833,
-          "blk_per_game": 0.167,
-          "tov_per_game": 1.167,
-          "fg_pct": 0.493,
-          "ft_pct": 0.636,
-          "three_pt_pct": 0.214,
-          "total_minutes": 158,
-          "displayName": "Mason Hackler"
         },
         {
           "id": "a376d31b-4328-40d6-a9f0-2f23a2774687",
@@ -2168,6 +2149,25 @@ export const eyblData = {
           "three_pt_pct": 0,
           "total_minutes": 226,
           "displayName": "Damarcus Charles"
+        },
+        {
+          "id": "ff04a8f0-3bc8-4f0e-b757-8133db0a2d40",
+          "name": "Mason Hackler",
+          "position": "Unknown Position",
+          "teamName": "MOKAN SPURS",
+          "jerseyNumber": "22",
+          "games_played": 7,
+          "pts_per_game": 11.571,
+          "reb_per_game": 4.143,
+          "ast_per_game": 1.571,
+          "stl_per_game": 0.714,
+          "blk_per_game": 0.286,
+          "tov_per_game": 1.286,
+          "fg_pct": 0.459,
+          "ft_pct": 0.6,
+          "three_pt_pct": 0.222,
+          "total_minutes": 183,
+          "displayName": "Mason Hackler"
         },
         {
           "id": "c657debe-c739-46c1-8ac1-c024c1f33fcb",
@@ -2248,25 +2248,6 @@ export const eyblData = {
           "displayName": "Hudson Sutton"
         },
         {
-          "id": "48965df8-7e12-40ca-bcfc-46d4ce67354c",
-          "name": "Isaiah Johnson",
-          "position": "Unknown Position",
-          "teamName": "MOKAN SPURS",
-          "jerseyNumber": "1",
-          "games_played": 6,
-          "pts_per_game": 6,
-          "reb_per_game": 5.333,
-          "ast_per_game": 2.167,
-          "stl_per_game": 1.667,
-          "blk_per_game": 0.167,
-          "tov_per_game": 1.5,
-          "fg_pct": 0.296,
-          "ft_pct": 0.4,
-          "three_pt_pct": 0.222,
-          "total_minutes": 165,
-          "displayName": "Isaiah Johnson"
-        },
-        {
           "id": "ebd61ec7-7f20-4f79-9454-822c0c3518da",
           "name": "Damarcus Charles",
           "position": "Unknown Position",
@@ -2284,6 +2265,25 @@ export const eyblData = {
           "three_pt_pct": 0,
           "total_minutes": 226,
           "displayName": "Damarcus Charles"
+        },
+        {
+          "id": "48965df8-7e12-40ca-bcfc-46d4ce67354c",
+          "name": "Isaiah Johnson",
+          "position": "Unknown Position",
+          "teamName": "MOKAN SPURS",
+          "jerseyNumber": "1",
+          "games_played": 7,
+          "pts_per_game": 5.857,
+          "reb_per_game": 5,
+          "ast_per_game": 2.286,
+          "stl_per_game": 1.571,
+          "blk_per_game": 0.143,
+          "tov_per_game": 2.143,
+          "fg_pct": 0.295,
+          "ft_pct": 0.4,
+          "three_pt_pct": 0.273,
+          "total_minutes": 189,
+          "displayName": "Isaiah Johnson"
         }
       ],
       "topPlaymakers": [
