@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "update:eybl": "node scripts/update-eybl-data.mjs"
+    "update:eybl": "node scripts/update-eybl-data.mjs",
+    "update:vegas": "node scripts/update-vegas-schedule.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
+    "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
