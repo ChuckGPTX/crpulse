@@ -1,5 +1,6 @@
 import history from "@/data/eybl-history.json";
 import { eyblData } from "@/data/eybl";
+import { highSchoolStats } from "@/data/high-school-stats";
 import { playerAssets } from "@/data/player-assets";
 import { playerLinks } from "@/data/player-links";
 import { playerNotes } from "@/data/player-notes";
@@ -89,6 +90,21 @@ export function getPlayerLinks(displayName?: string) {
 export function getPlayerNote(displayName?: string) {
   if (!displayName) return null;
   return playerNotes[displayName as keyof typeof playerNotes] ?? null;
+}
+
+export function getHighSchoolStats(displayName?: string) {
+  if (!displayName) return null;
+  return highSchoolStats[displayName as keyof typeof highSchoolStats] ?? null;
+}
+
+export function getHighSchoolRole(displayName?: string) {
+  const stats = getHighSchoolStats(displayName);
+  if (!stats) return null;
+  if (stats.ppg >= 15 && stats.threes.pct >= 0.38 && stats.threes.attempted >= 50) return "Primary scorer + verified shooter";
+  if (stats.ppg >= 15) return "Primary scorer";
+  if (stats.threes.pct >= 0.38 && stats.threes.attempted >= 50) return "Verified shooter";
+  if (stats.apg >= 3) return "Creator role";
+  return "High-school contributor";
 }
 
 export function getTrackedStatPlayers() {
@@ -206,6 +222,15 @@ export function getScoutingBlurb(player: StatPlayer) {
   const ranks = getPlayerRanks(player);
   const activity = player.stl_per_game + player.blk_per_game;
   const shooting = player.three_pt_pct ?? 0;
+  const highSchool = getHighSchoolStats(player.displayName);
+
+  if (highSchool && player.pts_per_game >= 15) {
+    return `${player.displayName} now has a two-track production case: ${numberValue(player.pts_per_game)} PPG in the EYBL sample for ${player.teamName} plus ${numberValue(highSchool.ppg)} PPG at ${highSchool.school}. That school-year role gives the summer scoring signal more context.`;
+  }
+
+  if (highSchool && highSchool.threes.pct >= 0.38 && highSchool.threes.attempted >= 50) {
+    return `${player.displayName} brings verified school-year shooting context from ${highSchool.school}: ${percentValue(highSchool.threes.pct)} from three on ${highSchool.threes.made}/${highSchool.threes.attempted} attempts, layered against the current ${player.teamName} sample.`;
+  }
 
   if (player.pts_per_game >= 17) {
     return `${player.displayName} is carrying primary scoring value for ${player.teamName}, ranking No. ${ranks.teamScoring || "—"} on the team board at ${numberValue(player.pts_per_game)} PPG with enough shot-making volume to drive a game plan.`;
@@ -224,5 +249,7 @@ export function getScoutingBlurb(player: StatPlayer) {
 
 export function getTeamContext(player: StatPlayer) {
   const ranks = getPlayerRanks(player);
-  return `No. ${ranks.teamScoring || "—"} scorer on ${player.teamName} among the displayed team leaders; No. ${ranks.trackedScoring || "—"} scorer among CR Pulse tracked players.`;
+  const highSchool = getHighSchoolStats(player.displayName);
+  const schoolContext = highSchool ? ` High-school context: ${numberValue(highSchool.ppg)} PPG at ${highSchool.school}.` : "";
+  return `No. ${ranks.teamScoring || "—"} scorer on ${player.teamName} among the displayed team leaders; No. ${ranks.trackedScoring || "—"} scorer among CR Pulse tracked players.${schoolContext}`;
 }

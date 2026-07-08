@@ -6,6 +6,8 @@ import { playerNextGames, vegasEvent } from "@/data/vegas-schedule";
 import {
   getPlayerAsset,
   getPlayerBySlug,
+  getHighSchoolRole,
+  getHighSchoolStats,
   getPlayerLinks,
   getPlayerRanking,
   getPlayerRanks,
@@ -102,6 +104,70 @@ function RecruitingLinks({ name }: { name: string }) {
   );
 }
 
+function HighSchoolProduction({ player }: { player: StatPlayer }) {
+  const stats = getHighSchoolStats(player.displayName);
+  const role = getHighSchoolRole(player.displayName);
+  if (!stats) return null;
+  return (
+    <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-10 lg:grid-cols-[1fr_1fr]">
+      <div className="paper-card overflow-hidden p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">High School Production</div>
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">{stats.school}</h2>
+            <div className="mt-2 text-sm font-bold text-slate-500">#{stats.jersey} · {stats.grade} · listed on GoBound as {stats.goBoundName}</div>
+          </div>
+          <a href={stats.sourceUrl} target="_blank" rel="noreferrer" className="rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-black uppercase tracking-wide text-slate-700 transition hover:border-red-700 hover:text-red-700">
+            GoBound source
+          </a>
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="rounded-2xl bg-slate-950 p-4 text-white">
+            <div className="text-xs font-bold text-slate-400">PPG</div>
+            <div className="mt-1 text-3xl font-black">{numberValue(stats.ppg)}</div>
+          </div>
+          <div className="rounded-2xl bg-slate-100 p-4">
+            <div className="text-xs font-bold text-slate-500">RPG</div>
+            <div className="mt-1 text-3xl font-black">{numberValue(stats.rpg)}</div>
+          </div>
+          <div className="rounded-2xl bg-slate-100 p-4">
+            <div className="text-xs font-bold text-slate-500">APG</div>
+            <div className="mt-1 text-3xl font-black">{numberValue(stats.apg)}</div>
+          </div>
+          <div className="rounded-2xl bg-red-50 p-4 text-red-800">
+            <div className="text-xs font-bold text-red-500">Role</div>
+            <div className="mt-1 text-sm font-black leading-tight">{role}</div>
+          </div>
+        </div>
+        <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
+          <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">FG</span> {stats.fieldGoals.made}/{stats.fieldGoals.attempted} · {percentValue(stats.fieldGoals.pct)}</div>
+          <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">3PT</span> {stats.threes.made}/{stats.threes.attempted} · {percentValue(stats.threes.pct)}</div>
+          <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">FT</span> {stats.freeThrows.made}/{stats.freeThrows.attempted} · {percentValue(stats.freeThrows.pct)}</div>
+        </div>
+      </div>
+
+      <div className="rounded-[2rem] bg-slate-950 p-6 text-white shadow-xl">
+        <div className="text-sm font-black uppercase tracking-[0.25em] text-red-300">EYBL vs High School</div>
+        <h2 className="mt-2 text-3xl font-black tracking-tight">Two-context read</h2>
+        <div className="mt-6 grid gap-3">
+          {[
+            ["Scoring", `${numberValue(player.pts_per_game)} EYBL`, `${numberValue(stats.ppg)} HS`],
+            ["Shooting", `${percentValue(player.three_pt_pct)} EYBL 3PT`, `${percentValue(stats.threes.pct)} HS 3PT`],
+            ["Creation", `${numberValue(player.ast_per_game)} EYBL APG`, `${numberValue(stats.apg)} HS APG`],
+          ].map(([label, eybl, school]) => (
+            <div key={label} className="grid grid-cols-[0.8fr_1fr_1fr] items-center gap-3 rounded-2xl bg-white/10 p-4">
+              <div className="text-xs font-black uppercase tracking-widest text-slate-400">{label}</div>
+              <div className="font-black text-white">{eybl}</div>
+              <div className="font-black text-red-100">{school}</div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-5 text-sm leading-6 text-slate-300">High-school stats are season totals from public GoBound pages; EYBL stats are the current CR Pulse/Cerebro sample.</p>
+      </div>
+    </section>
+  );
+}
+
 export default async function PlayerProfilePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const player = getPlayerBySlug(slug);
@@ -186,6 +252,8 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
           </div>
         ))}
       </section>
+
+      <HighSchoolProduction player={player} />
 
       {links ? (
         <section className="mx-auto max-w-7xl px-6 pb-10">

@@ -5,6 +5,8 @@ import { eyblData } from "@/data/eybl";
 import { playerNextGames, vegasEvent, vegasTrackedGames, type VegasGame } from "@/data/vegas-schedule";
 import {
   getPlayerAsset,
+  getHighSchoolRole,
+  getHighSchoolStats,
   getPlayerLinks,
   getPlayerRanking,
   getPlayerRanks,
@@ -88,6 +90,17 @@ function PrepHoopsBadge({ name }: { name: string }) {
   return (
     <span className="inline-flex rounded-full border border-red-200 bg-red-50 px-2.5 py-1 text-[11px] font-black uppercase tracking-wide text-red-700">
       {ranking.label}
+    </span>
+  );
+}
+
+function HighSchoolBadge({ name }: { name: string }) {
+  const stats = getHighSchoolStats(name);
+  const role = getHighSchoolRole(name);
+  if (!stats) return null;
+  return (
+    <span className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-black uppercase tracking-wide text-amber-700" title={`${role} at ${stats.school}`}>
+      HS {numberValue(stats.ppg)} PPG
     </span>
   );
 }
@@ -176,6 +189,7 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
             <div className="mt-3 flex flex-wrap gap-2">
               <StockBadge value={stock} />
               <PrepHoopsBadge name={player.displayName} />
+              <HighSchoolBadge name={player.displayName} />
               <NextGameBadge game={nextGame} />
             </div>
             {nextGame ? <div className="mt-2 text-xs font-bold text-slate-500">Next: {opponentFor(nextGame, player.teamName)} · {nextGame.time} PT · {nextGame.court}</div> : null}
