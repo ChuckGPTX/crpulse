@@ -678,40 +678,40 @@ export const vegasTrackedGames = [
 
 export const playerNextGames = {
   "Charles Crawley": {
-    "id": 39584971,
-    "date": "7/8/2026",
-    "time": "11:00 AM",
-    "iso": "2026-07-08T11:00:00-07:00",
+    "id": 39584986,
+    "date": "7/9/2026",
+    "time": "3:00 PM",
+    "iso": "2026-07-09T15:00:00-07:00",
     "division": "EYCL 16'S",
-    "homeTeam": "MOKAN SPURS",
-    "awayTeam": "Kingdom Hoops",
-    "court": "Court 1",
+    "homeTeam": "Kingdom Hoops",
+    "awayTeam": "Ohio Buckets",
+    "court": "Court 12",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Traeshon Fields": {
-    "id": 39584963,
-    "date": "7/8/2026",
-    "time": "11:00 AM",
-    "iso": "2026-07-08T11:00:00-07:00",
+    "id": 39584978,
+    "date": "7/9/2026",
+    "time": "12:00 PM",
+    "iso": "2026-07-09T12:00:00-07:00",
     "division": "EYCL 16'S",
-    "homeTeam": "Genesis Canada",
-    "awayTeam": "All Iowa Attack",
-    "court": "Court 5",
+    "homeTeam": "All Iowa Attack",
+    "awayTeam": "Middleton Hoops",
+    "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Halbert Jackson": {
-    "id": 39584963,
-    "date": "7/8/2026",
-    "time": "11:00 AM",
-    "iso": "2026-07-08T11:00:00-07:00",
+    "id": 39584978,
+    "date": "7/9/2026",
+    "time": "12:00 PM",
+    "iso": "2026-07-09T12:00:00-07:00",
     "division": "EYCL 16'S",
-    "homeTeam": "Genesis Canada",
-    "awayTeam": "All Iowa Attack",
-    "court": "Court 5",
+    "homeTeam": "All Iowa Attack",
+    "awayTeam": "Middleton Hoops",
+    "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "MarQwan Morgan": {
     "id": 37884492,
@@ -738,28 +738,28 @@ export const playerNextGames = {
     "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Andrew Allen": {
-    "id": 39584963,
-    "date": "7/8/2026",
-    "time": "11:00 AM",
-    "iso": "2026-07-08T11:00:00-07:00",
+    "id": 39584978,
+    "date": "7/9/2026",
+    "time": "12:00 PM",
+    "iso": "2026-07-09T12:00:00-07:00",
     "division": "EYCL 16'S",
-    "homeTeam": "Genesis Canada",
-    "awayTeam": "All Iowa Attack",
-    "court": "Court 5",
+    "homeTeam": "All Iowa Attack",
+    "awayTeam": "Middleton Hoops",
+    "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Chase Goodheart": {
-    "id": 39584963,
-    "date": "7/8/2026",
-    "time": "11:00 AM",
-    "iso": "2026-07-08T11:00:00-07:00",
+    "id": 39584978,
+    "date": "7/9/2026",
+    "time": "12:00 PM",
+    "iso": "2026-07-09T12:00:00-07:00",
     "division": "EYCL 16'S",
-    "homeTeam": "Genesis Canada",
-    "awayTeam": "All Iowa Attack",
-    "court": "Court 5",
+    "homeTeam": "All Iowa Attack",
+    "awayTeam": "Middleton Hoops",
+    "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Tate McCollum": {
     "id": 38076479,
@@ -798,28 +798,28 @@ export const playerNextGames = {
     "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Pernell Grover Jr.": {
-    "id": 38053914,
-    "date": "7/8/2026",
-    "time": "11:00 AM",
-    "iso": "2026-07-08T11:00:00-07:00",
+    "id": 38053935,
+    "date": "7/9/2026",
+    "time": "10:30 AM",
+    "iso": "2026-07-09T10:30:00-07:00",
     "division": "EYCL 15'S",
-    "homeTeam": "Kingdom Hoops",
+    "homeTeam": "Soldiers Camo",
     "awayTeam": "All Iowa Attack",
-    "court": "Court 11",
+    "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Alexander Tanny": {
-    "id": 38053914,
-    "date": "7/8/2026",
-    "time": "11:00 AM",
-    "iso": "2026-07-08T11:00:00-07:00",
+    "id": 38053935,
+    "date": "7/9/2026",
+    "time": "10:30 AM",
+    "iso": "2026-07-09T10:30:00-07:00",
     "division": "EYCL 15'S",
-    "homeTeam": "Kingdom Hoops",
+    "homeTeam": "Soldiers Camo",
     "awayTeam": "All Iowa Attack",
-    "court": "Court 11",
+    "court": "Court 14",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Ryland Gbor": {
     "id": 38076479,
