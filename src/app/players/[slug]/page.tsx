@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GameCountdown } from "@/components/GameCountdown";
+import { ProfileViewTracker } from "@/components/visitor-tracking";
 import { playerNextGames, vegasEvent } from "@/data/vegas-schedule";
 import {
   getPlayerAsset,
@@ -118,6 +119,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
 
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-slate-950">
+      <ProfileViewTracker playerName={player.displayName} slug={slug} teamName={player.teamName} />
       <section className="scout-hero px-6 py-8">
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center justify-between border-b border-slate-300 pb-5">

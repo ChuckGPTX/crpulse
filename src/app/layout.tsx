@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { VisitorTracking } from "@/components/visitor-tracking";
 import { Archivo_Black, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${archivo.variable}`}>
       <body className="font-sans">
         {children}
+        <VisitorTracking />
         <Analytics />
       </body>
     </html>

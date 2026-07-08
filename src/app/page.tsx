@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GameCountdown } from "@/components/GameCountdown";
+import { ProfileLink } from "@/components/visitor-tracking";
 import { eyblData } from "@/data/eybl";
 import { playerNextGames, vegasEvent, vegasTrackedGames, type VegasGame } from "@/data/vegas-schedule";
 import {
@@ -221,9 +222,9 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
         </div>
       </div>
 
-      <Link href={`/players/${slugify(player.displayName)}`} className="mt-auto inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-red-700">
+      <ProfileLink href={`/players/${slugify(player.displayName)}`} playerName={player.displayName} source="watchlist_card" className="mt-auto inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-red-700">
         Open scouting profile
-      </Link>
+      </ProfileLink>
     </article>
   );
 }
@@ -275,7 +276,7 @@ function TeamTable({ team }: { team: (typeof eyblData.trackedTeams)[number] }) {
 function LeadFeature({ player, label }: { player: StatPlayer; label: string }) {
   const trend = getPlayerTrend(player.displayName);
   return (
-    <Link href={`/players/${slugify(player.displayName)}`} className="paper-card block p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <ProfileLink href={`/players/${slugify(player.displayName)}`} playerName={player.displayName} source="lead_feature" className="paper-card block p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="flex items-center gap-4">
         <PlayerAvatar player={player} className="h-20 w-20" />
         <div>
@@ -290,7 +291,7 @@ function LeadFeature({ player, label }: { player: StatPlayer; label: string }) {
         <div className="rounded-2xl bg-slate-100 p-3"><div className="text-xs text-slate-500">3P</div><div className="text-2xl font-black text-slate-950">{percentValue(player.three_pt_pct)}</div></div>
         <div className="rounded-2xl bg-slate-100 p-3"><div className="text-xs text-slate-500">Move</div><div className="text-2xl font-black text-slate-950">{signedNumber(trend.ppgDelta)}</div></div>
       </div>
-    </Link>
+    </ProfileLink>
   );
 }
 
@@ -326,7 +327,7 @@ export default function Home() {
             </h1>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="#watchlist" className="rounded-full bg-red-700 px-6 py-3 text-sm font-black text-white transition hover:bg-slate-950">View watchlist</Link>
-              <Link href={`/players/${slugify(topScorer.displayName)}`} className="rounded-full border border-slate-400 bg-white px-6 py-3 text-sm font-black text-slate-950 transition hover:border-slate-950">Open top scorer</Link>
+              <ProfileLink href={`/players/${slugify(topScorer.displayName)}`} playerName={topScorer.displayName} source="hero_top_scorer" className="rounded-full border border-slate-400 bg-white px-6 py-3 text-sm font-black text-slate-950 transition hover:border-slate-950">Open top scorer</ProfileLink>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
               <StatPill label="Last refresh" value={new Date(eyblData.generatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })} />
@@ -347,13 +348,13 @@ export default function Home() {
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-full border border-slate-300 bg-white py-3 marquee-mask shadow-sm">
           <div className="marquee-track flex w-max gap-3 px-3">
             {tickerPlayers.map((player, index) => (
-              <Link key={`${player.displayName}-${index}`} href={`/players/${slugify(player.displayName)}`} className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-black text-slate-700 transition hover:border-red-700 hover:text-red-700">
+              <ProfileLink key={`${player.displayName}-${index}`} href={`/players/${slugify(player.displayName)}`} playerName={player.displayName} source="ticker" className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-black text-slate-700 transition hover:border-red-700 hover:text-red-700">
                 <span>{player.displayName}</span>
                 <span className="text-slate-400">·</span>
                 <span>{numberValue(player.pts_per_game)} PPG</span>
                 <span className="text-slate-400">·</span>
                 <span>{player.teamName}</span>
-              </Link>
+              </ProfileLink>
             ))}
           </div>
         </div>
@@ -430,13 +431,13 @@ export default function Home() {
             {spotlights.slice(0, 3).map(({ player, note, ranks }) => {
               if (!note) return null;
               return (
-                <Link key={player.displayName} href={`/players/${slugify(player.displayName)}`} className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 transition hover:-translate-y-1 hover:bg-white/[0.1]">
+                <ProfileLink key={player.displayName} href={`/players/${slugify(player.displayName)}`} playerName={player.displayName} source="signals_board" className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 transition hover:-translate-y-1 hover:bg-white/[0.1]">
                   <div className="text-xs font-black uppercase tracking-[0.22em] text-red-200">{note!.label}</div>
                   <div className="mt-2 text-2xl font-black tracking-tight">{player.displayName}</div>
                   <div className="text-sm text-slate-400">{player.teamName} · board #{ranks.trackedScoring}</div>
                   <div className="mt-4 text-3xl font-black text-white">{note!.value}</div>
                   <p className="mt-3 text-sm leading-6 text-slate-300">{note!.detail}</p>
-                </Link>
+                </ProfileLink>
               );
             })}
           </div>
