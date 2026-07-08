@@ -322,7 +322,7 @@ export default function Home() {
               EYBL live board
             </div>
             <h1 className="max-w-5xl text-6xl font-black leading-[0.9] tracking-[-0.055em] text-slate-950 sm:text-7xl lg:text-8xl">
-              Eastern Iowa prospects, tracked like a real scouting desk.
+              Eastern Iowa prospects, built for the EYBL live period.
             </h1>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="#watchlist" className="rounded-full bg-red-700 px-6 py-3 text-sm font-black text-white transition hover:bg-slate-950">View watchlist</Link>
