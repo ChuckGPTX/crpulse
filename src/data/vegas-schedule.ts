@@ -714,28 +714,28 @@ export const playerNextGames = {
     "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "MarQwan Morgan": {
-    "id": 37884492,
-    "date": "7/8/2026",
-    "time": "5:00 PM",
-    "iso": "2026-07-08T17:00:00-07:00",
+    "id": 37884495,
+    "date": "7/9/2026",
+    "time": "4:30 PM",
+    "iso": "2026-07-09T16:30:00-07:00",
     "division": "E16",
-    "homeTeam": "Uplay Canada",
+    "homeTeam": "Indy Heat",
     "awayTeam": "Mac Irvin Fire",
-    "court": "Court 2",
+    "court": "Court 9",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Vasaun Wilmington": {
-    "id": 37884490,
-    "date": "7/8/2026",
-    "time": "5:00 PM",
-    "iso": "2026-07-08T17:00:00-07:00",
+    "id": 37884497,
+    "date": "7/9/2026",
+    "time": "4:30 PM",
+    "iso": "2026-07-09T16:30:00-07:00",
     "division": "E16",
     "homeTeam": "MOKAN Elite",
-    "awayTeam": "Howard Pulley",
-    "court": "Court 8",
+    "awayTeam": "Team Herro",
+    "court": "Court 3",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Andrew Allen": {
     "id": 39584978,
@@ -762,16 +762,16 @@ export const playerNextGames = {
     "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Tate McCollum": {
-    "id": 38076479,
-    "date": "7/8/2026",
-    "time": "5:00 PM",
-    "iso": "2026-07-08T17:00:00-07:00",
+    "id": 38076524,
+    "date": "7/9/2026",
+    "time": "4:30 PM",
+    "iso": "2026-07-09T16:30:00-07:00",
     "division": "EYCL 17'S",
-    "homeTeam": "Kingdom Hoops",
-    "awayTeam": "All Ohio",
-    "court": "Court 18",
+    "homeTeam": "USC Unleashed",
+    "awayTeam": "Kingdom Hoops",
+    "court": "Court 17",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Zane Rus": {
     "id": 39584391,
@@ -822,15 +822,15 @@ export const playerNextGames = {
     "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Ryland Gbor": {
-    "id": 38076479,
-    "date": "7/8/2026",
-    "time": "5:00 PM",
-    "iso": "2026-07-08T17:00:00-07:00",
+    "id": 38076524,
+    "date": "7/9/2026",
+    "time": "4:30 PM",
+    "iso": "2026-07-09T16:30:00-07:00",
     "division": "EYCL 17'S",
-    "homeTeam": "Kingdom Hoops",
-    "awayTeam": "All Ohio",
-    "court": "Court 18",
+    "homeTeam": "USC Unleashed",
+    "awayTeam": "Kingdom Hoops",
+    "court": "Court 17",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   }
 } as const satisfies Record<string, VegasGame>;
