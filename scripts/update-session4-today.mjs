@@ -268,7 +268,77 @@ const payload = {
   highlights,
 };
 
-const content = `export type Session4Status = "Final" | "Live" | "Stats pending" | "Scheduled";\n\nexport const session4Today = ${JSON.stringify(payload, null, 2)} as const;\n\nexport type Session4Today = typeof session4Today;\nexport type Session4Game = (typeof session4Today.games)[number];\nexport type Session4PlayerLine = (typeof session4Today.playerLines)[number];\nexport const session4PlayerLines = session4Today.latestLineByPlayer;\nexport const session4Highlights = session4Today.highlights;\n`;
+const content = `export type Session4Status = "Final" | "Live" | "Stats pending" | "Scheduled";
+
+export type Session4Game = {
+  id: number;
+  date: string;
+  time: string;
+  iso: string;
+  division: string;
+  homeTeam: string;
+  awayTeam: string;
+  court: string;
+  venue: string;
+  streamUrl: string;
+  status: Session4Status;
+  relationGameId: string | null;
+  awayScore: number | null;
+  homeScore: number | null;
+  sourceUrl: string | null;
+  statsPosted: boolean;
+  trackedLines: string[];
+};
+
+export type Session4PlayerLine = {
+  player: string;
+  team: string;
+  opponent: string;
+  result: "W" | "L" | "T" | null;
+  teamScore: number | null;
+  opponentScore: number | null;
+  gameId: number;
+  relationGameId: string | null;
+  division: string;
+  date: string;
+  time: string;
+  iso: string;
+  court: string;
+  status: Session4Status;
+  sourceUrl: string;
+  streamUrl: string;
+  points: number;
+  rebounds: number;
+  assists: number;
+  steals: number;
+  blocks: number;
+  turnovers: number;
+  minutes: number | null;
+  fg: string;
+  threeFg: string;
+  ft: string;
+  fgPct: number | null;
+  threePct: number | null;
+  fantasy: number;
+};
+
+export type Session4Today = {
+  source: string;
+  event: string;
+  location: string;
+  date: string;
+  generatedAt: string;
+  games: Session4Game[];
+  playerLines: Session4PlayerLine[];
+  latestLineByPlayer: Partial<Record<string, Session4PlayerLine>>;
+  highlights: Session4PlayerLine[];
+};
+
+export const session4Today: Session4Today = ${JSON.stringify(payload, null, 2)};
+
+export const session4PlayerLines = session4Today.latestLineByPlayer as Partial<Record<string, Session4PlayerLine>>;
+export const session4Highlights = session4Today.highlights as Session4PlayerLine[];
+`;
 
 const outputPath = path.join(process.cwd(), "src", "data", "session4-today.ts");
 await writeFile(outputPath, content);

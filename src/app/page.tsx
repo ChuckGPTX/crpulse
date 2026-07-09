@@ -13,6 +13,7 @@ import {
   getPlayerRanks,
   getPlayerSpotlights,
   getPlayerTrend,
+  getRecentGameStat,
   getStockLabel,
   getTeamAsset,
   hasStats,
@@ -125,10 +126,49 @@ function opponentFor(game: VegasGame | Session4Game, teamName: string) {
   return `${game.awayTeam} vs ${game.homeTeam}`;
 }
 
-function TodayStatStrip({ line, compact = false }: { line?: Session4PlayerLine | null; compact?: boolean }) {
+type DisplayGameLine = Pick<Session4PlayerLine, "player" | "team" | "opponent" | "result" | "teamScore" | "opponentScore" | "date" | "status" | "points" | "rebounds" | "assists" | "steals" | "blocks" | "fg" | "threeFg" | "minutes">;
+
+function displayDate(value: string) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split("-").map(Number);
+    return `${month}/${day}/${year}`;
+  }
+  return value;
+}
+
+function recentGameLine(name: string): DisplayGameLine | null {
+  const stat = getRecentGameStat(name);
+  if (!stat) return null;
+  return {
+    player: stat.player,
+    team: stat.team,
+    opponent: stat.opponent,
+    result: stat.result,
+    teamScore: stat.teamScore,
+    opponentScore: stat.opponentScore,
+    date: displayDate(stat.date),
+    status: stat.status,
+    points: stat.points,
+    rebounds: stat.rebounds,
+    assists: stat.assists,
+    steals: stat.steals,
+    blocks: stat.blocks,
+    fg: stat.fg,
+    threeFg: stat.threeFg,
+    minutes: stat.minutes,
+  };
+}
+
+function latestDisplayLine(name: string): DisplayGameLine | null {
+  return session4PlayerLines[name as keyof typeof session4PlayerLines] ?? recentGameLine(name);
+}
+
+function TodayStatStrip({ line, compact = false }: { line?: DisplayGameLine | null; compact?: boolean }) {
   if (!line) return null;
-  const result = line.result === "W" ? "Win" : "Loss";
-  const score = `${line.team} ${line.teamScore}, ${line.opponent} ${line.opponentScore}`;
+  const result = line.result === "W" ? "Win" : line.result === "L" ? "Loss" : line.result === "T" ? "Tie" : "Result pending";
+  const score = typeof line.teamScore === "number" && typeof line.opponentScore === "number"
+    ? `${line.team} ${line.teamScore}, ${line.opponent} ${line.opponentScore}`
+    : null;
   return (
     <div className={`mt-4 rounded-2xl border border-amber-300 bg-amber-50 shadow-sm ${compact ? "p-3" : "p-4"}`}>
       <div className="flex items-center justify-between gap-3">
@@ -151,7 +191,7 @@ function TodayStatStrip({ line, compact = false }: { line?: Session4PlayerLine |
         <div className="rounded-xl bg-white px-3 py-2"><span className="text-slate-500">3PT</span> {line.threeFg}</div>
         <div className="rounded-xl bg-white px-3 py-2"><span className="text-slate-500">MIN</span> {line.minutes ?? "—"}</div>
       </div>
-      <div className="mt-2 text-xs font-bold text-slate-600">{score}</div>
+      {score ? <div className="mt-2 text-xs font-bold text-slate-600">{score}</div> : null}
     </div>
   );
 }
@@ -228,7 +268,7 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
   }
 
   const trend = getPlayerTrend(player.displayName);
-  const todayLine = session4PlayerLines[player.displayName as keyof typeof session4PlayerLines];
+  const latestLine = latestDisplayLine(player.displayName);
   const ranks = getPlayerRanks(player);
   const stock = getStockLabel(player);
   const nextGame = playerNextGames[player.displayName as keyof typeof playerNextGames];
@@ -258,7 +298,7 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
         </div>
       </div>
 
-      <TodayStatStrip line={todayLine} compact />
+      <TodayStatStrip line={latestLine} compact />
 
       <div className="mt-5 grid grid-cols-5 gap-2">
         {statLabels.map(([label, key]) => (
@@ -343,7 +383,7 @@ function TeamTable({ team }: { team: (typeof eyblData.trackedTeams)[number] }) {
   );
 }
 
-function LeadFeature({ player, label, line }: { player: StatPlayer; label: string; line?: Session4PlayerLine | null }) {
+function LeadFeature({ player, label, line }: { player: StatPlayer; label: string; line?: DisplayGameLine | null }) {
   const trend = getPlayerTrend(player.displayName);
   return (
     <ProfileLink href={`/players/${slugify(player.displayName)}`} playerName={player.displayName} source="lead_feature" className="paper-card block p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -376,10 +416,10 @@ export default function Home() {
     const player = foundPlayers.find((entry) => entry.displayName === line.player);
     return player ? [{ line: line as Session4PlayerLine, player: player as StatPlayer }] : [];
   });
-  const heroCards: { player: StatPlayer; line: Session4PlayerLine | null }[] = [
-    todaySpotlights[0] ?? { player: topScorer, line: null },
-    todaySpotlights[1] ?? { player: topShooter, line: null },
-    todaySpotlights[3] ?? todaySpotlights[2] ?? { player: topCreator, line: null },
+  const heroCards: { player: StatPlayer; line: DisplayGameLine | null }[] = [
+    todaySpotlights[0] ?? { player: topScorer, line: latestDisplayLine(topScorer.displayName) },
+    todaySpotlights[1] ?? { player: topShooter, line: latestDisplayLine(topShooter.displayName) },
+    todaySpotlights[3] ?? todaySpotlights[2] ?? { player: topCreator, line: latestDisplayLine(topCreator.displayName) },
   ];
   const tickerLines = session4Today.playerLines.length ? [...session4Today.playerLines, ...session4Today.playerLines] : [];
   const tickerPlayers = [...foundPlayers, ...foundPlayers];
