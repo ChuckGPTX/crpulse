@@ -2,7 +2,8 @@ import Link from "next/link";
 import { GameCountdown } from "@/components/GameCountdown";
 import { ProfileLink } from "@/components/visitor-tracking";
 import { eyblData } from "@/data/eybl";
-import { playerNextGames, vegasEvent, vegasTrackedGames, type VegasGame } from "@/data/vegas-schedule";
+import { session4Highlights, session4PlayerLines, session4Today, type Session4Game, type Session4PlayerLine } from "@/data/session4-today";
+import { playerNextGames, vegasEvent, type VegasGame } from "@/data/vegas-schedule";
 import {
   getPlayerAsset,
   getHighSchoolRole,
@@ -110,27 +111,71 @@ function NextGameBadge({ game }: { game?: VegasGame | null }) {
   return <GameCountdown targetIso={game.iso} compact />;
 }
 
-function formatVegasDate(game: VegasGame) {
+function formatVegasDate(game: VegasGame | Session4Game) {
   return `${game.date} · ${game.time} PT`;
 }
 
-function opponentFor(game: VegasGame, teamName: string) {
+function formatUpdatedAt(value: string) {
+  return new Date(value).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" });
+}
+
+function opponentFor(game: VegasGame | Session4Game, teamName: string) {
   if (game.homeTeam === teamName) return game.awayTeam;
   if (game.awayTeam === teamName) return game.homeTeam;
   return `${game.awayTeam} vs ${game.homeTeam}`;
 }
 
-function VegasGameCard({ game, compact = false }: { game: VegasGame; compact?: boolean }) {
+function TodayStatStrip({ line, compact = false }: { line?: Session4PlayerLine | null; compact?: boolean }) {
+  if (!line) return null;
   return (
-    <a href={game.streamUrl} target="_blank" rel="noreferrer" className="block rounded-3xl border border-white/10 bg-white/[0.07] p-4 text-white transition hover:-translate-y-0.5 hover:bg-white/[0.12]">
+    <div className={`mt-4 rounded-2xl border border-amber-200 bg-amber-50 ${compact ? "p-3" : "p-4"}`}>
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Today</div>
+        <div className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black uppercase text-slate-700">{line.status}</div>
+      </div>
+      <div className={`mt-2 grid grid-cols-5 gap-2 text-center ${compact ? "text-sm" : "text-base"}`}>
+        {[["PTS", line.points], ["REB", line.rebounds], ["AST", line.assists], ["STL", line.steals], ["BLK", line.blocks]].map(([label, value]) => (
+          <div key={label} className="rounded-xl bg-white p-2">
+            <div className="text-[9px] font-black uppercase text-slate-500">{label}</div>
+            <div className="font-black text-slate-950">{value}</div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-2 text-xs font-bold text-slate-600">{line.team} {line.teamScore ?? ""}{typeof line.teamScore === "number" ? "," : ""} {line.opponent} {line.opponentScore ?? ""}</div>
+    </div>
+  );
+}
+
+function SessionStatusBadge({ game }: { game: Session4Game }) {
+  const live = game.status === "Live";
+  const final = game.status === "Final";
+  return (
+    <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-wide ${live ? "border-emerald-300 bg-emerald-50 text-emerald-700" : final ? "border-white/20 bg-white text-slate-950" : "border-amber-300 bg-amber-50 text-amber-800"}`}>
+      <span className={`h-2 w-2 rounded-full ${live ? "bg-emerald-500" : final ? "bg-slate-950" : "bg-amber-500"}`} />
+      {game.status}
+    </span>
+  );
+}
+
+function VegasGameCard({ game, compact = false }: { game: Session4Game; compact?: boolean }) {
+  const hasScore = typeof game.awayScore === "number" && typeof game.homeScore === "number";
+  const href = game.sourceUrl ?? game.streamUrl;
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className="block rounded-3xl border border-white/10 bg-white/[0.07] p-4 text-white transition hover:-translate-y-0.5 hover:bg-white/[0.12]">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-[11px] font-black uppercase tracking-[0.22em] text-amber-200">{game.division}</div>
-          <div className={`${compact ? "text-base" : "text-xl"} mt-2 font-black leading-tight`}>{game.awayTeam} vs {game.homeTeam}</div>
+          <div className={`${compact ? "text-base" : "text-xl"} mt-2 font-black leading-tight`}>
+            {hasScore ? `${game.awayTeam} ${game.awayScore}, ${game.homeTeam} ${game.homeScore}` : `${game.awayTeam} vs ${game.homeTeam}`}
+          </div>
         </div>
-        <GameCountdown targetIso={game.iso} compact />
+        <SessionStatusBadge game={game} />
       </div>
       <div className="mt-3 text-sm font-bold text-slate-300">{formatVegasDate(game)} · {game.court}</div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {game.statsPosted ? <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-[10px] font-black uppercase text-emerald-100">Stats posted</span> : null}
+        {game.trackedLines.slice(0, 4).map((name) => <span key={name} className="rounded-full bg-white/10 px-3 py-1 text-[10px] font-black uppercase text-white">{name}</span>)}
+      </div>
     </a>
   );
 }
@@ -173,6 +218,7 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
   }
 
   const trend = getPlayerTrend(player.displayName);
+  const todayLine = session4PlayerLines[player.displayName as keyof typeof session4PlayerLines];
   const ranks = getPlayerRanks(player);
   const stock = getStockLabel(player);
   const nextGame = playerNextGames[player.displayName as keyof typeof playerNextGames];
@@ -201,6 +247,8 @@ function PlayerCard({ player, index }: { player: AnyTrackedPlayer; index: number
           <div className="text-xl font-black text-slate-950">#{ranks.trackedScoring || "—"}</div>
         </div>
       </div>
+
+      <TodayStatStrip line={todayLine} compact />
 
       <div className="mt-5 grid grid-cols-5 gap-2">
         {statLabels.map(([label, key]) => (
@@ -285,7 +333,7 @@ function TeamTable({ team }: { team: (typeof eyblData.trackedTeams)[number] }) {
   );
 }
 
-function LeadFeature({ player, label }: { player: StatPlayer; label: string }) {
+function LeadFeature({ player, label, line }: { player: StatPlayer; label: string; line?: Session4PlayerLine | null }) {
   const trend = getPlayerTrend(player.displayName);
   return (
     <ProfileLink href={`/players/${slugify(player.displayName)}`} playerName={player.displayName} source="lead_feature" className="paper-card block p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -298,6 +346,7 @@ function LeadFeature({ player, label }: { player: StatPlayer; label: string }) {
           <div className="mt-2"><PrepHoopsBadge name={player.displayName} /></div>
         </div>
       </div>
+      {line ? <TodayStatStrip line={line} /> : null}
       <div className="mt-6 grid grid-cols-3 gap-2 text-center">
         <div className="rounded-2xl bg-slate-950 p-3 text-white"><div className="text-xs text-slate-400">PPG</div><div className="text-2xl font-black">{numberValue(player.pts_per_game)}</div></div>
         <div className="rounded-2xl bg-slate-100 p-3"><div className="text-xs text-slate-500">3P</div><div className="text-2xl font-black text-slate-950">{percentValue(player.three_pt_pct)}</div></div>
@@ -313,6 +362,16 @@ export default function Home() {
   const topShooter = [...foundPlayers].sort((a, b) => (b.three_pt_pct ?? 0) - (a.three_pt_pct ?? 0))[0];
   const topCreator = [...foundPlayers].sort((a, b) => b.ast_per_game - a.ast_per_game)[0];
   const spotlights = getPlayerSpotlights();
+  const todaySpotlights: { line: Session4PlayerLine; player: StatPlayer }[] = session4Highlights.flatMap((line) => {
+    const player = foundPlayers.find((entry) => entry.displayName === line.player);
+    return player ? [{ line: line as Session4PlayerLine, player: player as StatPlayer }] : [];
+  });
+  const heroCards: { player: StatPlayer; line: Session4PlayerLine | null }[] = [
+    todaySpotlights[0] ?? { player: topScorer, line: null },
+    todaySpotlights[1] ?? { player: topShooter, line: null },
+    todaySpotlights[3] ?? todaySpotlights[2] ?? { player: topCreator, line: null },
+  ];
+  const tickerLines = session4Today.playerLines.length ? [...session4Today.playerLines, ...session4Today.playerLines] : [];
   const tickerPlayers = [...foundPlayers, ...foundPlayers];
 
   return (
@@ -326,7 +385,7 @@ export default function Home() {
             <a href="#trends" className="hover:text-red-700">Signals</a>
             <a href="#programs" className="hover:text-red-700">Teams</a>
           </div>
-          <div className="rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white">Live scores</div>
+          <a href="#vegas" className="rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white transition hover:bg-red-700">Live scores</a>
         </nav>
 
         <div className="relative mx-auto grid max-w-7xl gap-10 py-12 lg:grid-cols-[1fr_0.82fr] lg:items-end lg:py-16">
@@ -335,37 +394,43 @@ export default function Home() {
               EYBL today
             </div>
             <h1 className="max-w-5xl text-6xl font-black leading-[0.9] tracking-[-0.055em] text-slate-950 sm:text-7xl lg:text-8xl">
-              Eastern Iowa prospects at EYBL Session IV.
+Vegas Session IV: today’s Iowa watchlist.
             </h1>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="#watchlist" className="rounded-full bg-red-700 px-6 py-3 text-sm font-black text-white transition hover:bg-slate-950">View watchlist</Link>
               <ProfileLink href={`/players/${slugify(topScorer.displayName)}`} playerName={topScorer.displayName} source="hero_top_scorer" className="rounded-full border border-slate-400 bg-white px-6 py-3 text-sm font-black text-slate-950 transition hover:border-slate-950">Top scorer</ProfileLink>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <StatPill label="Updated" value={new Date(eyblData.generatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })} />
-              <StatPill label="Players" value={eyblData.totalPlayers.toLocaleString()} />
-              <StatPill label="Watchlist" value={eyblData.trackedPlayers.length.toString()} />
+              <StatPill label="Updated" value={`${formatUpdatedAt(session4Today.generatedAt)} CT`} />
+              <StatPill label="Today lines" value={session4Today.playerLines.length.toString()} />
+              <StatPill label="Finals" value={session4Today.games.filter((game) => game.status === "Final").length.toString()} />
             </div>
           </div>
 
           <div className="grid gap-4">
-            <LeadFeature player={topScorer} label="Lead scorer" />
+            <LeadFeature player={heroCards[0].player} line={heroCards[0].line} label={heroCards[0].line ? "Game ball" : "Lead scorer"} />
             <div className="grid gap-4 sm:grid-cols-2">
-              <LeadFeature player={topShooter} label="Shot maker" />
-              <LeadFeature player={topCreator} label="Creator" />
+              <LeadFeature player={heroCards[1].player} line={heroCards[1].line} label={heroCards[1].line ? "Two-way pop" : "Shot maker"} />
+              <LeadFeature player={heroCards[2].player} line={heroCards[2].line} label={heroCards[2].line ? "Fresh line" : "Creator"} />
             </div>
           </div>
         </div>
 
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-full border border-slate-300 bg-white py-3 marquee-mask shadow-sm">
           <div className="marquee-track flex w-max gap-3 px-3">
-            {tickerPlayers.map((player, index) => (
+            {tickerLines.length ? tickerLines.map((line, index) => (
+              <ProfileLink key={`${line.player}-${line.gameId}-${index}`} href={`/players/${slugify(line.player)}`} playerName={line.player} source="today_ticker" className="flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-black text-slate-700 transition hover:border-red-700 hover:text-red-700">
+                <span>{line.player}</span>
+                <span className="text-slate-400">·</span>
+                <span>{line.points} pts</span>
+                <span className="text-slate-400">·</span>
+                <span>{line.assists} ast</span>
+                <span className="text-slate-400">·</span>
+                <span>{line.status}</span>
+              </ProfileLink>
+            )) : tickerPlayers.map((player, index) => (
               <ProfileLink key={`${player.displayName}-${index}`} href={`/players/${slugify(player.displayName)}`} playerName={player.displayName} source="ticker" className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-black text-slate-700 transition hover:border-red-700 hover:text-red-700">
-                <span>{player.displayName}</span>
-                <span className="text-slate-400">·</span>
-                <span>{numberValue(player.pts_per_game)} PPG</span>
-                <span className="text-slate-400">·</span>
-                <span>{player.teamName}</span>
+                <span>{player.displayName}</span><span className="text-slate-400">·</span><span>{numberValue(player.pts_per_game)} PPG</span><span className="text-slate-400">·</span><span>{player.teamName}</span>
               </ProfileLink>
             ))}
           </div>
@@ -385,8 +450,8 @@ export default function Home() {
                 <span className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-black tracking-[0.2em] text-white">EYBL</span>
                 <span className="rounded-full border border-amber-300/60 bg-amber-300/15 px-4 py-2 text-sm font-black uppercase tracking-wide text-amber-100">Vegas</span>
               </div>
-              <div className="text-sm font-black uppercase tracking-[0.28em] text-amber-200">Next up</div>
-              <h2 className="mt-3 max-w-2xl text-5xl font-black leading-none tracking-tight sm:text-6xl">Vegas hub</h2>
+              <div className="text-sm font-black uppercase tracking-[0.28em] text-amber-200">Finals + next tips</div>
+              <h2 className="mt-3 max-w-2xl text-5xl font-black leading-none tracking-tight sm:text-6xl">Vegas live board</h2>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a href={vegasEvent.scheduleUrl} target="_blank" rel="noreferrer" className="rounded-full bg-amber-300 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-white">Nike schedule</a>
                 <a href={vegasEvent.streamHubUrl} target="_blank" rel="noreferrer" className="rounded-full border border-white/30 bg-white/10 px-5 py-3 text-sm font-black text-white transition hover:bg-white hover:text-slate-950">Streams</a>
@@ -401,11 +466,11 @@ export default function Home() {
               </div>
             </div>
             <div className="relative z-10 grid content-start gap-3">
-              <VegasGameCard game={vegasTrackedGames[0]} />
+              <VegasGameCard game={session4Today.games[0]} />
               <div className="max-h-[520px] overflow-y-auto rounded-3xl border border-white/10 bg-slate-950/70 p-3">
                 <div className="mb-3 px-2 text-xs font-black uppercase tracking-[0.25em] text-slate-400">Vegas games</div>
                 <div className="grid gap-2">
-                  {vegasTrackedGames.slice(1).map((game) => <VegasGameCard key={game.id} game={game} compact />)}
+                  {session4Today.games.slice(1).map((game) => <VegasGameCard key={game.id} game={game} compact />)}
                 </div>
               </div>
             </div>

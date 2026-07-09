@@ -27,13 +27,13 @@ import {
   type StatPlayer,
 } from "@/lib/eybl-utils";
 
-const statCards: [string, keyof StatPlayer][] = [
-  ["Points", "pts_per_game"],
-  ["Rebounds", "reb_per_game"],
-  ["Assists", "ast_per_game"],
-  ["Steals", "stl_per_game"],
-  ["Blocks", "blk_per_game"],
-  ["Minutes", "total_minutes"],
+const statCards: [string, keyof StatPlayer, string][] = [
+  ["Points", "pts_per_game", "Per game"],
+  ["Rebounds", "reb_per_game", "Per game"],
+  ["Assists", "ast_per_game", "Per game"],
+  ["Steals", "stl_per_game", "Per game"],
+  ["Blocks", "blk_per_game", "Per game"],
+  ["Minutes", "total_minutes", "Total"],
 ];
 
 export function generateStaticParams() {
@@ -253,11 +253,11 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
           <div className="text-sm font-bold text-slate-500">{player.games_played} games</div>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
-          {statCards.map(([label, key]) => (
+          {statCards.map(([label, key, sublabel]) => (
             <div key={key} className="paper-card p-6">
               <div className="text-xs font-black uppercase tracking-[0.25em] text-slate-500">{label}</div>
               <div className="mt-2 text-5xl font-black text-slate-950">{numberValue(player[key])}</div>
-              <div className="mt-2 text-sm text-slate-500">Per game</div>
+              <div className="mt-2 text-sm text-slate-500">{sublabel}</div>
             </div>
           ))}
         </div>
