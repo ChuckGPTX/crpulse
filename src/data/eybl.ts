@@ -1,7 +1,7 @@
 export const eyblData = {
   "source": "Cerebro Sports public widget API",
   "overallId": "260104",
-  "generatedAt": "2026-07-09T02:14:59.772Z",
+  "generatedAt": "2026-07-09T02:21:59.269Z",
   "totalPlayers": 2583,
   "trackedPlayers": [
     {
