@@ -1,5 +1,5 @@
 export type RecentGameStat = {
-  source: "GameDay Preps";
+  source: "GameDay Preps" | "Cerebro Sports";
   sourceUrl: string;
   eventId: number;
   date: string;
@@ -25,7 +25,7 @@ export type RecentGameStat = {
   blocks: number;
   steals: number;
   minutes: number;
-  plusMinus: number;
+  plusMinus: number | null;
 };
 
 export const recentGameStats = {
@@ -173,5 +173,92 @@ export const recentGameStats = {
     steals: 2,
     minutes: 27,
     plusMinus: 20,
+  },
+  "MarQwan Morgan": {
+    source: "Cerebro Sports",
+    sourceUrl: "https://drive.google.com/file/d/17HPcLFd-FaOMepswwEuWBTKSib6K5w4G/view?usp=drivesdk",
+    eventId: 37884492,
+    date: "2026-07-08",
+    status: "Final",
+    team: "Mac Irvin Fire",
+    opponent: "Uplay Canada",
+    result: "L",
+    teamScore: 63,
+    opponentScore: 92,
+    jersey: "11",
+    player: "MarQwan Morgan",
+    rawName: "MarQwan Morgan",
+    points: 31,
+    fg: "10-19",
+    threeFg: "0-4",
+    ft: "11-13",
+    offensiveRebounds: 3,
+    defensiveRebounds: 3,
+    rebounds: 6,
+    assists: 3,
+    fouls: 4,
+    turnovers: 4,
+    blocks: 1,
+    steals: 0,
+    minutes: 28,
+    plusMinus: null,
+  },
+  "Tate McCollum": {
+    source: "Cerebro Sports",
+    sourceUrl: "https://drive.google.com/file/d/1rlaJuaWNCKDnSkypQcENKFlSc4WNTLAI/view?usp=drivesdk",
+    eventId: 38076479,
+    date: "2026-07-08",
+    status: "Final",
+    team: "Kingdom Hoops",
+    opponent: "All Ohio",
+    result: "L",
+    teamScore: 79,
+    opponentScore: 88,
+    jersey: "1",
+    player: "Tate McCollum",
+    rawName: "Tate McCollum",
+    points: 27,
+    fg: "10-20",
+    threeFg: "7-15",
+    ft: "0-0",
+    offensiveRebounds: 0,
+    defensiveRebounds: 4,
+    rebounds: 4,
+    assists: 4,
+    fouls: 3,
+    turnovers: 1,
+    blocks: 0,
+    steals: 1,
+    minutes: 26,
+    plusMinus: null,
+  },
+  "Ryland Gbor": {
+    source: "Cerebro Sports",
+    sourceUrl: "https://drive.google.com/file/d/1rlaJuaWNCKDnSkypQcENKFlSc4WNTLAI/view?usp=drivesdk",
+    eventId: 38076479,
+    date: "2026-07-08",
+    status: "Final",
+    team: "Kingdom Hoops",
+    opponent: "All Ohio",
+    result: "L",
+    teamScore: 79,
+    opponentScore: 88,
+    jersey: "21",
+    player: "Ryland Gbor",
+    rawName: "Ryland Gbor",
+    points: 4,
+    fg: "2-6",
+    threeFg: "0-1",
+    ft: "0-0",
+    offensiveRebounds: 1,
+    defensiveRebounds: 1,
+    rebounds: 2,
+    assists: 1,
+    fouls: 2,
+    turnovers: 0,
+    blocks: 0,
+    steals: 1,
+    minutes: 10,
+    plusMinus: null,
   },
 } as const satisfies Record<string, RecentGameStat>;

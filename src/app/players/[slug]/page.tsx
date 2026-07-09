@@ -282,7 +282,7 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
                 ["STL", recentGame.steals],
                 ["BLK", recentGame.blocks],
                 ["MIN", recentGame.minutes],
-                ["+/-", recentGame.plusMinus > 0 ? `+${recentGame.plusMinus}` : String(recentGame.plusMinus)],
+                ["+/-", typeof recentGame.plusMinus === "number" ? (recentGame.plusMinus > 0 ? `+${recentGame.plusMinus}` : String(recentGame.plusMinus)) : "—"],
                 ["TO", recentGame.turnovers],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-2xl bg-slate-100 p-4 text-center">
