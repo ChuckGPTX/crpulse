@@ -127,13 +127,18 @@ function opponentFor(game: VegasGame | Session4Game, teamName: string) {
 
 function TodayStatStrip({ line, compact = false }: { line?: Session4PlayerLine | null; compact?: boolean }) {
   if (!line) return null;
+  const result = line.result === "W" ? "Win" : "Loss";
+  const score = `${line.team} ${line.teamScore}, ${line.opponent} ${line.opponentScore}`;
   return (
-    <div className={`mt-4 rounded-2xl border border-amber-200 bg-amber-50 ${compact ? "p-3" : "p-4"}`}>
+    <div className={`mt-4 rounded-2xl border border-amber-300 bg-amber-50 shadow-sm ${compact ? "p-3" : "p-4"}`}>
       <div className="flex items-center justify-between gap-3">
-        <div className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Today</div>
+        <div>
+          <div className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Latest game</div>
+          <div className="mt-1 text-xs font-black text-slate-700">{result} · {line.date} · {line.opponent}</div>
+        </div>
         <div className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black uppercase text-slate-700">{line.status}</div>
       </div>
-      <div className={`mt-2 grid grid-cols-5 gap-2 text-center ${compact ? "text-sm" : "text-base"}`}>
+      <div className={`mt-3 grid grid-cols-5 gap-2 text-center ${compact ? "text-sm" : "text-base"}`}>
         {[["PTS", line.points], ["REB", line.rebounds], ["AST", line.assists], ["STL", line.steals], ["BLK", line.blocks]].map(([label, value]) => (
           <div key={label} className="rounded-xl bg-white p-2">
             <div className="text-[9px] font-black uppercase text-slate-500">{label}</div>
@@ -141,7 +146,12 @@ function TodayStatStrip({ line, compact = false }: { line?: Session4PlayerLine |
           </div>
         ))}
       </div>
-      <div className="mt-2 text-xs font-bold text-slate-600">{line.team} {line.teamScore ?? ""}{typeof line.teamScore === "number" ? "," : ""} {line.opponent} {line.opponentScore ?? ""}</div>
+      <div className="mt-3 grid grid-cols-3 gap-2 text-xs font-black text-slate-700">
+        <div className="rounded-xl bg-white px-3 py-2"><span className="text-slate-500">FG</span> {line.fg}</div>
+        <div className="rounded-xl bg-white px-3 py-2"><span className="text-slate-500">3PT</span> {line.threeFg}</div>
+        <div className="rounded-xl bg-white px-3 py-2"><span className="text-slate-500">MIN</span> {line.minutes ?? "—"}</div>
+      </div>
+      <div className="mt-2 text-xs font-bold text-slate-600">{score}</div>
     </div>
   );
 }
@@ -437,6 +447,18 @@ Vegas Session IV: today’s Iowa watchlist.
         </div>
       </section>
 
+      <section id="watchlist" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8 border-b border-slate-300 pb-7">
+          <div>
+            <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Players</div>
+            <h2 className="mt-2 text-5xl font-black leading-none tracking-tight text-slate-950 sm:text-6xl">Watchlist</h2>
+          </div>
+        </div>
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {eyblData.trackedPlayers.map((player, index) => <PlayerCard key={player.displayName} player={player} index={index} />)}
+        </div>
+      </section>
+
       <section id="vegas" className="mx-auto max-w-7xl px-6 py-16">
         <div className="overflow-hidden rounded-[2.25rem] bg-slate-950 text-white shadow-2xl">
           <div className="relative grid gap-8 p-6 md:p-8 lg:grid-cols-[0.95fr_1.05fr]">
@@ -475,18 +497,6 @@ Vegas Session IV: today’s Iowa watchlist.
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section id="watchlist" className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 border-b border-slate-300 pb-7">
-          <div>
-            <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Players</div>
-            <h2 className="mt-2 text-5xl font-black leading-none tracking-tight text-slate-950 sm:text-6xl">Watchlist</h2>
-          </div>
-        </div>
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {eyblData.trackedPlayers.map((player, index) => <PlayerCard key={player.displayName} player={player} index={index} />)}
         </div>
       </section>
 
