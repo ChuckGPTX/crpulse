@@ -774,28 +774,28 @@ export const playerNextGames = {
     "streamUrl": "https://nikeeyb.com/session4day1"
   },
   "Zane Rus": {
-    "id": 39584381,
-    "date": "7/8/2026",
-    "time": "3:30 PM",
-    "iso": "2026-07-08T15:30:00-07:00",
+    "id": 39584391,
+    "date": "7/9/2026",
+    "time": "12:00 PM",
+    "iso": "2026-07-09T12:00:00-07:00",
     "division": "EYCL 17'S",
-    "homeTeam": "All Iowa Attack",
-    "awayTeam": "Fly Select",
-    "court": "Court 15",
+    "homeTeam": "TT Reform Sports",
+    "awayTeam": "All Iowa Attack",
+    "court": "Court 17",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Brayden Tanny": {
-    "id": 39584381,
-    "date": "7/8/2026",
-    "time": "3:30 PM",
-    "iso": "2026-07-08T15:30:00-07:00",
+    "id": 39584391,
+    "date": "7/9/2026",
+    "time": "12:00 PM",
+    "iso": "2026-07-09T12:00:00-07:00",
     "division": "EYCL 17'S",
-    "homeTeam": "All Iowa Attack",
-    "awayTeam": "Fly Select",
-    "court": "Court 15",
+    "homeTeam": "TT Reform Sports",
+    "awayTeam": "All Iowa Attack",
+    "court": "Court 17",
     "venue": "Las Vegas Convention Center",
-    "streamUrl": "https://nikeeyb.com/session4day1"
+    "streamUrl": "https://nikeeyb.com/session4day2"
   },
   "Pernell Grover Jr.": {
     "id": 38053935,
