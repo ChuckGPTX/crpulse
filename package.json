@@ -9,7 +9,8 @@
     "lint": "next lint",
     "update:eybl": "node scripts/update-eybl-data.mjs",
     "update:vegas": "node scripts/update-vegas-schedule.mjs",
-    "update:session4": "node scripts/update-session4-today.mjs"
+    "update:session4": "node scripts/update-session4-today.mjs",
+    "update:session4:logs": "node scripts/update-session4-game-logs.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",

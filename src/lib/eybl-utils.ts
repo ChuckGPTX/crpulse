@@ -6,6 +6,7 @@ import { playerLinks } from "@/data/player-links";
 import { playerNotes } from "@/data/player-notes";
 import { playerRankings } from "@/data/player-rankings";
 import { recentGameStats } from "@/data/recent-game-stats";
+import { vegasGameLogsByPlayer, vegasLatestLineByPlayer } from "@/data/session4-game-logs";
 import { teamAssets } from "@/data/team-assets";
 
 export type StatPlayer = {
@@ -86,6 +87,16 @@ export function getPlayerRanking(displayName?: string) {
 export function getRecentGameStat(displayName?: string) {
   if (!displayName) return null;
   return recentGameStats[displayName as keyof typeof recentGameStats] ?? null;
+}
+
+export function getVegasGameLog(displayName?: string) {
+  if (!displayName) return [];
+  return vegasGameLogsByPlayer[displayName] ?? [];
+}
+
+export function getVegasLatestGame(displayName?: string) {
+  if (!displayName) return null;
+  return vegasLatestLineByPlayer[displayName] ?? null;
 }
 
 export function getPlayerLinks(displayName?: string) {

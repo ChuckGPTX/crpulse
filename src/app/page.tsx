@@ -14,6 +14,7 @@ import {
   getPlayerSpotlights,
   getPlayerTrend,
   getRecentGameStat,
+  getVegasLatestGame,
   getStockLabel,
   getTeamAsset,
   hasStats,
@@ -160,7 +161,7 @@ function recentGameLine(name: string): DisplayGameLine | null {
 }
 
 function latestDisplayLine(name: string): DisplayGameLine | null {
-  return session4PlayerLines[name as keyof typeof session4PlayerLines] ?? recentGameLine(name);
+  return getVegasLatestGame(name) ?? session4PlayerLines[name as keyof typeof session4PlayerLines] ?? recentGameLine(name);
 }
 
 function TodayStatStrip({ line, compact = false }: { line?: DisplayGameLine | null; compact?: boolean }) {

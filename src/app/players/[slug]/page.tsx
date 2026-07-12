@@ -12,7 +12,8 @@ import {
   getPlayerRanking,
   getPlayerRanks,
   getPlayerTrend,
-  getRecentGameStat,
+  getVegasGameLog,
+  getVegasLatestGame,
   getScoutingBlurb,
   getStockLabel,
   getTeamAsset,
@@ -183,7 +184,8 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
   const scouting = getScoutingBlurb(player);
   const program = player.programLabel ?? player.teamName;
   const nextGame = playerNextGames[player.displayName as keyof typeof playerNextGames];
-  const recentGame = getRecentGameStat(player.displayName);
+  const vegasGameLog = getVegasGameLog(player.displayName);
+  const vegasLatestGame = getVegasLatestGame(player.displayName);
 
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-slate-950">
@@ -263,42 +265,47 @@ export default async function PlayerProfilePage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      {recentGame ? (
+      {vegasLatestGame ? (
         <section className="mx-auto max-w-7xl px-6 pb-10">
           <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl">
             <div className="flex flex-col gap-4 bg-slate-950 p-6 text-white md:flex-row md:items-center md:justify-between">
               <div>
-                <div className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">Today's game</div>
-                <h2 className="mt-2 text-3xl font-black tracking-tight">{recentGame.team} {recentGame.teamScore}, {recentGame.opponent} {recentGame.opponentScore}</h2>
-                <div className="mt-2 text-sm font-bold text-slate-300">{recentGame.status} · {recentGame.date} · {recentGame.result === "W" ? "Win" : recentGame.result === "L" ? "Loss" : "Tie"} · {recentGame.source}</div>
+                <div className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">Vegas latest game</div>
+                <h2 className="mt-2 text-3xl font-black tracking-tight">{vegasLatestGame.team} {vegasLatestGame.teamScore ?? "—"}, {vegasLatestGame.opponent} {vegasLatestGame.opponentScore ?? "—"}</h2>
+                <div className="mt-2 text-sm font-bold text-slate-300">{vegasLatestGame.date} · {vegasLatestGame.result === "W" ? "Win" : vegasLatestGame.result === "L" ? "Loss" : vegasLatestGame.result === "T" ? "Tie" : "Result pending"} · Cerebro Sports</div>
               </div>
-              <a href={recentGame.sourceUrl} target="_blank" rel="noreferrer" className="rounded-full bg-amber-300 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-white">Box score</a>
+              <a href={vegasLatestGame.sourceUrl} target="_blank" rel="noreferrer" className="rounded-full bg-amber-300 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-white">Box score</a>
             </div>
             <div className="grid gap-3 p-6 sm:grid-cols-4 lg:grid-cols-8">
-              {[
-                ["PTS", recentGame.points],
-                ["REB", recentGame.rebounds],
-                ["AST", recentGame.assists],
-                ["STL", recentGame.steals],
-                ["BLK", recentGame.blocks],
-                ["MIN", recentGame.minutes],
-                ["+/-", typeof recentGame.plusMinus === "number" ? (recentGame.plusMinus > 0 ? `+${recentGame.plusMinus}` : String(recentGame.plusMinus)) : "—"],
-                ["TO", recentGame.turnovers],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-2xl bg-slate-100 p-4 text-center">
-                  <div className="text-xs font-black uppercase tracking-widest text-slate-500">{label}</div>
-                  <div className="mt-1 text-3xl font-black text-slate-950">{value}</div>
-                </div>
+              {[["PTS", vegasLatestGame.points], ["REB", vegasLatestGame.rebounds], ["AST", vegasLatestGame.assists], ["STL", vegasLatestGame.steals], ["BLK", vegasLatestGame.blocks], ["MIN", vegasLatestGame.minutes ?? "—"], ["FG", vegasLatestGame.fg], ["3PT", vegasLatestGame.threeFg]].map(([label, value]) => (
+                <div key={label} className="rounded-2xl bg-slate-100 p-4 text-center"><div className="text-xs font-black uppercase tracking-widest text-slate-500">{label}</div><div className="mt-1 text-3xl font-black text-slate-950">{value}</div></div>
               ))}
-            </div>
-            <div className="grid gap-3 border-t border-slate-200 p-6 text-sm sm:grid-cols-3">
-              <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">FG</span> {recentGame.fg}</div>
-              <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">3PT</span> {recentGame.threeFg}</div>
-              <div className="rounded-2xl border border-slate-200 p-4"><span className="font-black">FT</span> {recentGame.ft}</div>
             </div>
           </div>
         </section>
       ) : null}
+
+      <section className="mx-auto max-w-7xl px-6 pb-10">
+        <div className="paper-card overflow-hidden p-6">
+          <div className="text-sm font-black uppercase tracking-[0.25em] text-red-700">Vegas game log</div>
+          <div className="mt-2 flex flex-wrap items-end justify-between gap-3"><h2 className="text-3xl font-black tracking-tight text-slate-950">Session IV</h2><div className="text-sm font-bold text-slate-500">{vegasGameLog.length} posted {vegasGameLog.length === 1 ? "game" : "games"} · July 8–12</div></div>
+          {vegasGameLog.length ? (
+            <div className="mt-6 overflow-x-auto">
+              <table className="w-full min-w-[850px] text-left text-sm">
+                <thead><tr className="border-b border-slate-300 text-xs font-black uppercase tracking-wider text-slate-500">{["Date", "Opponent", "Result", "PTS", "REB", "AST", "STL", "BLK", "FG", "3PT", "FT", "MIN", "Box"].map((heading) => <th key={heading} className="px-3 py-3">{heading}</th>)}</tr></thead>
+                <tbody>{vegasGameLog.map((game) => (
+                  <tr key={`${game.gameId}-${game.player}`} className="border-b border-slate-200 last:border-0">
+                    <td className="whitespace-nowrap px-3 py-4 font-bold">{game.date}</td><td className="px-3 py-4 font-bold">{game.opponent}</td>
+                    <td className={`px-3 py-4 font-black ${game.result === "W" ? "text-emerald-700" : game.result === "L" ? "text-red-700" : "text-slate-500"}`}>{game.result ?? "—"}{typeof game.teamScore === "number" && typeof game.opponentScore === "number" ? ` ${game.teamScore}-${game.opponentScore}` : ""}</td>
+                    {[game.points, game.rebounds, game.assists, game.steals, game.blocks, game.fg, game.threeFg, game.ft, game.minutes ?? "—"].map((value, index) => <td key={index} className="px-3 py-4">{value}</td>)}
+                    <td className="px-3 py-4"><a href={game.sourceUrl} target="_blank" rel="noreferrer" className="font-black text-red-700 hover:text-slate-950">View</a></td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+          ) : <p className="mt-5 text-sm text-slate-500">No posted Cerebro stat lines were found for this player in the Session IV date range.</p>}
+        </div>
+      </section>
 
       <HighSchoolProduction player={player} />
 
